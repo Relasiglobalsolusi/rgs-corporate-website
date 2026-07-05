@@ -9,6 +9,7 @@ export async function POST(req: Request) {
     const { data, error } = await resend.emails.send({
       from: "RGS Website <noreply@rgs.co.id>",
       to: ["contact@rgs.co.id"],
+      bcc: ["vicko.armando@gmail.com"],
       replyTo: email,
       subject: `New Inquiry • ${company || name || "RGS Website"}`,
       html: `
