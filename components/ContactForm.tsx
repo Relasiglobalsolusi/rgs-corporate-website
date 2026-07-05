@@ -1,6 +1,48 @@
-import { ArrowRight, Clock, Mail, MapPin, Phone } from "lucide-react";
+"use client";
+
+import { useState } from "react";
+import { ArrowRight, CheckCircle2, Clock, Mail, MapPin, Phone } from "lucide-react";
+
+type FormStatus = "idle" | "loading" | "success" | "error";
 
 export default function ContactForm() {
+  const [status, setStatus] = useState<FormStatus>("idle");
+
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setStatus("loading");
+
+    const formData = new FormData(event.currentTarget);
+
+    const payload = {
+      company: formData.get("company"),
+      name: formData.get("name"),
+      phone: formData.get("phone"),
+      email: formData.get("email"),
+      service: formData.get("service"),
+      message: formData.get("message"),
+    };
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to send inquiry.");
+      }
+
+      event.currentTarget.reset();
+      setStatus("success");
+    } catch {
+      setStatus("error");
+    }
+  }
+
   return (
     <section
       id="contact"
@@ -109,7 +151,10 @@ export default function ContactForm() {
             </div>
           </div>
 
-          <form className="bg-slate-950 p-8 text-white md:p-10">
+          <form
+            onSubmit={handleSubmit}
+            className="bg-slate-950 p-8 text-white md:p-10"
+          >
             <div className="mb-10 border-b border-white/10 pb-8">
               <h3 className="text-4xl font-black leading-tight">
                 Request a consultation.
@@ -124,29 +169,45 @@ export default function ContactForm() {
 
             <div className="grid gap-5">
               <input
+                name="company"
+                required
                 placeholder="Company Name"
                 className="rounded-2xl border border-white/10 bg-slate-900 p-5 font-semibold text-white outline-none transition placeholder:text-slate-500 focus:border-teal-400"
               />
 
               <div className="grid gap-5 md:grid-cols-2">
                 <input
+                  name="name"
+                  required
                   placeholder="Contact Person"
                   className="rounded-2xl border border-white/10 bg-slate-900 p-5 font-semibold text-white outline-none transition placeholder:text-slate-500 focus:border-teal-400"
                 />
 
                 <input
+                  name="phone"
+                  required
                   placeholder="Phone Number"
                   className="rounded-2xl border border-white/10 bg-slate-900 p-5 font-semibold text-white outline-none transition placeholder:text-slate-500 focus:border-teal-400"
                 />
               </div>
 
               <input
+                name="email"
+                type="email"
+                required
                 placeholder="Email Address"
                 className="rounded-2xl border border-white/10 bg-slate-900 p-5 font-semibold text-white outline-none transition placeholder:text-slate-500 focus:border-teal-400"
               />
 
-              <select className="rounded-2xl border border-white/10 bg-slate-900 p-5 font-semibold text-slate-400 outline-none transition focus:border-teal-400">
-                <option>Service Needed</option>
+              <select
+                name="service"
+                required
+                defaultValue=""
+                className="rounded-2xl border border-white/10 bg-slate-900 p-5 font-semibold text-slate-300 outline-none transition focus:border-teal-400"
+              >
+                <option value="" disabled>
+                  Service Needed
+                </option>
                 <option>Cleaning Service</option>
                 <option>Security Service</option>
                 <option>Parking Management</option>
@@ -154,16 +215,33 @@ export default function ContactForm() {
               </select>
 
               <textarea
+                name="message"
+                required
                 rows={6}
                 placeholder="Tell us about your facility, location, building type and service requirements..."
                 className="resize-none rounded-2xl border border-white/10 bg-slate-900 p-5 font-semibold text-white outline-none transition placeholder:text-slate-500 focus:border-teal-400"
               />
 
+              {status === "success" && (
+                <div className="flex items-center gap-3 rounded-2xl border border-teal-300/30 bg-teal-300/10 p-4 text-sm font-bold text-teal-200">
+                  <CheckCircle2 size={18} />
+                  Your inquiry has been sent. Our team will contact you soon.
+                </div>
+              )}
+
+              {status === "error" && (
+                <div className="rounded-2xl border border-red-400/30 bg-red-400/10 p-4 text-sm font-bold text-red-200">
+                  Something went wrong. Please email us directly at
+                  contact@rgs.co.id.
+                </div>
+              )}
+
               <button
-                type="button"
-                className="group mt-2 inline-flex items-center justify-center gap-3 rounded-full bg-teal-400 px-8 py-5 text-base font-black text-slate-950 shadow-xl shadow-teal-400/20 transition hover:-translate-y-1 hover:bg-teal-300"
+                type="submit"
+                disabled={status === "loading"}
+                className="group mt-2 inline-flex items-center justify-center gap-3 rounded-full bg-teal-400 px-8 py-5 text-base font-black text-slate-950 shadow-xl shadow-teal-400/20 transition hover:-translate-y-1 hover:bg-teal-300 disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0"
               >
-                Send Inquiry
+                {status === "loading" ? "Sending..." : "Send Inquiry"}
                 <ArrowRight
                   size={20}
                   className="transition group-hover:translate-x-1"
