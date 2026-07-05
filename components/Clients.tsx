@@ -17,7 +17,7 @@ const clients: Client[] = [
   { name: "FTL", logo: "/images/clients/ftl.png", className: "max-h-24" },
   { name: "Gitalaras", logo: "/images/clients/gitalaras.png", className: "max-h-16 scale-[1.9] invert" },
   { name: "Haidilao", logo: "/images/clients/haidilao.png", className: "max-h-24 scale-[1.75]" },
-  { name: "Hana Bank", logo: "/images/clients/hana-bank.png", className: "max-h-24 scale-[2.25]" },
+  { name: "Hana Bank", logo: "/images/clients/hana-bank.png", className: "max-h-24 scale-[2.1]" },
   { name: "Hokkaido Ya", logo: "/images/clients/hokkaido-ya.png", className: "max-h-24 scale-[1.4]" },
   { name: "LOTTE", logo: "/images/clients/lotte.png", className: "max-h-24 scale-110" },
   { name: "LRT Jakarta", logo: "/images/clients/lrt-jakarta.png", className: "max-h-24 scale-125" },

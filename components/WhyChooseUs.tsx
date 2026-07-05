@@ -126,17 +126,17 @@ export default function WhyChooseUs() {
                       duration: 0.5,
                       delay: index * 0.05,
                     }}
-                    className="group rounded-[2rem] border border-slate-200 bg-slate-50 p-6 transition duration-300 hover:-translate-y-1 hover:border-teal-200 hover:bg-white hover:shadow-xl hover:shadow-slate-200/70"
+                    className="group rounded-[2rem] border border-slate-800 bg-slate-900 p-6 text-white transition duration-300 hover:-translate-y-1 hover:border-teal-400 hover:bg-slate-800 hover:shadow-xl hover:shadow-slate-900/40"
                   >
-                    <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-teal-400 text-slate-950 transition duration-300 group-hover:rotate-6">
+                    <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-teal-400 text-slate-950 transition duration-300 group-hover:rotate-6 group-hover:scale-105">
                       <Icon size={24} />
                     </div>
 
-                    <h3 className="mb-3 text-xl font-black">
+                    <h3 className="mb-3 text-xl font-black text-white">
                       {feature.title}
                     </h3>
 
-                    <p className="leading-7 text-slate-600">
+                    <p className="leading-7 text-slate-300">
                       {feature.description}
                     </p>
                   </motion.div>
