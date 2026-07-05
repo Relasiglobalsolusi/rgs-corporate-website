@@ -4,12 +4,18 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(req: Request) {
   try {
-    const { company, name, email, phone, service, message } = await req.json();
+    const {
+      company,
+      name,
+      email,
+      phone,
+      service,
+      message,
+    } = await req.json();
 
     const { data, error } = await resend.emails.send({
       from: "RGS Website <noreply@rgs.co.id>",
       to: ["contact@rgs.co.id"],
-      bcc: ["vicko.armando@gmail.com"],
       replyTo: email,
       subject: `New Inquiry • ${company || name || "RGS Website"}`,
       html: `
@@ -29,13 +35,24 @@ export async function POST(req: Request) {
 
     if (error) {
       console.error("Resend error:", error);
-      return Response.json({ success: false, error }, { status: 500 });
+      return Response.json(
+        { success: false, error },
+        { status: 500 }
+      );
     }
 
     console.log("Email sent:", data);
-    return Response.json({ success: true });
+
+    return Response.json({
+      success: true,
+      id: data?.id,
+    });
   } catch (error) {
     console.error("Contact API error:", error);
-    return Response.json({ success: false }, { status: 500 });
+
+    return Response.json(
+      { success: false },
+      { status: 500 }
+    );
   }
 }
