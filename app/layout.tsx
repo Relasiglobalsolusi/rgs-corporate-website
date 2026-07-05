@@ -87,7 +87,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="bg-white text-slate-900 antialiased">{children}</body>
+      <body className="overflow-x-hidden bg-white text-slate-900 antialiased">
+        {children}
+      </body>
     </html>
   );
 }

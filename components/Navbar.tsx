@@ -39,28 +39,28 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed left-0 top-0 z-50 w-full px-3 transition-all duration-500 md:px-5 ${
-        scrolled ? "py-3" : "py-6"
+      className={`fixed inset-x-0 top-0 z-50 w-full px-4 transition-all duration-500 md:px-5 ${
+        scrolled ? "py-3" : "py-5 md:py-6"
       }`}
     >
       <div
-        className={`mx-auto w-full max-w-[1850px] overflow-hidden rounded-[2rem] border transition-all duration-500 ${
+        className={`mx-auto w-full max-w-[1850px] overflow-hidden rounded-[1.75rem] border transition-all duration-500 md:rounded-[2rem] ${
           scrolled
             ? "border-white/10 bg-slate-950/90 shadow-2xl shadow-black/35 backdrop-blur-2xl"
-            : "border-white/10 bg-slate-950/60 shadow-xl shadow-black/10 backdrop-blur-xl"
+            : "border-white/10 bg-slate-950/70 shadow-xl shadow-black/10 backdrop-blur-xl"
         }`}
       >
         <div
           className={`flex items-center justify-between transition-all duration-500 ${
             scrolled
-              ? "px-7 py-4 md:px-10 lg:px-12 xl:px-14"
-              : "px-8 py-5 md:px-10 lg:px-14 xl:px-16"
+              ? "px-5 py-4 md:px-10 lg:px-12 xl:px-14"
+              : "px-5 py-5 md:px-10 lg:px-14 xl:px-16"
           }`}
         >
           <a
             href="#home"
             onClick={closeMenu}
-            className="flex items-center transition hover:opacity-90"
+            className="flex min-w-0 items-center transition hover:opacity-90"
             aria-label="Go to home section"
           >
             <Image
@@ -71,8 +71,8 @@ export default function Navbar() {
               priority
               className={`h-auto transition-all duration-500 ${
                 scrolled
-                  ? "w-[190px] md:w-[230px] lg:w-[265px]"
-                  : "w-[220px] md:w-[260px] lg:w-[300px]"
+                  ? "w-[150px] sm:w-[175px] md:w-[230px] lg:w-[265px]"
+                  : "w-[170px] sm:w-[195px] md:w-[260px] lg:w-[300px]"
               }`}
             />
           </a>
@@ -111,11 +111,11 @@ export default function Navbar() {
           <button
             type="button"
             onClick={() => setOpen((value) => !value)}
-            className="flex h-13 w-13 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white transition hover:bg-white/10 lg:hidden"
+            className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white transition hover:bg-white/10 sm:h-13 sm:w-13 lg:hidden"
             aria-label="Toggle navigation menu"
             aria-expanded={open}
           >
-            {open ? <X size={24} /> : <Menu size={24} />}
+            {open ? <X size={23} /> : <Menu size={23} />}
           </button>
         </div>
 
@@ -125,7 +125,7 @@ export default function Navbar() {
           }`}
         >
           <div className="overflow-hidden">
-            <nav className="grid gap-3 border-t border-white/10 px-6 pb-6 pt-5">
+            <nav className="grid gap-3 border-t border-white/10 px-5 pb-6 pt-5">
               {links.map((link) => {
                 const isActive = active === link.name;
 
