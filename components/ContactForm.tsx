@@ -19,7 +19,8 @@ export default function ContactForm() {
     event.preventDefault();
     setStatus("loading");
 
-    const formData = new FormData(event.currentTarget);
+    const form = event.currentTarget;
+    const formData = new FormData(form);
 
     const payload = {
       company: formData.get("company"),
@@ -37,11 +38,16 @@ export default function ContactForm() {
         body: JSON.stringify(payload),
       });
 
-      if (!response.ok) throw new Error("Failed to send inquiry.");
+      const result = await response.json();
 
-      event.currentTarget.reset();
+      if (!response.ok || !result.success) {
+        throw new Error("Failed to send inquiry.");
+      }
+
+      form.reset();
       setStatus("success");
-    } catch {
+    } catch (error) {
+      console.error("Contact form error:", error);
       setStatus("error");
     }
   }
