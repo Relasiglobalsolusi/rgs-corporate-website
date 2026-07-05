@@ -40,10 +40,6 @@ export default function Hero() {
       <div className="relative z-10 mx-auto flex min-h-screen max-w-7xl items-center px-6 pb-16 pt-44 md:px-10 lg:pt-48">
         <FadeIn>
           <div className="max-w-5xl">
-            <div className="mb-8 inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-6 py-3 text-sm font-bold uppercase tracking-[0.28em] text-teal-200 backdrop-blur-xl">
-              Integrated Facility Management
-            </div>
-
             <h1 className="max-w-5xl leading-[0.92] tracking-[-0.04em]">
               <span className="block text-5xl font-medium text-white sm:text-6xl md:text-7xl lg:text-[5.8rem] xl:text-[6rem]">
                 Creating
