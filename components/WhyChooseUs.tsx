@@ -60,14 +60,14 @@ export default function WhyChooseUs() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="relative min-h-[620px] overflow-hidden rounded-[2.5rem] bg-slate-950 shadow-2xl shadow-slate-200/70"
+            className="relative isolate min-h-[620px] overflow-hidden rounded-[2.5rem] bg-slate-950 shadow-2xl shadow-slate-200/70"
           >
             <Image
               src="/images/services/facility-management.jpg"
               alt="RGS facility management team"
               fill
               sizes="(max-width: 1024px) 100vw, 45vw"
-              className="object-cover opacity-80"
+              className="scale-[1.02] object-cover opacity-80"
             />
 
             <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/45 to-transparent" />
