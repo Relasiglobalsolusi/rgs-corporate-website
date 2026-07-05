@@ -51,7 +51,7 @@ export default function Navbar() {
         }`}
       >
         <div
-          className={`flex items-center justify-between transition-all duration-500 ${
+          className={`flex items-center justify-between gap-4 transition-all duration-500 ${
             scrolled
               ? "px-5 py-4 md:px-10 lg:px-12 xl:px-14"
               : "px-5 py-5 md:px-10 lg:px-14 xl:px-16"
@@ -77,7 +77,7 @@ export default function Navbar() {
             />
           </a>
 
-          <nav className="hidden items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] p-1.5 lg:flex">
+          <nav className="hidden items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] p-1.5 xl:flex">
             {links.map((link) => {
               const isActive = active === link.name;
 
@@ -99,7 +99,7 @@ export default function Navbar() {
 
           <a
             href="#contact"
-            className="group hidden items-center gap-2 rounded-full bg-teal-300 px-7 py-3.5 text-base font-black text-slate-950 shadow-lg shadow-teal-300/20 transition-all duration-300 hover:-translate-y-0.5 hover:bg-white hover:shadow-white/20 lg:inline-flex"
+            className="group hidden items-center gap-2 rounded-full bg-teal-300 px-7 py-3.5 text-base font-black text-slate-950 shadow-lg shadow-teal-300/20 transition-all duration-300 hover:-translate-y-0.5 hover:bg-white hover:shadow-white/20 xl:inline-flex"
           >
             Request Proposal
             <ArrowRight
@@ -111,7 +111,7 @@ export default function Navbar() {
           <button
             type="button"
             onClick={() => setOpen((value) => !value)}
-            className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white transition hover:bg-white/10 sm:h-13 sm:w-13 lg:hidden"
+            className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white transition hover:bg-white/10 sm:h-13 sm:w-13 xl:hidden"
             aria-label="Toggle navigation menu"
             aria-expanded={open}
           >
@@ -120,7 +120,7 @@ export default function Navbar() {
         </div>
 
         <div
-          className={`grid transition-all duration-500 lg:hidden ${
+          className={`grid transition-all duration-500 xl:hidden ${
             open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
           }`}
         >
