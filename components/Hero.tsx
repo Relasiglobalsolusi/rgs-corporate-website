@@ -32,7 +32,7 @@ export default function Hero() {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_22%_32%,rgba(20,184,166,0.2),transparent_34%)]" />
       </div>
 
-      <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-7xl items-start px-5 pt-32 pb-14 sm:px-6 sm:pt-36 md:px-10 md:pt-40 lg:min-h-screen lg:items-center lg:pt-48">
+      <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-7xl items-start px-5 pb-14 pt-52 sm:px-6 sm:pt-52 md:px-10 md:pt-44 lg:min-h-screen lg:items-center lg:pt-48">
         <FadeIn>
           <div className="w-full max-w-5xl">
             <h1 className="max-w-full leading-[0.96] tracking-[-0.035em]">
@@ -61,10 +61,7 @@ export default function Hero() {
                   key={item}
                   className="flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.07] px-3.5 py-2 text-xs font-semibold text-slate-100 shadow-sm backdrop-blur-xl sm:px-4 sm:text-sm"
                 >
-                  <CheckCircle2
-                    size={15}
-                    className="shrink-0 text-teal-300"
-                  />
+                  <CheckCircle2 size={15} className="shrink-0 text-teal-300" />
                   {item}
                 </div>
               ))}
