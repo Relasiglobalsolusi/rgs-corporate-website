@@ -32,7 +32,7 @@ export default function Hero() {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_22%_32%,rgba(20,184,166,0.2),transparent_34%)]" />
       </div>
 
-      <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-7xl items-start px-5 pb-14 pt-52 sm:px-6 sm:pt-52 md:px-10 md:pt-44 lg:min-h-screen lg:items-center lg:pt-48">
+      <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-7xl items-start px-5 pb-14 pt-60 sm:px-6 sm:pt-64 md:px-10 md:pt-64 lg:pt-64 xl:min-h-screen xl:items-center xl:pt-52">
         <FadeIn>
           <div className="w-full max-w-5xl">
             <h1 className="max-w-full leading-[0.96] tracking-[-0.035em]">
