@@ -133,7 +133,7 @@ ${message || "-"}
                           <tr>
                             <td style="background:#eff6ff;border-left:5px solid #2563eb;padding:18px;border-radius:8px;">
                               <strong style="color:#1d4ed8;">Urgent inquiry?</strong><br>
-                              Please contact our Main Office at
+                              Please contact us at
                               <strong>+62 21 2295 2228</strong>.
                             </td>
                           </tr>
@@ -151,9 +151,8 @@ ${message || "-"}
                           <strong>Relasi Global Solusi (RGS)</strong><br>
                           Jl. Daan Mogot KM 14.5, Ruko Point 8 Blok F6<br>
                           Duri Kosambi, Cengkareng<br>
-                          West Jakarta 11750<br><br>
-
-                          <strong>Main Office:</strong> +62 21 2295 2228<br>
+                          West Jakarta 11750<br>
+                          +62 21 2295 2228<br>
                           <a href="https://rgs.co.id" style="color:#2563eb;text-decoration:none;font-weight:600;">
                             https://rgs.co.id
                           </a>
@@ -174,7 +173,7 @@ Thank you for contacting Relasi Global Solusi (RGS).
 We have successfully received your inquiry and appreciate your interest in our services.
 Our team is currently reviewing your request and will respond as soon as possible.
 
-If your inquiry is urgent, please contact our Main Office at +62 21 2295 2228.
+If your inquiry is urgent, please contact us at +62 21 2295 2228.
 
 Kind regards,
 
@@ -182,8 +181,7 @@ Relasi Global Solusi (RGS)
 Jl. Daan Mogot KM 14.5, Ruko Point 8 Blok F6
 Duri Kosambi, Cengkareng
 West Jakarta 11750
-
-Main Office: +62 21 2295 2228
++62 21 2295 2228
 https://rgs.co.id
 `,
       }),
