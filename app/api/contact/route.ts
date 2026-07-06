@@ -147,23 +147,17 @@ ${message || "-"}
 
                         <p style="margin-bottom:6px;">Kind regards,</p>
 
-                        <p style="margin-top:0;">
+                        <p style="margin-top:0;line-height:1.8;">
                           <strong>Relasi Global Solusi (RGS)</strong><br>
                           Jl. Daan Mogot KM 14.5, Ruko Point 8 Blok F6<br>
                           Duri Kosambi, Cengkareng<br>
-                          West Jakarta 11750
-                        </p>
-                      </td>
-                    </tr>
+                          West Jakarta 11750<br><br>
 
-                    <tr>
-                      <td style="background:#f8fafc;border-top:1px solid #e2e8f0;padding:22px 42px;font-size:14px;color:#475569;">
-                        <strong>Main Office</strong><br>
-                        +62 21 2295 2228
-                        <br><br>
-                        <a href="https://rgs.co.id" style="color:#2563eb;text-decoration:none;font-weight:600;">
-                          https://rgs.co.id
-                        </a>
+                          <strong>Main Office:</strong> +62 21 2295 2228<br>
+                          <a href="https://rgs.co.id" style="color:#2563eb;text-decoration:none;font-weight:600;">
+                            https://rgs.co.id
+                          </a>
+                        </p>
                       </td>
                     </tr>
                   </table>
