@@ -166,8 +166,12 @@ export default function Hero({ content }: Props) {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_22%_32%,rgba(20,184,166,0.2),transparent_34%)]" />
       </div>
 
+      {/*
+        Hero shell layout (globals.css):
+        nav pad → flex-1 main (centers headline + RGS ONE) → stats pinned bottom.
+      */}
       <div className="hero-shell relative z-10 site-gutter-x mx-auto max-w-7xl">
-        <div className="w-full">
+        <div className="hero-main w-full">
           {/*
             Desktop gap/columns live in globals.css (.hero-grid / .hero-copy /
             .hero-panel). Tailwind gap-* alone was masked by overflowing type.
@@ -234,30 +238,30 @@ export default function Hero({ content }: Props) {
               <RgsOnePanel />
             </FadeIn>
           </div>
-
-          <FadeIn delay={0.25}>
-            <div className="hero-stats grid max-w-full overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/[0.07] shadow-2xl shadow-black/20 backdrop-blur-2xl sm:grid-cols-3 sm:rounded-[2rem]">
-              {stats.map((stat, index) => (
-                <div
-                  key={stat.label}
-                  className={`px-5 py-4 text-center sm:px-6 sm:py-5 lg:px-8 lg:py-6 ${
-                    index !== stats.length - 1
-                      ? "border-b border-white/10 sm:border-b-0 sm:border-r"
-                      : ""
-                  }`}
-                >
-                  <div className="text-3xl font-semibold tracking-tight text-teal-300 sm:text-4xl md:text-5xl">
-                    {stat.value}
-                  </div>
-
-                  <div className="mt-2 text-[0.65rem] font-bold uppercase tracking-[0.22em] text-slate-200 sm:text-xs sm:tracking-[0.28em]">
-                    {stat.label}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </FadeIn>
         </div>
+
+        <FadeIn delay={0.25} className="hero-stats-wrap w-full">
+          <div className="hero-stats grid max-w-full overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/[0.07] shadow-2xl shadow-black/20 backdrop-blur-2xl sm:grid-cols-3 sm:rounded-[2rem]">
+            {stats.map((stat, index) => (
+              <div
+                key={stat.label}
+                className={`px-5 py-4 text-center sm:px-6 sm:py-5 lg:px-8 lg:py-6 ${
+                  index !== stats.length - 1
+                    ? "border-b border-white/10 sm:border-b-0 sm:border-r"
+                    : ""
+                }`}
+              >
+                <div className="text-3xl font-semibold tracking-tight text-teal-300 sm:text-4xl md:text-5xl">
+                  {stat.value}
+                </div>
+
+                <div className="mt-2 text-[0.65rem] font-bold uppercase tracking-[0.22em] text-slate-200 sm:text-xs sm:tracking-[0.28em]">
+                  {stat.label}
+                </div>
+              </div>
+            ))}
+          </div>
+        </FadeIn>
       </div>
     </section>
   );

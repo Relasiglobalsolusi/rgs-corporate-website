@@ -50,8 +50,12 @@ button {
    * Sized to the tall unscrolled xl/2xl bar so short viewports keep clearance.
    */
   --nav-chrome-height: clamp(7.5rem, 11vw + 5rem, 12rem);
-  /* Visible gap between nav bottom and hero content (RGS ONE card, etc.) */
-  --hero-nav-gap: 2rem;
+  /*
+   * Minimal safety gap under the fixed nav. Equal breathing room above/below
+   * the headline + RGS ONE card comes from .hero-main flex centering — not
+   * from a large top pad (which previously pinned content near the stats).
+   */
+  --hero-nav-gap: 0.75rem;
   /* Fixed navbar clearance for hero + anchor scroll */
   --scroll-offset: calc(var(--nav-chrome-height) + 0.5rem);
   /* Always applied — centering must never pull content under the nav */
@@ -62,12 +66,11 @@ button {
   :root {
     /* Desktop nav: larger logo + py-4/5 + Portal CTA */
     --nav-chrome-height: 12rem;
-    --hero-nav-gap: 2rem;
   }
 }
 
 /*
- * Hero shell: nav clearance via padding-top.
+ * Hero shell: column = nav pad | flex-1 centered main | stats at bottom.
  * Mobile: natural height (stacked card + stats must not clip).
  * lg+: exactly one viewport tall (border-box) — never grow past 100svh
  * (min-height + pad was the unwanted landing scroll).
@@ -82,19 +85,30 @@ button {
   padding-bottom: clamp(1.5rem, 3vh, 3.5rem);
 }
 
-.hero-shell > .w-full {
+/* Middle band: centers headline + RGS ONE between nav clearance and stats */
+.hero-main {
   display: flex;
   min-height: 0;
   flex: 1 1 auto;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: center;
 }
 
-/* Stats row: keep inside the viewport budget on desktop */
+.hero-stats-wrap {
+  flex: 0 0 auto;
+}
+
+/* Stats sit on the shell floor; vertical gap is from .hero-main centering */
 .hero-stats {
-  margin-top: clamp(1.25rem, 3vh, 3rem);
+  margin-top: 0;
 }
 
+/*
+ * Desktop: lock shell to 100svh; column gap owned here (not Tailwind gap-*).
+ * Huge headline type was overflowing the left track across the grid gap,
+ * so gap-x-40 / 15rem had no visible effect. Constrain the copy column,
+ * pin the card column width, and pad the card away from the headline.
+ */
 @media (min-width: 1024px) {
   .hero-shell {
     height: 100svh;
@@ -103,39 +117,13 @@ button {
     padding-bottom: clamp(1rem, 2.5vh, 2.5rem);
     overflow: hidden;
   }
-}
 
-@media (min-width: 1280px) and (min-height: 900px) {
-  .hero-shell {
-    justify-content: center;
-  }
-
-  .hero-shell > .w-full {
-    justify-content: center;
-  }
-
-  .hero-shell .hero-grid {
-    align-items: center;
-  }
-
-  .hero-stats {
-    margin-top: clamp(1.5rem, 3vh, 3rem);
-  }
-}
-
-/*
- * Desktop column gap: owned here (not Tailwind gap-*).
- * Huge headline type was overflowing the left track across the grid gap,
- * so gap-x-40 / 15rem had no visible effect. Constrain the copy column,
- * pin the card column width, and pad the card away from the headline.
- */
-@media (min-width: 1024px) {
   .hero-shell .hero-grid {
     /* Slightly wider card track so RGS ONE tagline/features fit after pad */
     grid-template-columns: minmax(0, 1fr) minmax(22rem, 27rem);
     column-gap: clamp(5rem, 9vw, 9rem);
     row-gap: 2rem;
-    align-items: start;
+    align-items: center;
   }
 
   .hero-shell .hero-copy {
@@ -169,18 +157,18 @@ button {
   }
 }
 
-/* Short desktop windows: compress vertical rhythm instead of scrolling */
+/* Short desktop windows: compress — pack to top of middle band, avoid nav overlap */
 @media (max-height: 820px) {
   :root {
-    --hero-nav-gap: 1rem;
+    --hero-nav-gap: 0.5rem;
   }
 
   .hero-shell {
     padding-bottom: 0.75rem;
   }
 
-  .hero-stats {
-    margin-top: 0.75rem;
+  .hero-main {
+    justify-content: flex-start;
   }
 }
 
