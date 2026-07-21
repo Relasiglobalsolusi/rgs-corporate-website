@@ -42,9 +42,9 @@ button {
 
 :root {
   /* Space between browser edge and content card */
-  --site-gutter: clamp(1.5rem, 8vw, 3rem);
+  --site-gutter: clamp(0.75rem, 4vw, 3rem);
   /* Space inside cards (logo/nav away from edges) */
-  --site-inner: clamp(1.5rem, 4vw, 4rem);
+  --site-inner: clamp(0.875rem, 3vw, 4rem);
   /* Fixed navbar clearance for anchor scroll + scroll spy (~88–120px) */
   --scroll-offset: clamp(5.5rem, 10vw, 7.5rem);
 }

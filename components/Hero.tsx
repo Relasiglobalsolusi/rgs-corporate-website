@@ -38,10 +38,10 @@ function RgsOnePanel() {
   return (
     <div
       id="rgs-one"
-      className="scroll-anchor relative mx-auto w-full max-w-md overflow-hidden rounded-[2rem] border border-slate-800 bg-slate-950 p-5 shadow-2xl shadow-black/50 sm:p-6 lg:p-8"
+      className="scroll-anchor relative mx-auto w-full max-w-md overflow-hidden rounded-[1.75rem] border border-slate-800 bg-slate-950 p-4 shadow-2xl shadow-black/50 sm:rounded-[2rem] sm:p-6 lg:p-8"
     >
-      <div className="flex w-full flex-col items-center justify-center text-center">
-        <div className="mx-auto flex w-full justify-center px-2 py-2 sm:px-4 sm:py-3">
+      <div className="flex w-full min-w-0 flex-col items-center justify-center text-center">
+        <div className="mx-auto flex w-full justify-center px-1 py-2 sm:px-4 sm:py-3">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={rgsOneLogoSrc}
@@ -49,16 +49,16 @@ function RgsOnePanel() {
             width={rgsOneLogoIntrinsic.width}
             height={rgsOneLogoIntrinsic.height}
             decoding="async"
-            className="mx-auto h-32 w-auto max-w-[min(100%,22rem)] object-contain sm:h-36 lg:h-40 xl:h-44"
+            className="mx-auto h-28 w-auto max-w-[min(100%,22rem)] object-contain sm:h-36 lg:h-40 xl:h-44"
           />
         </div>
 
-        <div className="mt-5 flex items-center justify-center gap-4">
+        <div className="mt-4 flex w-full min-w-0 max-w-full items-center justify-center gap-2 sm:mt-5 sm:gap-4">
           <span
-            className="h-px w-16 shrink-0 bg-gradient-to-r from-cyan-400 to-blue-500 sm:w-20"
+            className="h-px w-8 shrink-0 bg-gradient-to-r from-cyan-400 to-blue-500 sm:w-16 md:w-20"
             aria-hidden
           />
-          <span className="whitespace-nowrap text-[10px] font-medium uppercase tracking-[0.16em] text-slate-400 sm:text-[11px] sm:tracking-[0.2em]">
+          <span className="min-w-0 whitespace-nowrap text-[0.5625rem] font-medium uppercase tracking-[0.08em] text-slate-400 min-[380px]:text-[0.625rem] min-[380px]:tracking-[0.12em] sm:text-[11px] sm:tracking-[0.2em]">
             One Platform. Complete Visibility.
           </span>
         </div>
@@ -160,7 +160,7 @@ export default function Hero({ content }: Props) {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_22%_32%,rgba(20,184,166,0.2),transparent_34%)]" />
       </div>
 
-      <div className="relative z-10 site-gutter-x mx-auto min-h-[100svh] max-w-7xl pb-14 pt-60 sm:pt-64 md:pt-64 lg:pt-64 xl:flex xl:min-h-screen xl:items-center xl:pt-52">
+      <div className="relative z-10 site-gutter-x mx-auto min-h-[100svh] max-w-7xl pb-14 pt-28 sm:pt-36 md:pt-44 lg:pt-52 xl:flex xl:min-h-screen xl:items-center xl:pt-52">
         <div className="w-full">
           <div className="grid items-center gap-8 lg:grid-cols-[1.1fr_0.85fr] lg:gap-8 xl:gap-12">
             <FadeIn>
