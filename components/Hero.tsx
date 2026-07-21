@@ -162,7 +162,7 @@ export default function Hero({ content }: Props) {
 
       <div className="hero-shell relative z-10 site-gutter-x mx-auto max-w-7xl">
         <div className="w-full">
-          <div className="hero-grid grid items-start gap-8 lg:grid-cols-[1.1fr_0.85fr] lg:gap-8 xl:gap-12">
+          <div className="hero-grid grid items-start gap-8 lg:grid-cols-[1.1fr_0.85fr] lg:gap-x-40 xl:gap-x-[15rem]">
             <FadeIn>
               <div className="max-w-xl xl:max-w-none">
                 <h1 className="max-w-full break-words leading-[0.98] tracking-[-0.03em]">
