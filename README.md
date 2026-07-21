@@ -1,8 +1,8 @@
 # RGS Corporate Website — PT Relasi Global Solusi
 
-Next.js site for **https://rgs.co.id** (Vercel).
+Next.js site for **https://rgs.co.id** (RumahWeb VPS, PM2 on port 3001).
 
-RGS ONE ERP lives separately at **https://one.rgs.co.id** (RumahWeb VPS).
+RGS ONE ERP lives separately at **https://one.rgs.co.id** (same VPS, port 3000).
 
 ## Local development
 
@@ -29,8 +29,8 @@ See `.env.example`:
 
 ## Production
 
-- Host: **Vercel** (GitHub `main` auto-deploys)
-- Domain: `rgs.co.id`
-- Login / CMS: `one.rgs.co.id` (ERP on RumahWeb VPS + local Postgres)
+- Host: **RumahWeb VPS** (`/var/www/rgs-corporate-website`, PM2 `rgs-website`, Nginx → `127.0.0.1:3001`)
+- Domain: `rgs.co.id` (+ `www`)
+- Login / CMS: `one.rgs.co.id` (ERP on same VPS)
 
 Do **not** point portal/CMS URLs at `app.rgs.co.id`.
