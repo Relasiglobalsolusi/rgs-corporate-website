@@ -45,8 +45,9 @@ button {
   --site-gutter: clamp(0.75rem, 4vw, 3rem);
   /* Space inside cards (logo/nav away from edges) */
   --site-inner: clamp(0.875rem, 3vw, 4rem);
-  /* Fixed navbar clearance for anchor scroll + scroll spy (~88–120px) */
-  --scroll-offset: clamp(5.5rem, 10vw, 7.5rem);
+  /* Fixed navbar clearance for hero + anchor scroll (taller on phones) */
+  --scroll-offset: clamp(7.25rem, 18vw, 8.5rem);
+  --hero-pad-top: clamp(8.5rem, 26vw, 14rem);
 }
 
 section {

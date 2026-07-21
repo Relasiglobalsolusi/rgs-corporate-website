@@ -160,7 +160,7 @@ export default function Hero({ content }: Props) {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_22%_32%,rgba(20,184,166,0.2),transparent_34%)]" />
       </div>
 
-      <div className="relative z-10 site-gutter-x mx-auto min-h-[100svh] max-w-7xl pb-14 pt-28 sm:pt-36 md:pt-44 lg:pt-52 xl:flex xl:min-h-screen xl:items-center xl:pt-52">
+      <div className="relative z-10 site-gutter-x mx-auto min-h-[100svh] max-w-7xl pb-14 pt-[var(--hero-pad-top)] xl:flex xl:min-h-screen xl:items-center xl:pt-52">
         <div className="w-full">
           <div className="grid items-center gap-8 lg:grid-cols-[1.1fr_0.85fr] lg:gap-8 xl:gap-12">
             <FadeIn>

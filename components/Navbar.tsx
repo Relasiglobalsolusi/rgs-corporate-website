@@ -103,13 +103,17 @@ export default function Navbar() {
       }`}
     >
       <div
-        className={`mx-auto w-full max-w-[1850px] overflow-hidden rounded-[1.5rem] border transition-all duration-500 2xl:rounded-[2rem] ${
+        className={`mx-auto flex w-full max-w-[1850px] flex-col overflow-hidden rounded-[1.5rem] border transition-all duration-500 2xl:rounded-[2rem] ${
           scrolled
             ? "border-white/10 bg-slate-950/90 shadow-2xl shadow-black/35 backdrop-blur-2xl"
             : "border-white/10 bg-slate-950/70 shadow-xl shadow-black/10 backdrop-blur-xl"
+        } ${
+          open
+            ? "max-h-[calc(100dvh-1.25rem)] sm:max-h-[calc(100dvh-1.5rem)]"
+            : ""
         }`}
       >
-        <div className="site-inner-x flex min-w-0 items-center gap-2 py-3.5 transition-all duration-500 sm:gap-3 sm:py-4 xl:gap-4 2xl:py-5">
+        <div className="site-inner-x flex min-w-0 shrink-0 items-center gap-2 py-3 transition-all duration-500 sm:gap-3 sm:py-4 xl:gap-4 2xl:py-5">
           <a
             href="#home"
             onClick={closeMenu}
@@ -124,8 +128,8 @@ export default function Navbar() {
               priority
               className={`h-auto transition-all duration-500 ${
                 scrolled
-                  ? "w-[130px] sm:w-[145px] xl:w-[165px] 2xl:w-[200px]"
-                  : "w-[145px] sm:w-[160px] xl:w-[180px] 2xl:w-[215px]"
+                  ? "w-[118px] sm:w-[145px] xl:w-[165px] 2xl:w-[200px]"
+                  : "w-[128px] sm:w-[160px] xl:w-[180px] 2xl:w-[215px]"
               }`}
             />
           </a>
@@ -192,46 +196,46 @@ export default function Navbar() {
 
         <div
           id="mobile-nav-drawer"
-          className={`grid transition-all duration-500 xl:hidden ${
-            open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+          className={`min-h-0 xl:hidden ${
+            open
+              ? "flex-1 overflow-y-auto overscroll-contain"
+              : "max-h-0 overflow-hidden"
           }`}
         >
-          <div className="overflow-hidden">
-            <nav
-              aria-label="Mobile"
-              className="site-inner-x grid gap-3 border-t border-white/10 pb-6 pt-5"
+          <nav
+            aria-label="Mobile"
+            className="site-inner-x grid gap-2.5 border-t border-white/10 pb-5 pt-4 sm:gap-3 sm:pb-6 sm:pt-5"
+          >
+            {links.map((link) => {
+              const isActive = active === link.name;
+
+              return (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  onClick={closeMenu}
+                  className={`rounded-2xl px-5 py-3.5 text-base font-bold transition sm:py-4 ${
+                    isActive
+                      ? "bg-white text-slate-950"
+                      : "bg-white/5 text-white hover:bg-white/10"
+                  }`}
+                >
+                  {link.name}
+                </a>
+              );
+            })}
+
+            <PortalAccess variant="featured" onClick={closeMenu} />
+
+            <a
+              href="#contact"
+              onClick={closeMenu}
+              className="hero-cta-label mt-1 flex items-center justify-center gap-2 rounded-2xl bg-white px-5 py-4 text-slate-950 shadow-sm transition hover:shadow-md"
             >
-              {links.map((link) => {
-                const isActive = active === link.name;
-
-                return (
-                  <a
-                    key={link.name}
-                    href={link.href}
-                    onClick={closeMenu}
-                    className={`rounded-2xl px-5 py-4 text-base font-bold transition ${
-                      isActive
-                        ? "bg-white text-slate-950"
-                        : "bg-white/5 text-white hover:bg-white/10"
-                    }`}
-                  >
-                    {link.name}
-                  </a>
-                );
-              })}
-
-              <PortalAccess variant="featured" onClick={closeMenu} />
-
-              <a
-                href="#contact"
-                onClick={closeMenu}
-                className="hero-cta-label mt-1 flex items-center justify-center gap-2 rounded-2xl bg-white px-5 py-4 text-slate-950 shadow-sm transition hover:shadow-md"
-              >
-                Request Proposal
-                <ArrowRight size={18} />
-              </a>
-            </nav>
-          </div>
+              Request Proposal
+              <ArrowRight size={18} />
+            </a>
+          </nav>
         </div>
       </div>
     </header>
