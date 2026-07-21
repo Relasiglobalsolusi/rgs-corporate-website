@@ -142,7 +142,7 @@ export default function Hero({ content }: Props) {
   return (
     <section
       id="home"
-      className="relative min-h-[100svh] overflow-hidden bg-slate-950 text-white"
+      className="relative min-h-[100svh] overflow-x-hidden bg-slate-950 text-white"
     >
       <div className="absolute inset-0">
         <Image
@@ -160,9 +160,9 @@ export default function Hero({ content }: Props) {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_22%_32%,rgba(20,184,166,0.2),transparent_34%)]" />
       </div>
 
-      <div className="relative z-10 site-gutter-x mx-auto min-h-[100svh] max-w-7xl pb-14 pt-[var(--hero-pad-top)] xl:flex xl:min-h-screen xl:pt-52">
-        <div className="w-full xl:my-auto">
-          <div className="grid items-center gap-8 lg:grid-cols-[1.1fr_0.85fr] lg:gap-8 xl:gap-12">
+      <div className="relative z-10 site-gutter-x mx-auto min-h-[100svh] max-w-7xl pb-14 pt-[var(--hero-pad-top)]">
+        <div className="w-full">
+          <div className="grid items-start gap-8 lg:grid-cols-[1.1fr_0.85fr] lg:gap-8 xl:gap-12">
             <FadeIn>
               <div className="max-w-xl xl:max-w-none">
                 <h1 className="max-w-full break-words leading-[0.98] tracking-[-0.03em]">

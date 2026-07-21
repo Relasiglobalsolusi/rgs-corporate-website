@@ -45,9 +45,24 @@ button {
   --site-gutter: clamp(0.75rem, 4vw, 3rem);
   /* Space inside cards (logo/nav away from edges) */
   --site-inner: clamp(0.875rem, 3vw, 4rem);
-  /* Fixed navbar clearance for hero + anchor scroll (taller on phones) */
-  --scroll-offset: clamp(7.25rem, 18vw, 8.5rem);
-  --hero-pad-top: clamp(8.5rem, 26vw, 14rem);
+  /*
+   * Fixed floating nav chrome height (gutter + bar padding + logo/CTA row).
+   * Sized to the tall unscrolled xl/2xl bar so short viewports keep clearance.
+   */
+  --nav-chrome-height: clamp(7.25rem, 12vw + 4.5rem, 11rem);
+  /* Visible gap between nav bottom and hero content (RGS ONE card, etc.) */
+  --hero-nav-gap: 1.5rem;
+  /* Fixed navbar clearance for hero + anchor scroll */
+  --scroll-offset: calc(var(--nav-chrome-height) + 0.5rem);
+  --hero-pad-top: calc(var(--nav-chrome-height) + var(--hero-nav-gap));
+}
+
+@media (min-width: 1280px) {
+  :root {
+    /* Desktop nav: larger logo + py-4/5 + Portal CTA */
+    --nav-chrome-height: 11rem;
+    --hero-nav-gap: 1.5rem;
+  }
 }
 
 section {
