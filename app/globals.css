@@ -110,12 +110,23 @@ button {
  * pin the card column width, and pad the card away from the headline.
  */
 @media (min-width: 1024px) {
+  /* Exact viewport lock — prevents extra landing scroll past hero */
+  .hero-section,
   .hero-shell {
     height: 100svh;
     max-height: 100svh;
     min-height: 0;
-    padding-bottom: clamp(1rem, 2.5vh, 2.5rem);
     overflow: hidden;
+  }
+
+  .hero-shell {
+    padding-bottom: clamp(0.75rem, 2vh, 2rem);
+  }
+
+  html:has(.hero-section),
+  html:has(.hero-section) body {
+    overflow-x: hidden;
+    overscroll-behavior-y: none;
   }
 
   .hero-shell .hero-grid {
