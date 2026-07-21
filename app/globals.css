@@ -131,7 +131,8 @@ button {
  */
 @media (min-width: 1024px) {
   .hero-shell .hero-grid {
-    grid-template-columns: minmax(0, 1fr) minmax(20rem, 26rem);
+    /* Slightly wider card track so RGS ONE tagline/features fit after pad */
+    grid-template-columns: minmax(0, 1fr) minmax(22rem, 27rem);
     column-gap: clamp(5rem, 9vw, 9rem);
     row-gap: 2rem;
     align-items: start;
@@ -149,13 +150,13 @@ button {
     box-sizing: border-box;
     width: 100%;
     /* Space inside the card track — survives even if type overflows left col */
-    padding-left: clamp(2.5rem, 5vw, 5rem);
+    padding-left: clamp(2rem, 4vw, 4rem);
   }
 }
 
 @media (min-width: 1280px) {
   .hero-shell .hero-grid {
-    grid-template-columns: minmax(0, 1fr) minmax(22rem, 28rem);
+    grid-template-columns: minmax(0, 1fr) minmax(24rem, 28rem);
     column-gap: clamp(6rem, 11vw, 12rem);
   }
 
@@ -164,7 +165,7 @@ button {
   }
 
   .hero-shell .hero-panel {
-    padding-left: clamp(3.5rem, 6vw, 7rem);
+    padding-left: clamp(2.5rem, 5vw, 5.5rem);
   }
 }
 
