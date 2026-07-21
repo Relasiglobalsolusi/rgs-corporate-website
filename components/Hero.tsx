@@ -142,7 +142,7 @@ export default function Hero({ content }: Props) {
   return (
     <section
       id="home"
-      className="relative min-h-[100svh] overflow-x-hidden bg-slate-950 text-white"
+      className="relative min-h-[100svh] overflow-x-hidden bg-slate-950 text-white lg:h-[100svh] lg:max-h-[100svh] lg:overflow-hidden"
     >
       <div className="absolute inset-0">
         <Image
@@ -162,19 +162,23 @@ export default function Hero({ content }: Props) {
 
       <div className="hero-shell relative z-10 site-gutter-x mx-auto max-w-7xl">
         <div className="w-full">
-          <div className="hero-grid grid items-start gap-8 lg:grid-cols-[1.1fr_0.85fr] lg:gap-x-40 xl:gap-x-[15rem]">
-            <FadeIn>
-              <div className="max-w-xl xl:max-w-none">
+          {/*
+            Desktop gap/columns live in globals.css (.hero-grid / .hero-copy /
+            .hero-panel). Tailwind gap-* alone was masked by overflowing type.
+          */}
+          <div className="hero-grid grid items-start gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(20rem,26rem)]">
+            <FadeIn className="hero-copy min-w-0">
+              <div className="max-w-xl">
                 <h1 className="max-w-full break-words leading-[0.98] tracking-[-0.03em]">
                   <span className="block text-[1.875rem] font-medium text-white min-[400px]:text-[2.25rem] sm:text-5xl md:text-6xl lg:text-[3.25rem] xl:text-[3.75rem] 2xl:text-[4.25rem]">
                     {content.titleLine1}
                   </span>
 
-                  <span className="mt-1.5 block text-[1.95rem] font-semibold text-teal-300 min-[400px]:text-[2.5rem] sm:text-6xl md:text-7xl lg:text-[3.75rem] xl:text-[4.75rem] 2xl:text-[5.25rem]">
+                  <span className="mt-1.5 block text-[1.95rem] font-semibold text-teal-300 min-[400px]:text-[2.5rem] sm:text-6xl md:text-7xl lg:text-[3.75rem] xl:text-[4.5rem] 2xl:text-[4.75rem]">
                     {content.titleLine2}
                   </span>
 
-                  <span className="block text-[1.95rem] font-semibold text-teal-300 min-[400px]:text-[2.5rem] sm:text-6xl md:text-7xl lg:text-[3.75rem] xl:text-[4.75rem] 2xl:text-[5.25rem]">
+                  <span className="block text-[1.95rem] font-semibold text-teal-300 min-[400px]:text-[2.5rem] sm:text-6xl md:text-7xl lg:text-[3.75rem] xl:text-[4.5rem] 2xl:text-[4.75rem]">
                     {content.titleLine3}
                   </span>
                 </h1>
@@ -220,27 +224,27 @@ export default function Hero({ content }: Props) {
               </div>
             </FadeIn>
 
-            <FadeIn delay={0.15}>
+            <FadeIn delay={0.15} className="hero-panel min-w-0">
               <RgsOnePanel />
             </FadeIn>
           </div>
 
           <FadeIn delay={0.25}>
-            <div className="mt-12 grid max-w-full overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/[0.07] shadow-2xl shadow-black/20 backdrop-blur-2xl sm:mt-14 sm:grid-cols-3 sm:rounded-[2rem] lg:mt-16">
+            <div className="hero-stats grid max-w-full overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/[0.07] shadow-2xl shadow-black/20 backdrop-blur-2xl sm:grid-cols-3 sm:rounded-[2rem]">
               {stats.map((stat, index) => (
                 <div
                   key={stat.label}
-                  className={`p-6 text-center sm:p-8 ${
+                  className={`px-5 py-4 text-center sm:px-6 sm:py-5 lg:px-8 lg:py-6 ${
                     index !== stats.length - 1
                       ? "border-b border-white/10 sm:border-b-0 sm:border-r"
                       : ""
                   }`}
                 >
-                  <div className="text-4xl font-semibold tracking-tight text-teal-300 sm:text-5xl md:text-6xl">
+                  <div className="text-3xl font-semibold tracking-tight text-teal-300 sm:text-4xl md:text-5xl">
                     {stat.value}
                   </div>
 
-                  <div className="mt-3 text-[0.65rem] font-bold uppercase tracking-[0.22em] text-slate-200 sm:text-xs sm:tracking-[0.28em]">
+                  <div className="mt-2 text-[0.65rem] font-bold uppercase tracking-[0.22em] text-slate-200 sm:text-xs sm:tracking-[0.28em]">
                     {stat.label}
                   </div>
                 </div>
