@@ -103,7 +103,7 @@ export default function Navbar() {
       }`}
     >
       <div
-        className={`mx-auto flex w-full max-w-[1850px] flex-col overflow-hidden rounded-[1.5rem] border transition-all duration-500 2xl:rounded-[2rem] ${
+        className={`nav-chrome mx-auto flex w-full max-w-[1850px] flex-col overflow-hidden rounded-[1.5rem] border transition-all duration-500 2xl:rounded-[2rem] ${
           scrolled
             ? "border-white/10 bg-slate-950/90 shadow-2xl shadow-black/35 backdrop-blur-2xl"
             : "border-white/10 bg-slate-950/70 shadow-xl shadow-black/10 backdrop-blur-xl"
@@ -113,7 +113,11 @@ export default function Navbar() {
             : ""
         }`}
       >
-        <div className="site-inner-x flex min-w-0 shrink-0 items-center gap-2 py-3 transition-all duration-500 sm:gap-3 sm:py-4 xl:gap-4 2xl:py-5">
+        {/*
+          < xl: justify-between so logo | hamburger spans the full chrome.
+          xl+: logo | centered pills | CTAs (flex-1 nav).
+        */}
+        <div className="site-inner-x flex w-full min-w-0 shrink-0 items-center justify-between gap-3 py-3 transition-all duration-500 sm:gap-4 sm:py-4 xl:justify-start xl:gap-4 2xl:py-5">
           <a
             href="#home"
             onClick={closeMenu}
@@ -164,7 +168,7 @@ export default function Navbar() {
             })}
           </nav>
 
-          <div className="ml-auto hidden shrink-0 items-center gap-2 xl:flex xl:gap-3">
+          <div className="hidden shrink-0 items-center gap-2 xl:ml-auto xl:flex xl:gap-3">
             <div className="hidden h-8 w-px shrink-0 bg-white/10 2xl:block" aria-hidden />
 
             <PortalAccess />
@@ -185,7 +189,7 @@ export default function Navbar() {
           <button
             type="button"
             onClick={() => setOpen((value) => !value)}
-            className="ml-auto flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white transition hover:bg-white/10 xl:hidden"
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white transition hover:bg-white/10 xl:hidden"
             aria-label="Toggle navigation menu"
             aria-expanded={open}
             aria-controls="mobile-nav-drawer"

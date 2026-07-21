@@ -71,9 +71,9 @@ button {
 
 /*
  * Hero shell: column = nav pad | flex-1 centered main | stats at bottom.
- * Mobile: natural height (stacked card + stats must not clip).
- * lg+: exactly one viewport tall (border-box) — never grow past 100svh
- * (min-height + pad was the unwanted landing scroll).
+ * Default = stacked (headline above RGS ONE) so medium-narrow / short
+ * windows stay readable. Two-column + no landing-scroll only when the
+ * viewport is both wide (xl+) and tall enough.
  */
 .hero-shell {
   box-sizing: border-box;
@@ -103,13 +103,32 @@ button {
   margin-top: 0;
 }
 
+/* Stacked default: single column, card centered under copy */
+.hero-shell .hero-grid {
+  grid-template-columns: minmax(0, 1fr);
+  row-gap: 2rem;
+  align-items: start;
+}
+
+.hero-shell .hero-panel {
+  justify-self: center;
+  width: 100%;
+  max-width: 28rem;
+  padding-left: 0;
+}
+
 /*
- * Desktop: lock shell to 100svh; column gap owned here (not Tailwind gap-*).
- * Huge headline type was overflowing the left track across the grid gap,
- * so gap-x-40 / 15rem had no visible effect. Constrain the copy column,
- * pin the card column width, and pad the card away from the headline.
+ * Two-column hero: xl AND tall only.
+ * Column gap owned here (not Tailwind gap-*) — headline type can overflow
+ * the left track and mask gap-* otherwise.
  */
-@media (min-width: 1024px) {
+@media (min-width: 1280px) and (min-height: 821px) {
+  .hero-section {
+    height: 100svh;
+    max-height: 100svh;
+    overflow: hidden;
+  }
+
   .hero-shell {
     height: 100svh;
     max-height: 100svh;
@@ -119,45 +138,30 @@ button {
   }
 
   .hero-shell .hero-grid {
-    /* Slightly wider card track so RGS ONE tagline/features fit after pad */
-    grid-template-columns: minmax(0, 1fr) minmax(22rem, 27rem);
-    column-gap: clamp(5rem, 9vw, 9rem);
+    grid-template-columns: minmax(0, 1fr) minmax(24rem, 28rem);
+    column-gap: clamp(6rem, 11vw, 12rem);
     row-gap: 2rem;
     align-items: center;
   }
 
   .hero-shell .hero-copy {
     min-width: 0;
-    max-width: 30rem;
+    max-width: 32rem;
     overflow: hidden;
   }
 
   .hero-shell .hero-panel {
     min-width: 0;
+    max-width: none;
     justify-self: end;
     box-sizing: border-box;
     width: 100%;
     /* Space inside the card track — survives even if type overflows left col */
-    padding-left: clamp(2rem, 4vw, 4rem);
-  }
-}
-
-@media (min-width: 1280px) {
-  .hero-shell .hero-grid {
-    grid-template-columns: minmax(0, 1fr) minmax(24rem, 28rem);
-    column-gap: clamp(6rem, 11vw, 12rem);
-  }
-
-  .hero-shell .hero-copy {
-    max-width: 32rem;
-  }
-
-  .hero-shell .hero-panel {
     padding-left: clamp(2.5rem, 5vw, 5.5rem);
   }
 }
 
-/* Short desktop windows: compress — pack to top of middle band, avoid nav overlap */
+/* Short / stacked windows: pack to top of middle band, allow natural scroll */
 @media (max-height: 820px) {
   :root {
     --hero-nav-gap: 0.5rem;
@@ -169,6 +173,21 @@ button {
 
   .hero-main {
     justify-content: flex-start;
+  }
+}
+
+/*
+ * Hamburger / compact nav: floating chrome fills the gutter span
+ * (no right-side dead space beside a content-sized pill).
+ */
+.nav-chrome {
+  box-sizing: border-box;
+  width: 100%;
+}
+
+@media (max-width: 1279px) {
+  .nav-chrome {
+    max-width: none;
   }
 }
 
