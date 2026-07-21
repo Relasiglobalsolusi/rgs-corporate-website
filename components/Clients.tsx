@@ -1,4 +1,4 @@
-"use client";
+import Image from "next/image";
 
 type Client = {
   name: string;
@@ -43,7 +43,7 @@ export default function Clients() {
   return (
     <section
       id="clients"
-      className="bg-white px-6 py-28 text-slate-950 md:px-10"
+      className="bg-white site-gutter-x py-28 text-slate-950"
     >
       <div className="mx-auto max-w-7xl">
         <div className="mb-16 text-center">
@@ -71,10 +71,13 @@ export default function Clients() {
               >
                 <div className="absolute inset-0 opacity-0 transition duration-300 group-hover:opacity-100 bg-[radial-gradient(circle_at_50%_35%,rgba(20,184,166,0.12),transparent_55%)]" />
 
-                <img
+                <Image
                   src={client.logo}
                   alt={client.name}
-                  className={`relative z-10 w-auto max-w-[90%] object-contain transition duration-300 group-hover:scale-105 ${
+                  width={220}
+                  height={120}
+                  sizes="(max-width: 768px) 40vw, 12vw"
+                  className={`relative z-10 h-auto w-auto max-w-[90%] object-contain transition duration-300 group-hover:scale-105 ${
                     client.className ?? "max-h-24"
                   }`}
                 />

@@ -1,8 +1,10 @@
 import Image from "next/image";
 import FadeIn from "@/components/ui/FadeIn";
+import type { CmsContent } from "@/lib/cms";
+import { resolveCmsImageUrl } from "@/lib/cms-images";
 import { ArrowRight, Car, ShieldCheck, Sparkles } from "lucide-react";
 
-const services = [
+const defaultServices = [
   {
     title: "Cleaning Services",
     label: "Clean & Healthy Workplaces",
@@ -29,26 +31,42 @@ const services = [
   },
 ];
 
-export default function Services() {
+const iconMap = [Sparkles, ShieldCheck, Car];
+
+type Props = {
+  content: CmsContent["services"];
+};
+
+export default function Services({ content }: Props) {
+  const services = content.items.length
+    ? content.items.map((item, index) => ({
+        ...item,
+        image: resolveCmsImageUrl(
+          item.image,
+          defaultServices[index]?.image ?? "/images/services/cleaning.jpg"
+        ),
+        icon: iconMap[index] ?? Sparkles,
+      }))
+    : defaultServices;
+
   return (
     <section
       id="services"
-      className="relative overflow-hidden bg-white px-6 py-24 text-slate-950 md:px-10 lg:py-28"
+      className="relative overflow-hidden bg-white site-gutter-x py-24 text-slate-950 lg:py-28"
     >
       <div className="mx-auto max-w-7xl">
         <FadeIn>
           <div className="mb-14 max-w-5xl md:mb-16">
             <p className="mb-4 text-sm font-black uppercase tracking-[0.35em] text-teal-600">
-              Our Services
+              {content.sectionLabel}
             </p>
 
             <h2 className="max-w-5xl text-4xl font-black leading-tight tracking-tight sm:text-5xl md:text-7xl">
-              Integrated services for better facility operations.
+              {content.title}
             </h2>
 
             <p className="mt-6 max-w-3xl text-base leading-8 text-slate-600 md:text-lg">
-              RGS provides essential facility services that help businesses
-              maintain cleaner, safer, and more efficient environments every day.
+              {content.subtitle}
             </p>
           </div>
         </FadeIn>

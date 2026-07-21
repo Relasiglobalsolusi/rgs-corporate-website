@@ -1,5 +1,12 @@
 import type { Metadata } from "next";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
+
+const sans = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-sans",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.rgs.co.id"),
@@ -57,7 +64,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/og-image.png",
+        url: "/images/og-image.png",
         width: 1200,
         height: 630,
         alt: "PT Relasi Global Solusi",
@@ -70,7 +77,7 @@ export const metadata: Metadata = {
     title: "PT Relasi Global Solusi",
     description:
       "Professional integrated facility management services across Indonesia.",
-    images: ["/og-image.png"],
+    images: ["/images/og-image.png"],
   },
 
   icons: {
@@ -86,8 +93,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className="overflow-x-hidden bg-white text-slate-900 antialiased">
+    <html lang="en" className={sans.variable}>
+      <body className={`${sans.className} overflow-x-hidden bg-slate-950 text-slate-900 antialiased`}>
         {children}
       </body>
     </html>

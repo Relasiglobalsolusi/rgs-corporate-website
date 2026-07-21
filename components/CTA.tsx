@@ -1,4 +1,6 @@
 import Image from "next/image";
+import type { CmsContent } from "@/lib/cms";
+import { resolveCmsImageUrl } from "@/lib/cms-images";
 import {
   ArrowRight,
   CheckCircle2,
@@ -7,33 +9,34 @@ import {
   ShieldCheck,
 } from "lucide-react";
 
-const phoneDisplay = "+62 21 2295 2228";
-const phoneHref = "tel:+622122952228";
+const badgeIcons = [ShieldCheck, Headphones, CheckCircle2];
 
-const badges = [
-  {
-    icon: ShieldCheck,
-    label: "Integrated Services",
-  },
-  {
-    icon: Headphones,
-    label: "Responsive Support",
-  },
-  {
-    icon: CheckCircle2,
-    label: "Reliable Execution",
-  },
-];
+function phoneHref(phone: string) {
+  return `tel:${phone.replace(/\s+/g, "")}`;
+}
 
-export default function CTA() {
+type Props = {
+  content: CmsContent["cta"];
+  contact: CmsContent["contact"];
+};
+
+export default function CTA({ content, contact }: Props) {
+  const badges = content.badges.length
+    ? content.badges
+    : ["Integrated Services", "Responsive Support", "Reliable Execution"];
+
+  const ctaImage = resolveCmsImageUrl(
+    content.backgroundImage,
+    "/images/cta/cta.jpg"
+  );
+
   return (
-    <section className="relative overflow-hidden px-6 py-28 text-white md:px-10">
+    <section className="relative overflow-hidden site-gutter-x py-28 text-white">
       <div className="absolute inset-0">
         <Image
-          src="/images/cta/cta.jpg"
+          src={ctaImage}
           alt="Corporate facility management"
           fill
-          priority
           sizes="100vw"
           className="object-cover"
         />
@@ -47,25 +50,23 @@ export default function CTA() {
         <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-end">
           <div>
             <p className="mb-5 text-sm font-black uppercase tracking-[0.35em] text-teal-300">
-              Let&apos;s Work Together
+              {content.sectionLabel}
             </p>
 
             <h2 className="max-w-5xl text-5xl font-black leading-tight md:text-7xl">
-              Ready to strengthen your facility operations?
+              {content.title}
             </h2>
 
             <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-300 md:text-xl md:leading-9">
-              Whether you need cleaning, security, parking management, or a
-              fully integrated facility solution, RGS is ready to support your
-              daily operations with dependable service teams.
+              {content.subtitle}
             </p>
 
             <div className="mt-10 flex flex-wrap gap-5">
               <a
                 href="#contact"
-                className="group inline-flex items-center gap-3 rounded-full bg-teal-300 px-8 py-5 text-base font-black uppercase tracking-wide text-slate-950 transition hover:-translate-y-1 hover:bg-white"
+                className="hero-cta-label group inline-flex items-center gap-3 rounded-full bg-white px-8 py-5 text-slate-950 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:bg-slate-100 hover:shadow-md"
               >
-                Request Proposal
+                {content.ctaPrimary}
                 <ArrowRight
                   size={19}
                   className="transition group-hover:translate-x-1"
@@ -73,45 +74,46 @@ export default function CTA() {
               </a>
 
               <a
-                href={phoneHref}
+                href={phoneHref(contact.phone)}
                 className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/5 px-8 py-5 text-base font-black uppercase tracking-wide text-white backdrop-blur transition hover:-translate-y-1 hover:bg-white/10"
               >
                 <Phone size={19} />
-                {phoneDisplay}
+                {contact.phone}
               </a>
             </div>
           </div>
 
           <div className="rounded-[2.5rem] border border-white/10 bg-white/5 p-6 shadow-2xl shadow-black/30 backdrop-blur-xl md:p-8">
             <div className="grid gap-4">
-              {badges.map((badge) => {
-                const Icon = badge.icon;
+              {badges.map((badge, index) => {
+                const Icon = badgeIcons[index] ?? CheckCircle2;
 
                 return (
                   <div
-                    key={badge.label}
+                    key={badge}
                     className="flex items-center gap-4 rounded-3xl border border-white/10 bg-slate-950/35 p-5"
                   >
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-teal-300 text-slate-950">
-                      <Icon size={24} />
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white text-slate-950">
+                      <Icon size={24} className="text-teal-600" />
                     </div>
 
-                    <p className="text-lg font-black">{badge.label}</p>
+                    <p className="text-lg font-black">{badge}</p>
                   </div>
                 );
               })}
             </div>
 
-            <div className="mt-6 rounded-3xl border border-teal-300/20 bg-teal-300/10 p-6">
-              <p className="text-sm font-black uppercase tracking-[0.25em] text-teal-200">
-                Built for demanding environments
-              </p>
+            {content.footerNote && (
+              <div className="mt-6 rounded-3xl border border-slate-200/80 bg-white p-6 text-slate-800 shadow-lg">
+                <p className="text-sm font-bold uppercase tracking-[0.25em] text-slate-800">
+                  Built for demanding environments
+                </p>
 
-              <p className="mt-3 leading-7 text-slate-300">
-                Offices, hospitals, hotels, retail destinations, residences,
-                logistics facilities, and industrial sites.
-              </p>
-            </div>
+                <p className="mt-3 font-medium leading-7 text-slate-700">
+                  {content.footerNote}
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -1,150 +1,211 @@
-"use client";
-
-import Image from "next/image";
-import { motion } from "framer-motion";
+import FadeIn from "@/components/ui/FadeIn";
+import type { CmsContent } from "@/lib/cms";
 import {
+  ArrowRight,
   Award,
   CheckCircle2,
   Clock3,
   Shield,
   Sparkles,
   Users,
+  type LucideIcon,
 } from "lucide-react";
 
-const features = [
+const rgsOneLogoSrc = "/images/rgs-one-logo-nav.png";
+const MAX_FEATURES = 5;
+const MAX_DESCRIPTION_LENGTH = 90;
+
+type FeatureItem = {
+  title: string;
+  description: string;
+  icon?: LucideIcon;
+  iconSrc?: string;
+  href?: string;
+  linkLabel?: string;
+};
+
+const iconMap = [Shield, Users, Sparkles, Award, Clock3, CheckCircle2];
+
+const rgsOneFeature: FeatureItem = {
+  iconSrc: rgsOneLogoSrc,
+  title: "RGS ONE Platform",
+  description:
+    "Real-time project visibility, client portal access, and transparent reporting in one portal.",
+  href: "#rgs-one",
+  linkLabel: "Learn more",
+};
+
+const defaultFeatures: FeatureItem[] = [
   {
     icon: Shield,
     title: "Integrated Facility Management",
-    description:
-      "One trusted partner for cleaning, security, parking, and daily facility support.",
+    description: "One partner for cleaning, security, parking, and daily facility support.",
   },
   {
     icon: Users,
     title: "Experienced Professional Team",
-    description:
-      "Trained personnel with discipline, supervision, and clear operational standards.",
-  },
-  {
-    icon: Sparkles,
-    title: "Customized Service Solutions",
-    description:
-      "Every facility receives a practical solution based on its site, risk, and operating needs.",
+    description: "Trained personnel with discipline, supervision, and clear standards.",
   },
   {
     icon: Award,
     title: "Consistent Quality Assurance",
-    description:
-      "Routine inspections, reporting, and evaluations help maintain reliable service quality.",
+    description: "Routine inspections and reporting to maintain reliable service quality.",
   },
   {
     icon: Clock3,
     title: "Responsive Operations",
-    description:
-      "Fast support from supervisors and management when urgent operational needs arise.",
-  },
-  {
-    icon: CheckCircle2,
-    title: "Trusted Client Experience",
-    description:
-      "Supporting offices, hospitals, hotels, retail destinations, residences, and industrial sites.",
+    description: "Fast support from supervisors when urgent operational needs arise.",
   },
 ];
 
-export default function WhyChooseUs() {
+function isRgsOneFeature(feature: { title: string }) {
+  return feature.title.toLowerCase().includes("rgs one");
+}
+
+function shortenDescription(text: string): string {
+  const normalized = text.trim().replace(/\s+/g, " ");
+  const firstSentence =
+    normalized.match(/^[^.!?]+[.!?]/)?.[0]?.trim() ?? normalized;
+
+  if (firstSentence.length <= MAX_DESCRIPTION_LENGTH) {
+    return firstSentence;
+  }
+
+  const truncated = firstSentence.slice(0, MAX_DESCRIPTION_LENGTH);
+  const lastSpace = truncated.lastIndexOf(" ");
+
+  return `${truncated.slice(0, lastSpace > 0 ? lastSpace : MAX_DESCRIPTION_LENGTH).trim()}…`;
+}
+
+function buildFeatures(content: CmsContent["whyChooseUs"]): FeatureItem[] {
+  const baseFeatures: FeatureItem[] = content.features.length
+    ? content.features.map((feature, index) => ({
+        ...feature,
+        icon: iconMap[index] ?? CheckCircle2,
+      }))
+    : defaultFeatures;
+
+  const rgsOneFromContent = baseFeatures.find(isRgsOneFeature);
+  const otherFeatures = baseFeatures.filter((feature) => !isRgsOneFeature(feature));
+
+  const ordered: FeatureItem[] = rgsOneFromContent
+    ? [
+        {
+          ...rgsOneFromContent,
+          iconSrc: rgsOneFeature.iconSrc,
+          href: rgsOneFeature.href,
+          linkLabel: rgsOneFeature.linkLabel,
+        },
+        ...otherFeatures,
+      ]
+    : [rgsOneFeature, ...otherFeatures];
+
+  return ordered.slice(0, MAX_FEATURES).map((feature) => ({
+    ...feature,
+    description: shortenDescription(feature.description),
+  }));
+}
+
+type Props = {
+  content: CmsContent["whyChooseUs"];
+};
+
+export default function WhyChooseUs({ content }: Props) {
+  const features = buildFeatures(content);
+  const [featured, ...rest] = features;
+
   return (
-    <section className="bg-white px-6 py-28 text-slate-950 md:px-10">
+    <section id="why-choose-us" className="bg-white site-gutter-x py-24 text-slate-950 lg:py-28">
       <div className="mx-auto max-w-7xl">
-        <div className="grid gap-14 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="relative isolate min-h-[620px] overflow-hidden rounded-[2.5rem] bg-slate-950 shadow-2xl shadow-slate-200/70"
-          >
-            <Image
-              src="/images/services/facility-management.jpg"
-              alt="RGS facility management team"
-              fill
-              sizes="(max-width: 1024px) 100vw, 45vw"
-              className="scale-[1.02] object-cover opacity-80"
-            />
+        <FadeIn>
+          <div className="mb-12 max-w-3xl md:mb-14">
+            <p className="mb-4 text-sm font-black uppercase tracking-[0.35em] text-teal-600">
+              {content.sectionLabel}
+            </p>
 
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/45 to-transparent" />
+            <h2 className="text-4xl font-black leading-tight tracking-tight sm:text-5xl md:text-6xl">
+              {content.title}
+            </h2>
 
-            <div className="absolute bottom-0 left-0 right-0 p-8 md:p-10">
-              <p className="mb-4 text-sm font-black uppercase tracking-[0.35em] text-teal-300">
-                Operational Excellence
+            {content.subtitle ? (
+              <p className="mt-5 text-base leading-7 text-slate-600 md:text-lg md:leading-8">
+                {content.subtitle}
               </p>
+            ) : null}
+          </div>
+        </FadeIn>
 
-              <h3 className="max-w-lg text-4xl font-black leading-tight text-white">
-                Reliable people, clear standards, and consistent execution.
-              </h3>
+        {featured ? (
+          <FadeIn delay={0.05}>
+            <article className="mb-6 flex flex-col gap-5 rounded-[1.75rem] border border-teal-200 bg-gradient-to-br from-teal-50/80 to-white p-6 shadow-sm sm:flex-row sm:items-center sm:gap-6 md:p-7">
+              <div
+                className={
+                  featured.iconSrc
+                    ? "flex h-20 w-28 shrink-0 items-center justify-center rounded-2xl border border-slate-800 bg-slate-950 p-3 shadow-md sm:h-24 sm:w-32"
+                    : "flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white text-teal-600 shadow-md ring-1 ring-teal-100"
+                }
+              >
+                {featured.iconSrc ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={featured.iconSrc}
+                    alt=""
+                    width={96}
+                    height={63}
+                    className="h-auto w-20 max-w-full object-contain sm:w-24"
+                  />
+                ) : featured.icon ? (
+                  <featured.icon size={24} />
+                ) : null}
+              </div>
 
-              <p className="mt-5 max-w-lg leading-8 text-slate-300">
-                Delivering dependable facility management through experienced
-                personnel, structured supervision, and measurable service
-                quality.
-              </p>
-            </div>
-          </motion.div>
+              <div className="min-w-0 flex-1">
+                <h3 className="text-xl font-black text-slate-950 md:text-2xl">
+                  {featured.title}
+                </h3>
+                <p className="mt-1.5 text-sm leading-6 text-slate-600 md:text-base">
+                  {featured.description}
+                </p>
+              </div>
 
-          <div>
-            <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="mb-10"
-            >
-              <p className="mb-4 text-sm font-black uppercase tracking-[0.35em] text-teal-600">
-                Why Choose RGS
-              </p>
+              {featured.href ? (
+                <a
+                  href={featured.href}
+                  className="inline-flex shrink-0 items-center gap-2 self-start text-sm font-black uppercase tracking-wide text-teal-700 transition hover:text-teal-600 sm:self-center"
+                >
+                  {featured.linkLabel ?? "Learn more"}
+                  <ArrowRight size={16} />
+                </a>
+              ) : null}
+            </article>
+          </FadeIn>
+        ) : null}
 
-              <h2 className="max-w-4xl text-5xl font-black leading-tight md:text-7xl">
-                A trusted partner for modern facility management.
-              </h2>
+        {rest.length > 0 ? (
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
+            {rest.map((feature, index) => {
+              const Icon = feature.icon;
 
-              <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-600">
-                We combine experienced professionals, standardized operating
-                procedures, and integrated service management to help clients
-                maintain safe, clean, and efficient facilities.
-              </p>
-            </motion.div>
-
-            <div className="grid gap-4 md:grid-cols-2">
-              {features.map((feature, index) => {
-                const Icon = feature.icon;
-
-                return (
-                  <motion.div
-                    key={feature.title}
-                    initial={{ opacity: 0, y: 24 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{
-                      duration: 0.5,
-                      delay: index * 0.05,
-                    }}
-                    className="group rounded-[2rem] border border-slate-800 bg-slate-900 p-6 text-white transition duration-300 hover:-translate-y-1 hover:border-teal-400 hover:bg-slate-800 hover:shadow-xl hover:shadow-slate-900/40"
-                  >
-                    <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-teal-400 text-slate-950 transition duration-300 group-hover:rotate-6 group-hover:scale-105">
-                      <Icon size={24} />
+              return (
+                <FadeIn key={feature.title} delay={0.1 + index * 0.05}>
+                  <article className="group h-full rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-slate-300 hover:shadow-lg hover:shadow-slate-200/60">
+                    <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-slate-950 text-teal-400 transition duration-300 group-hover:bg-teal-600 group-hover:text-white">
+                      {Icon ? <Icon size={20} /> : null}
                     </div>
 
-                    <h3 className="mb-3 text-xl font-black text-white">
+                    <h3 className="text-base font-black leading-snug text-slate-950 md:text-lg">
                       {feature.title}
                     </h3>
 
-                    <p className="leading-7 text-slate-300">
+                    <p className="mt-2 text-sm leading-6 text-slate-600">
                       {feature.description}
                     </p>
-                  </motion.div>
-                );
-              })}
-            </div>
+                  </article>
+                </FadeIn>
+              );
+            })}
           </div>
-        </div>
+        ) : null}
       </div>
     </section>
   );

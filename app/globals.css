@@ -2,11 +2,13 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: var(--scroll-offset);
 }
 
 body {
   overflow-x: hidden;
   background: #020617;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
 }
 
 ::selection {
@@ -38,6 +40,35 @@ button {
   font: inherit;
 }
 
+:root {
+  /* Space between browser edge and content card */
+  --site-gutter: clamp(1.5rem, 8vw, 3rem);
+  /* Space inside cards (logo/nav away from edges) */
+  --site-inner: clamp(1.5rem, 4vw, 4rem);
+  /* Fixed navbar clearance for anchor scroll + scroll spy (~88–120px) */
+  --scroll-offset: clamp(5.5rem, 10vw, 7.5rem);
+}
+
 section {
-  scroll-margin-top: 120px;
+  scroll-margin-top: var(--scroll-offset);
+}
+
+.scroll-anchor {
+  scroll-margin-top: var(--scroll-offset);
+}
+
+.site-gutter-x {
+  padding-left: var(--site-gutter);
+  padding-right: var(--site-gutter);
+}
+
+.site-inner-x {
+  padding-left: var(--site-inner);
+  padding-right: var(--site-inner);
+}
+
+@layer components {
+  .hero-cta-label {
+    @apply text-xs font-black uppercase tracking-wide sm:text-sm;
+  }
 }

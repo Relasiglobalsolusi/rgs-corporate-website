@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import type { CmsContent } from "@/lib/cms";
 import {
   ArrowRight,
   CheckCircle2,
@@ -12,8 +13,24 @@ import {
 
 type FormStatus = "idle" | "loading" | "success" | "error";
 
-export default function ContactForm() {
+type Props = {
+  contact: CmsContent["contact"];
+};
+
+function phoneHref(phone: string) {
+  return `tel:${phone.replace(/\s+/g, "")}`;
+}
+
+function mapsHref(addressLines: string[]) {
+  const query = encodeURIComponent(addressLines.join(" "));
+  return `https://www.google.com/maps/search/?api=1&query=${query}`;
+}
+
+export default function ContactForm({ contact }: Props) {
   const [status, setStatus] = useState<FormStatus>("idle");
+  const addressLines = contact.addressLines.length
+    ? contact.addressLines
+    : [contact.address];
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -55,7 +72,7 @@ export default function ContactForm() {
   return (
     <section
       id="contact"
-      className="relative overflow-hidden bg-white px-4 py-20 text-slate-950 sm:px-6 md:px-10 md:py-28"
+      className="relative overflow-hidden bg-white site-gutter-x py-20 text-slate-950 md:py-28"
     >
       <div className="mx-auto max-w-7xl overflow-hidden">
         <div className="mb-10 grid gap-6 md:mb-16 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
@@ -95,7 +112,7 @@ export default function ContactForm() {
 
               <div className="grid gap-4">
                 <a
-                  href="https://www.google.com/maps/search/?api=1&query=Jalan+Daan+Mogot+KM+14.5+Ruko+Point+8+Blok+F6+Duri+Kosambi+Cengkareng+West+Jakarta"
+                  href={mapsHref(addressLines)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group flex min-w-0 gap-4 rounded-3xl border border-white/10 bg-white/5 p-5 transition hover:border-teal-300/40 hover:bg-white/10"
@@ -105,20 +122,19 @@ export default function ContactForm() {
                   <div className="min-w-0">
                     <p className="font-black">Office Address</p>
                     <p className="mt-1 leading-7 text-slate-300 transition group-hover:text-white">
-                      Jalan Daan Mogot KM 14.5
-                      <br />
-                      Ruko Point 8 Blok F6
-                      <br />
-                      Duri Kosambi, Cengkareng
-                      <br />
-                      West Jakarta
+                      {addressLines.map((line, index) => (
+                        <span key={`${line}-${index}`}>
+                          {line}
+                          {index < addressLines.length - 1 && <br />}
+                        </span>
+                      ))}
                     </p>
                   </div>
                 </a>
 
                 <div className="grid gap-4 sm:grid-cols-2">
                   <a
-                    href="mailto:contact@rgs.co.id"
+                    href={`mailto:${contact.email}`}
                     className="group flex min-w-0 gap-4 rounded-3xl border border-white/10 bg-white/5 p-5 transition hover:border-teal-300/40 hover:bg-white/10"
                   >
                     <Mail className="shrink-0 text-teal-300 transition group-hover:scale-110" />
@@ -126,7 +142,7 @@ export default function ContactForm() {
                     <div className="min-w-0">
                       <p className="font-black">Email</p>
                       <p className="mt-1 break-words text-slate-300 transition group-hover:text-white">
-                        contact@rgs.co.id
+                        {contact.email}
                       </p>
                     </div>
                   </a>
@@ -144,7 +160,7 @@ export default function ContactForm() {
                 </div>
 
                 <a
-                  href="tel:+622122952228"
+                  href={phoneHref(contact.phone)}
                   className="group flex min-w-0 gap-4 rounded-3xl border border-white/10 bg-white/5 p-5 transition hover:border-teal-300/40 hover:bg-white/10"
                 >
                   <Phone className="shrink-0 text-teal-300 transition group-hover:scale-110" />
@@ -152,7 +168,7 @@ export default function ContactForm() {
                   <div className="min-w-0">
                     <p className="font-black">Phone</p>
                     <p className="mt-1 text-slate-300 transition group-hover:text-white">
-                      +62 21 2295 2228
+                      {contact.phone}
                     </p>
                   </div>
                 </a>
@@ -240,15 +256,15 @@ export default function ContactForm() {
 
               {status === "error" && (
                 <div className="rounded-2xl border border-red-400/30 bg-red-400/10 p-4 text-sm font-bold text-red-200">
-                  Something went wrong. Please email us directly at
-                  contact@rgs.co.id.
+                  Something went wrong. Please email us directly at{" "}
+                  {contact.email}.
                 </div>
               )}
 
               <button
                 type="submit"
                 disabled={status === "loading"}
-                className="group mt-2 inline-flex w-full items-center justify-center gap-3 rounded-full bg-teal-400 px-8 py-5 text-base font-black text-slate-950 shadow-xl shadow-teal-400/20 transition hover:-translate-y-1 hover:bg-teal-300 disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0 sm:w-auto"
+                className="hero-cta-label group mt-2 inline-flex w-full items-center justify-center gap-3 rounded-full bg-white px-8 py-5 text-slate-950 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:bg-slate-100 hover:shadow-md disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0 disabled:hover:bg-white disabled:hover:shadow-sm sm:w-auto"
               >
                 {status === "loading" ? "Sending..." : "Send Inquiry"}
                 <ArrowRight

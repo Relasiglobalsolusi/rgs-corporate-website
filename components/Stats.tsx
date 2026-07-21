@@ -5,43 +5,21 @@ import {
   Headphones,
   Users,
 } from "lucide-react";
+import type { CmsContent } from "@/lib/cms";
 
-const stats = [
-  {
-    value: "1000+",
-    label: "Professional Personnel",
-    description:
-      "Highly trained personnel deployed across cleaning, security, parking, and integrated facility management operations throughout Indonesia.",
-    icon: Users,
-  },
-  {
-    value: "50+",
-    label: "Corporate Clients",
-    description:
-      "Trusted by commercial, healthcare, hospitality, retail, and industrial organizations.",
-    icon: Building2,
-  },
-  {
-    value: "99%",
-    label: "Client Satisfaction",
-    description:
-      "Built through consistent supervision, reporting, and dependable service delivery.",
-    icon: Award,
-  },
-  {
-    value: "24/7",
-    label: "Operational Support",
-    description:
-      "Responsive coordination to keep facilities running smoothly every day.",
-    icon: Headphones,
-  },
-];
+const iconMap = [Building2, Award, Headphones];
 
-export default function Stats() {
+type Props = {
+  content: CmsContent["stats"];
+};
+
+export default function Stats({ content }: Props) {
+  const items = content.items.length ? content.items : [];
+
   return (
     <section
       id="stats"
-      className="relative overflow-hidden bg-slate-950 px-4 py-20 text-white sm:px-6 md:px-10 md:py-28"
+      className="relative overflow-hidden bg-slate-950 site-gutter-x py-20 text-white md:py-28"
     >
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,rgba(20,184,166,0.18),transparent_32%),radial-gradient(circle_at_85%_80%,rgba(59,130,246,0.14),transparent_36%)]" />
 
@@ -51,57 +29,52 @@ export default function Stats() {
         <div className="mb-10 grid gap-6 md:mb-14 lg:grid-cols-[1fr_1fr] lg:items-end">
           <div>
             <p className="mb-4 text-xs font-black uppercase tracking-[0.28em] text-teal-300 sm:text-sm sm:tracking-[0.35em]">
-              RGS By The Numbers
+              {content.sectionLabel}
             </p>
 
             <h2 className="max-w-4xl text-4xl font-black leading-tight sm:text-5xl md:text-7xl">
-              Scale, reliability, and operational discipline.
+              {content.title}
             </h2>
           </div>
 
           <div className="rounded-[2rem] border border-white/10 bg-white/5 p-6 backdrop-blur sm:p-8">
             <p className="text-xs font-black uppercase tracking-[0.26em] text-teal-300 sm:text-sm sm:tracking-[0.3em]">
-              Trusted Operations
+              {content.sidebarLabel}
             </p>
 
             <p className="mt-5 text-base leading-8 text-slate-200 sm:text-xl sm:leading-9">
-              RGS supports demanding facilities with trained personnel,
-              responsive management, and consistent daily execution across
-              commercial offices, hospitals, hotels, retail centres,
-              residential developments, and industrial facilities.
+              {content.sidebarText}
             </p>
           </div>
         </div>
 
         <div className="grid gap-6 lg:grid-cols-[1.15fr_1.85fr]">
-          <div className="max-w-full rounded-[2rem] border border-teal-300/20 bg-teal-300 p-6 text-slate-950 shadow-2xl shadow-teal-950/30 sm:p-8 md:rounded-[2.5rem] md:p-10">
-            <p className="mb-8 text-xs font-black uppercase tracking-[0.26em] sm:text-sm sm:tracking-[0.3em]">
+          <div className="max-w-full rounded-[2rem] border border-slate-200/80 bg-white p-6 text-slate-950 shadow-2xl shadow-black/20 sm:p-8 md:rounded-[2.5rem] md:p-10">
+            <p className="mb-8 text-xs font-black uppercase tracking-[0.26em] text-slate-500 sm:text-sm sm:tracking-[0.3em]">
               Core Strength
             </p>
 
             <h3 className="text-6xl font-black leading-none tracking-tight sm:text-8xl md:text-9xl">
-              1000+
+              {content.featuredValue}
             </h3>
 
             <p className="mt-5 text-2xl font-black leading-tight sm:text-3xl">
-              Professional Personnel
+              {content.featuredLabel}
             </p>
 
-            <p className="mt-5 max-w-md text-base font-semibold leading-8 text-slate-800 sm:text-lg">
-              Highly trained personnel supporting cleaning, security, parking,
-              and integrated facility management operations throughout
-              Indonesia.
+            <p className="mt-5 max-w-md text-base font-semibold leading-8 text-slate-600 sm:text-lg">
+              {content.featuredDescription}
             </p>
 
             <div className="mt-10 flex items-center gap-3 rounded-2xl bg-slate-950 px-5 py-4 text-xs font-black uppercase tracking-wide text-white sm:text-sm">
-              <CheckCircle2 size={20} className="shrink-0 text-teal-300" />
+              <CheckCircle2 size={20} className="shrink-0 text-teal-400" />
               <span>Ready for Daily Operations</span>
             </div>
           </div>
 
           <div className="grid gap-6 md:grid-cols-3">
-            {stats.slice(1).map((stat) => {
-              const Icon = stat.icon;
+            {items.map((stat, index) => {
+              const Icon = iconMap[index] ?? Users;
 
               return (
                 <div
@@ -120,9 +93,11 @@ export default function Stats() {
                     {stat.label}
                   </h4>
 
-                  <p className="text-base leading-7 text-slate-300">
-                    {stat.description}
-                  </p>
+                  {stat.description && (
+                    <p className="text-base leading-7 text-slate-300">
+                      {stat.description}
+                    </p>
+                  )}
                 </div>
               );
             })}

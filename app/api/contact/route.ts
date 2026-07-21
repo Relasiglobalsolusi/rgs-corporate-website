@@ -11,15 +11,23 @@ function escapeHtml(value: unknown) {
 
 const logoUrl = "https://rgs.co.id/images/logo.png";
 
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-  port: Number(process.env.SMTP_PORT),
-  secure: true,
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
-  },
-});
+function getTransporter() {
+  const host = process.env.SMTP_HOST;
+  const user = process.env.SMTP_USER;
+  const pass = process.env.SMTP_PASS;
+  const port = Number(process.env.SMTP_PORT || 465);
+
+  if (!host || !user || !pass) {
+    throw new Error("SMTP is not configured");
+  }
+
+  return nodemailer.createTransport({
+    host,
+    port,
+    secure: port === 465,
+    auth: { user, pass },
+  });
+}
 
 export async function POST(req: Request) {
   try {
@@ -31,6 +39,8 @@ export async function POST(req: Request) {
         { status: 400 }
       );
     }
+
+    const transporter = getTransporter();
 
     await Promise.all([
       transporter.sendMail({

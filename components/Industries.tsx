@@ -40,7 +40,7 @@ export default function Industries() {
   return (
     <section
       id="industries"
-      className="bg-slate-950 px-6 py-28 text-white md:px-10"
+      className="bg-slate-950 site-gutter-x py-28 text-white"
     >
       <div className="mx-auto max-w-7xl">
         <FadeIn>
@@ -70,6 +70,7 @@ export default function Industries() {
                     src={industry.image}
                     alt={industry.title}
                     fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 25vw"
                     className="object-cover transition duration-700 group-hover:scale-110"
                   />
 

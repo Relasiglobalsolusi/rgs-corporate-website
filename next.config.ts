@@ -1,7 +1,10 @@
 import type { NextConfig } from "next";
+import { cmsImageRemotePatterns } from "./lib/cms-images";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  images: {
+    remotePatterns: cmsImageRemotePatterns(),
+  },
 };
 
 export default nextConfig;
