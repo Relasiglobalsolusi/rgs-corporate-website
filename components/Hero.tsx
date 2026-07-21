@@ -54,13 +54,14 @@ function RgsOnePanel() {
         </div>
 
         {/*
-          Lockup matches ERP login (/login): logo mark + short left accent +
-          all-caps wide-tracked tagline. Centered for the marketing card;
-          tracking eases slightly on narrow widths so text never clips.
+          Lockup matches ERP login (/login): left accent rule + all-caps
+          wide-tracked tagline. Line + text are one centered group
+          (justify-center); rule uses ERP-style w-12 scale so it reads
+          balanced with the centered slogan, not a short stub.
         */}
         <div className="mt-5 flex w-full min-w-0 max-w-full items-center justify-center gap-3 sm:gap-4">
           <span
-            className="h-px w-5 shrink-0 bg-gradient-to-r from-cyan-400 to-blue-500 sm:w-6"
+            className="h-px w-10 shrink-0 bg-gradient-to-r from-cyan-400 to-blue-500 sm:w-12 md:w-14"
             aria-hidden
           />
           <span className="min-w-0 max-w-full text-center text-[10px] font-medium uppercase leading-snug tracking-[0.18em] text-slate-400 sm:text-[11px] sm:tracking-[0.24em] lg:tracking-[0.3em]">
