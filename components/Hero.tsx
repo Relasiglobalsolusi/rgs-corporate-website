@@ -53,21 +53,17 @@ function RgsOnePanel() {
           />
         </div>
 
-        <div className="mt-4 flex w-full min-w-0 max-w-full items-center justify-center gap-2 sm:mt-5 sm:gap-3">
-          <span
-            className="h-px w-6 max-w-[12%] shrink bg-gradient-to-r from-cyan-400 to-blue-500 sm:w-10 sm:max-w-[18%] md:w-14"
-            aria-hidden
-          />
+        <div className="mt-4 flex w-full min-w-0 max-w-full items-center justify-center gap-2.5 sm:mt-5 sm:gap-3.5">
           {/*
-            Must wrap when the card track is tight (mobile + desktop
-            .hero-panel padding-left). whitespace-nowrap + overflow-hidden
-            was clipping to "ONE PLATFORM. COMPLETE VISI".
+            Tagline wraps on tight card widths (nowrap + overflow-hidden
+            clipped to "COMPLETE VISI"). Left/"back" accent removed; only a
+            longer right/"front" line remains.
           */}
-          <span className="min-w-0 flex-1 text-center text-[0.5625rem] font-medium uppercase leading-snug tracking-[0.06em] text-slate-400 min-[380px]:text-[0.625rem] min-[380px]:tracking-[0.08em] sm:flex-none sm:text-[10px] sm:tracking-[0.12em] lg:text-[11px] lg:tracking-[0.14em]">
+          <span className="min-w-0 max-w-full text-center text-[0.5625rem] font-medium uppercase leading-snug tracking-[0.06em] text-slate-400 min-[380px]:text-[0.625rem] min-[380px]:tracking-[0.08em] sm:text-[10px] sm:tracking-[0.12em] lg:text-[11px] lg:tracking-[0.14em]">
             One Platform. Complete Visibility.
           </span>
           <span
-            className="h-px w-6 max-w-[12%] shrink bg-gradient-to-l from-cyan-400 to-blue-500 sm:w-10 sm:max-w-[18%] md:w-14"
+            className="h-px w-16 shrink-0 bg-gradient-to-r from-cyan-400 to-blue-500 sm:w-24 md:w-28"
             aria-hidden
           />
         </div>
