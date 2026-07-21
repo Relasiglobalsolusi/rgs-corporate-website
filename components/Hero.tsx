@@ -56,16 +56,16 @@ function RgsOnePanel() {
         <div className="mt-4 flex w-full min-w-0 max-w-full items-center justify-center gap-2.5 sm:mt-5 sm:gap-3.5">
           {/*
             Tagline wraps on tight card widths (nowrap + overflow-hidden
-            clipped to "COMPLETE VISI"). Left/"back" accent removed; only a
-            longer right/"front" line remains.
+            clipped to "COMPLETE VISI"). Right/"front" accent removed; only a
+            longer left/"back" line remains.
           */}
-          <span className="min-w-0 max-w-full text-center text-[0.5625rem] font-medium uppercase leading-snug tracking-[0.06em] text-slate-400 min-[380px]:text-[0.625rem] min-[380px]:tracking-[0.08em] sm:text-[10px] sm:tracking-[0.12em] lg:text-[11px] lg:tracking-[0.14em]">
-            One Platform. Complete Visibility.
-          </span>
           <span
             className="h-px w-16 shrink-0 bg-gradient-to-r from-cyan-400 to-blue-500 sm:w-24 md:w-28"
             aria-hidden
           />
+          <span className="min-w-0 max-w-full text-center text-[0.5625rem] font-medium uppercase leading-snug tracking-[0.06em] text-slate-400 min-[380px]:text-[0.625rem] min-[380px]:tracking-[0.08em] sm:text-[10px] sm:tracking-[0.12em] lg:text-[11px] lg:tracking-[0.14em]">
+            One Platform. Complete Visibility.
+          </span>
         </div>
       </div>
 
