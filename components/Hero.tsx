@@ -148,7 +148,7 @@ export default function Hero({ content }: Props) {
   return (
     <section
       id="home"
-      className="hero-section relative min-h-[100svh] overflow-x-hidden bg-slate-950 text-white"
+      className="relative min-h-[100svh] overflow-x-hidden bg-slate-950 text-white lg:h-[100svh] lg:max-h-[100svh] lg:overflow-hidden"
     >
       <div className="absolute inset-0">
         <Image
@@ -173,10 +173,10 @@ export default function Hero({ content }: Props) {
       <div className="hero-shell relative z-10 site-gutter-x mx-auto max-w-7xl">
         <div className="hero-main w-full">
           {/*
-            Stacked by default; 2-col only at xl + tall (globals.css).
-            Column gap owned in CSS — Tailwind gap-* was masked by type overflow.
+            Desktop gap/columns live in globals.css (.hero-grid / .hero-copy /
+            .hero-panel). Tailwind gap-* alone was masked by overflowing type.
           */}
-          <div className="hero-grid grid items-start gap-8">
+          <div className="hero-grid grid items-start gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(22rem,27rem)]">
             <FadeIn className="hero-copy min-w-0">
               <div className="max-w-xl">
                 <h1 className="max-w-full break-words leading-[0.98] tracking-[-0.03em]">
