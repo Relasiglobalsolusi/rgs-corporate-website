@@ -57,10 +57,10 @@ function RgsOnePanel() {
           {/*
             Tagline wraps on tight card widths (nowrap + overflow-hidden
             clipped to "COMPLETE VISI"). Right/"front" accent removed; only a
-            longer left/"back" line remains.
+            short left/"back" line remains.
           */}
           <span
-            className="h-px w-16 shrink-0 bg-gradient-to-r from-cyan-400 to-blue-500 sm:w-24 md:w-28"
+            className="h-px w-8 shrink-0 bg-gradient-to-r from-cyan-400 to-blue-500 sm:w-12 md:w-14"
             aria-hidden
           />
           <span className="min-w-0 max-w-full text-center text-[0.5625rem] font-medium uppercase leading-snug tracking-[0.06em] text-slate-400 min-[380px]:text-[0.625rem] min-[380px]:tracking-[0.08em] sm:text-[10px] sm:tracking-[0.12em] lg:text-[11px] lg:tracking-[0.14em]">
