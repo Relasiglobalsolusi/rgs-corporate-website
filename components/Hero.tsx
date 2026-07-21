@@ -60,7 +60,7 @@ function RgsOnePanel() {
         */}
         <div className="mt-5 flex w-full min-w-0 max-w-full items-center justify-center gap-3 sm:gap-4">
           <span
-            className="h-px w-10 shrink-0 bg-gradient-to-r from-cyan-400 to-blue-500 sm:w-12"
+            className="h-px w-5 shrink-0 bg-gradient-to-r from-cyan-400 to-blue-500 sm:w-6"
             aria-hidden
           />
           <span className="min-w-0 max-w-full text-center text-[10px] font-medium uppercase leading-snug tracking-[0.18em] text-slate-400 sm:text-[11px] sm:tracking-[0.24em] lg:tracking-[0.3em]">
