@@ -25,7 +25,7 @@ See `.env.example`:
 | `NEXT_PUBLIC_CMS_URL` | ERP CMS API (`https://one.rgs.co.id/api/website/content`) |
 | `NEXT_PUBLIC_PORTAL_URL` | Login button (`https://one.rgs.co.id/login`) |
 | `SMTP_*` | Contact form mail |
-| `CONTACT_TO` | Inbox for inquiries (defaults to `SMTP_USER`) |
+| `CONTACT_TO` | Inbox for inquiries (falls back to `SMTP_USER`, then `contact@rgs.co.id`) |
 
 ## Production
 

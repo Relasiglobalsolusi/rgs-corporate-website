@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type { CmsContent } from "@/lib/cms";
+import { mapsHref, phoneHref } from "@/lib/contact-links";
 import { portalLabel, portalLoginUrl } from "@/lib/portal";
 import { LogIn, Mail, MapPin, Phone } from "lucide-react";
 
@@ -18,10 +19,6 @@ const serviceLinks = [
   "Parking Management",
   "Integrated Facility Management",
 ];
-
-function phoneHref(phone: string) {
-  return `tel:${phone.replace(/\s+/g, "")}`;
-}
 
 type Props = {
   content: CmsContent["contact"];
@@ -130,7 +127,7 @@ export default function Footer({ content, meta, social }: Props) {
               </a>
 
               <a
-                href="https://www.google.com/maps/search/?api=1&query=Jalan+Daan+Mogot+KM+14.5+Ruko+Point+8+Blok+F6+Duri+Kosambi+Cengkareng+West+Jakarta"
+                href={mapsHref(addressLines)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group flex gap-4 transition hover:text-white"

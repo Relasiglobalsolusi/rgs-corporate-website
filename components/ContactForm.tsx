@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { CmsContent } from "@/lib/cms";
+import { mapsHref, phoneHref } from "@/lib/contact-links";
 import {
   ArrowRight,
   CheckCircle2,
@@ -16,15 +17,6 @@ type FormStatus = "idle" | "loading" | "success" | "error";
 type Props = {
   contact: CmsContent["contact"];
 };
-
-function phoneHref(phone: string) {
-  return `tel:${phone.replace(/\s+/g, "")}`;
-}
-
-function mapsHref(addressLines: string[]) {
-  const query = encodeURIComponent(addressLines.join(" "));
-  return `https://www.google.com/maps/search/?api=1&query=${query}`;
-}
 
 export default function ContactForm({ contact }: Props) {
   const [status, setStatus] = useState<FormStatus>("idle");

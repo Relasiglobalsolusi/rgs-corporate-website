@@ -1,6 +1,7 @@
 import Image from "next/image";
 import type { CmsContent } from "@/lib/cms";
 import { resolveCmsImageUrl } from "@/lib/cms-images";
+import { phoneHref } from "@/lib/contact-links";
 import {
   ArrowRight,
   CheckCircle2,
@@ -10,10 +11,6 @@ import {
 } from "lucide-react";
 
 const badgeIcons = [ShieldCheck, Headphones, CheckCircle2];
-
-function phoneHref(phone: string) {
-  return `tel:${phone.replace(/\s+/g, "")}`;
-}
 
 type Props = {
   content: CmsContent["cta"];

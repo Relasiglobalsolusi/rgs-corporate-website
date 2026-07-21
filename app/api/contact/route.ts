@@ -9,6 +9,46 @@ function escapeHtml(value: unknown) {
     .replaceAll("'", "&#039;");
 }
 
+/** Strip CR/LF so user input cannot inject email headers. */
+function sanitizeHeaderValue(value: unknown, maxLength: number): string {
+  return String(value ?? "")
+    .replace(/[\r\n\0]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, maxLength);
+}
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+const FIELD_MAX = 200;
+const MESSAGE_MAX = 5000;
+const RATE_WINDOW_MS = 60_000;
+const RATE_MAX = 5;
+
+const rateBuckets = new Map<string, { count: number; resetAt: number }>();
+
+function clientIp(req: Request): string {
+  const forwarded = req.headers.get("x-forwarded-for");
+  if (forwarded) {
+    return forwarded.split(",")[0]?.trim() || "unknown";
+  }
+  return req.headers.get("x-real-ip")?.trim() || "unknown";
+}
+
+function allowRequest(ip: string): boolean {
+  const now = Date.now();
+  const bucket = rateBuckets.get(ip);
+  if (!bucket || now >= bucket.resetAt) {
+    rateBuckets.set(ip, { count: 1, resetAt: now + RATE_WINDOW_MS });
+    return true;
+  }
+  if (bucket.count >= RATE_MAX) {
+    return false;
+  }
+  bucket.count += 1;
+  return true;
+}
+
 const logoUrl = "https://rgs.co.id/images/logo.png";
 
 function getTransporter() {
@@ -31,11 +71,48 @@ function getTransporter() {
 
 export async function POST(req: Request) {
   try {
-    const { company, name, email, phone, service, message } = await req.json();
+    if (!allowRequest(clientIp(req))) {
+      return Response.json(
+        { success: false, error: "Too many requests. Please try again shortly." },
+        { status: 429 }
+      );
+    }
 
-    if (!name || !email || !phone || !message) {
+    let body: unknown;
+    try {
+      body = await req.json();
+    } catch {
+      return Response.json(
+        { success: false, error: "Invalid request body." },
+        { status: 400 }
+      );
+    }
+
+    const raw =
+      typeof body === "object" && body !== null
+        ? (body as Record<string, unknown>)
+        : {};
+
+    const company = sanitizeHeaderValue(raw.company, FIELD_MAX);
+    const name = sanitizeHeaderValue(raw.name, FIELD_MAX);
+    const email = sanitizeHeaderValue(raw.email, FIELD_MAX).toLowerCase();
+    const phone = sanitizeHeaderValue(raw.phone, FIELD_MAX);
+    const service = sanitizeHeaderValue(raw.service, FIELD_MAX);
+    const message = String(raw.message ?? "")
+      .replace(/\0/g, "")
+      .trim()
+      .slice(0, MESSAGE_MAX);
+
+    if (!company || !name || !email || !phone || !message) {
       return Response.json(
         { success: false, error: "Missing required fields" },
+        { status: 400 }
+      );
+    }
+
+    if (!EMAIL_RE.test(email) || email.includes(" ")) {
+      return Response.json(
+        { success: false, error: "Invalid email address." },
         { status: 400 }
       );
     }
@@ -45,14 +122,19 @@ export async function POST(req: Request) {
       process.env.CONTACT_TO?.trim() ||
       process.env.SMTP_USER ||
       "contact@rgs.co.id";
+    const fromAddress = `"Relasi Global Solusi" <${process.env.SMTP_USER}>`;
+    const subject = sanitizeHeaderValue(
+      `New Website Inquiry • ${company || name}`,
+      180
+    );
 
-    await Promise.all([
-      transporter.sendMail({
-        from: `"Relasi Global Solusi" <${process.env.SMTP_USER}>`,
-        to: inboxTo,
-        replyTo: email,
-        subject: `New Website Inquiry • ${company || name}`,
-        html: `
+    // Inbox delivery is required; confirmation to the visitor is best-effort.
+    await transporter.sendMail({
+      from: fromAddress,
+      to: inboxTo,
+      replyTo: email,
+      subject,
+      html: `
           <div style="margin:0;padding:0;background:#eef2f7;font-family:Arial,Helvetica,sans-serif;">
             <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#eef2f7;padding:36px 0;">
               <tr>
@@ -96,7 +178,7 @@ export async function POST(req: Request) {
             </table>
           </div>
         `,
-        text: `
+      text: `
 New Website Inquiry
 
 Company: ${company || "-"}
@@ -109,10 +191,11 @@ Message:
 
 ${message || "-"}
 `,
-      }),
+    });
 
-      transporter.sendMail({
-        from: `"Relasi Global Solusi" <${process.env.SMTP_USER}>`,
+    try {
+      await transporter.sendMail({
+        from: fromAddress,
         to: email,
         subject: "Thank You for Contacting Relasi Global Solusi",
         html: `
@@ -199,8 +282,10 @@ West Jakarta 11750
 +62 21 2295 2228
 https://rgs.co.id
 `,
-      }),
-    ]);
+      });
+    } catch (confirmError) {
+      console.error("[contact] Confirmation email failed:", confirmError);
+    }
 
     return Response.json({ success: true });
   } catch (error) {

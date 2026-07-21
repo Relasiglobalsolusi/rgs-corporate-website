@@ -154,6 +154,36 @@ const fallbackContent: CmsContent = {
   },
 };
 
+function isCmsContentShape(value: unknown): value is CmsContent {
+  if (!value || typeof value !== "object") return false;
+  const c = value as Record<string, unknown>;
+  return (
+    typeof c.hero === "object" &&
+    c.hero !== null &&
+    typeof c.services === "object" &&
+    c.services !== null &&
+    typeof c.contact === "object" &&
+    c.contact !== null &&
+    typeof c.meta === "object" &&
+    c.meta !== null
+  );
+}
+
+function parseCmsResponse(data: unknown): CmsResponse {
+  if (!data || typeof data !== "object") {
+    throw new Error("CMS response is not an object");
+  }
+  const raw = data as Record<string, unknown>;
+  if (!isCmsContentShape(raw.content)) {
+    throw new Error("CMS response missing required content shape");
+  }
+  return {
+    published: Boolean(raw.published),
+    updatedAt: typeof raw.updatedAt === "string" ? raw.updatedAt : null,
+    content: raw.content,
+  };
+}
+
 export async function fetchWebsiteContent(): Promise<CmsResponse> {
   const cmsUrl =
     process.env.NEXT_PUBLIC_CMS_URL?.trim() ||
@@ -174,7 +204,7 @@ export async function fetchWebsiteContent(): Promise<CmsResponse> {
       throw new Error(`CMS fetch failed: ${res.status}`);
     }
 
-    return (await res.json()) as CmsResponse;
+    return parseCmsResponse(await res.json());
   } catch (error) {
     console.error("[CMS] Failed to fetch website content:", error);
     return {
