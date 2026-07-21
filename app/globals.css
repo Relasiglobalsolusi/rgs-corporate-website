@@ -49,19 +49,45 @@ button {
    * Fixed floating nav chrome height (gutter + bar padding + logo/CTA row).
    * Sized to the tall unscrolled xl/2xl bar so short viewports keep clearance.
    */
-  --nav-chrome-height: clamp(7.25rem, 12vw + 4.5rem, 11rem);
+  --nav-chrome-height: clamp(7.5rem, 11vw + 5rem, 12rem);
   /* Visible gap between nav bottom and hero content (RGS ONE card, etc.) */
-  --hero-nav-gap: 1.5rem;
+  --hero-nav-gap: 2rem;
   /* Fixed navbar clearance for hero + anchor scroll */
   --scroll-offset: calc(var(--nav-chrome-height) + 0.5rem);
+  /* Always applied — centering must never pull content under the nav */
   --hero-pad-top: calc(var(--nav-chrome-height) + var(--hero-nav-gap));
 }
 
 @media (min-width: 1280px) {
   :root {
     /* Desktop nav: larger logo + py-4/5 + Portal CTA */
-    --nav-chrome-height: 11rem;
-    --hero-nav-gap: 1.5rem;
+    --nav-chrome-height: 12rem;
+    --hero-nav-gap: 2rem;
+  }
+}
+
+/*
+ * Hero shell: always clear the fixed nav via padding-top.
+ * Short viewports stay top-aligned (scroll rather than overlap).
+ * Tall + xl viewports re-enable vertical centering; pure CSS so
+ * short→tall / tall→short resize recovers automatically.
+ */
+.hero-shell {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  min-height: 100svh;
+  padding-top: var(--hero-pad-top);
+  padding-bottom: 3.5rem;
+}
+
+@media (min-width: 1280px) and (min-height: 900px) {
+  .hero-shell {
+    justify-content: center;
+  }
+
+  .hero-shell .hero-grid {
+    align-items: center;
   }
 }
 
