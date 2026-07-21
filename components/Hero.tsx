@@ -55,16 +55,16 @@ function RgsOnePanel() {
 
         {/*
           Lockup matches ERP login (/login): left accent rule + all-caps
-          wide-tracked tagline. Line + text are one centered group
-          (justify-center); rule uses ERP-style w-12 scale so it reads
-          balanced with the centered slogan, not a short stub.
+          tagline. Keep on one line (whitespace-nowrap); scale down size/
+          tracking on narrow card widths so overflow-hidden on the panel
+          cannot clip "VISIBILITY".
         */}
-        <div className="mt-5 flex w-full min-w-0 max-w-full items-center justify-center gap-3 sm:gap-4">
+        <div className="mt-5 flex w-full items-center justify-center gap-2 overflow-visible px-0.5 sm:gap-3">
           <span
-            className="h-px w-10 shrink-0 bg-gradient-to-r from-cyan-400 to-blue-500 sm:w-12 md:w-14"
+            className="h-px w-6 shrink-0 bg-gradient-to-r from-cyan-400 to-blue-500 sm:w-10 md:w-12"
             aria-hidden
           />
-          <span className="min-w-0 max-w-full text-center text-[10px] font-medium uppercase leading-snug tracking-[0.18em] text-slate-400 sm:text-[11px] sm:tracking-[0.24em] lg:tracking-[0.3em]">
+          <span className="shrink-0 whitespace-nowrap text-center text-[8px] font-medium uppercase leading-none tracking-[0.08em] text-slate-400 min-[360px]:text-[9px] min-[360px]:tracking-[0.1em] min-[400px]:text-[10px] min-[400px]:tracking-[0.12em] sm:text-[11px] sm:tracking-[0.14em] lg:tracking-[0.16em]">
             One Platform. Complete Visibility.
           </span>
         </div>
