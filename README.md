@@ -1,45 +1,36 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# RGS Corporate Website — PT Relasi Global Solusi
 
-## Getting Started
+Next.js site for **https://rgs.co.id** (Vercel).
 
-First, run the development server:
+RGS ONE ERP lives separately at **https://one.rgs.co.id** (RumahWeb VPS).
+
+## Local development
 
 ```bash
+npm install
+cp .env.example .env.local
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3001](http://localhost:3001).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+ERP (optional, for CMS content) runs on [http://localhost:3000](http://localhost:3000).
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Environment
 
-## Learn More
+See `.env.example`:
 
-To learn more about Next.js, take a look at the following resources:
+| Variable | Purpose |
+|----------|---------|
+| `NEXT_PUBLIC_CMS_URL` | ERP CMS API (`https://one.rgs.co.id/api/website/content`) |
+| `NEXT_PUBLIC_PORTAL_URL` | Login button (`https://one.rgs.co.id/login`) |
+| `SMTP_*` | Contact form mail |
+| `CONTACT_TO` | Inbox for inquiries (defaults to `SMTP_USER`) |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Production
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Host: **Vercel** (GitHub `main` auto-deploys)
+- Domain: `rgs.co.id`
+- Login / CMS: `one.rgs.co.id` (ERP on RumahWeb VPS + local Postgres)
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-
-
-## Deploy (Rumahweb VPS)
-
-This site is meant to run on the same VPS as RGS ONE ERP (not Vercel).
-
-- Domain: `rgs.co.id` (PM2 `rgs-website`, port **3001**)
-- Env: copy `.env.example` → `.env.local` (CMS URL, portal URL, SMTP)
-- Full dual-app install: see `rgs-system/scripts/deploy-rumahweb.sh` and the ERP README Deploy section
+Do **not** point portal/CMS URLs at `app.rgs.co.id`.

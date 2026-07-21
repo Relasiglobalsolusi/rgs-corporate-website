@@ -41,11 +41,16 @@ export async function POST(req: Request) {
     }
 
     const transporter = getTransporter();
+    const inboxTo =
+      process.env.CONTACT_TO?.trim() ||
+      process.env.SMTP_USER ||
+      "contact@rgs.co.id";
 
     await Promise.all([
       transporter.sendMail({
         from: `"Relasi Global Solusi" <${process.env.SMTP_USER}>`,
-        to: process.env.SMTP_USER,
+        to: inboxTo,
+        replyTo: email,
         subject: `New Website Inquiry • ${company || name}`,
         html: `
           <div style="margin:0;padding:0;background:#eef2f7;font-family:Arial,Helvetica,sans-serif;">

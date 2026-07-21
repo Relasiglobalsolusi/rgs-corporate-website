@@ -155,15 +155,9 @@ const fallbackContent: CmsContent = {
 };
 
 export async function fetchWebsiteContent(): Promise<CmsResponse> {
-  const cmsUrl = process.env.NEXT_PUBLIC_CMS_URL;
-
-  if (!cmsUrl) {
-    return {
-      published: false,
-      updatedAt: null,
-      content: fallbackContent,
-    };
-  }
+  const cmsUrl =
+    process.env.NEXT_PUBLIC_CMS_URL?.trim() ||
+    "https://one.rgs.co.id/api/website/content";
 
   try {
     const headers: HeadersInit = {};

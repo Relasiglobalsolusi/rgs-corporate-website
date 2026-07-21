@@ -1,10 +1,12 @@
-function getCmsAssetBaseUrl(): string | null {
+const DEFAULT_CMS_ORIGIN = "https://one.rgs.co.id";
+
+function getCmsAssetBaseUrl(): string {
   const cmsUrl = process.env.NEXT_PUBLIC_CMS_URL?.trim();
   if (!cmsUrl) {
-    return null;
+    return DEFAULT_CMS_ORIGIN;
   }
 
-  return cmsUrl.replace(/\/api\/website\/content\/?$/, "");
+  return cmsUrl.replace(/\/api\/website\/content\/?$/, "") || DEFAULT_CMS_ORIGIN;
 }
 
 export function resolveCmsImageUrl(
@@ -18,10 +20,7 @@ export function resolveCmsImageUrl(
   }
 
   if (value.startsWith("/uploads/")) {
-    const base = getCmsAssetBaseUrl();
-    if (base) {
-      return `${base}${value}`;
-    }
+    return `${getCmsAssetBaseUrl()}${value}`;
   }
 
   return value;
@@ -45,7 +44,8 @@ export function cmsImageRemotePatterns() {
   if (cmsUrl) {
     try {
       const parsed = new URL(cmsUrl);
-      if (parsed.hostname === "localhost" || parsed.hostname === "127.0.0.1") {
+      const alreadyListed = patterns.some((p) => p.hostname === parsed.hostname);
+      if (!alreadyListed) {
         patterns.push({
           protocol: parsed.protocol.replace(":", "") as "http" | "https",
           hostname: parsed.hostname,
