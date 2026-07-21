@@ -36,7 +36,7 @@ export function cmsImageRemotePatterns() {
   }> = [
     {
       protocol: "https",
-      hostname: "app.rgs.co.id",
+      hostname: "one.rgs.co.id",
       pathname: "/uploads/**",
     },
   ];
