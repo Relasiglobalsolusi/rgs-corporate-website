@@ -58,7 +58,8 @@ const clients = [
   { name: "ERHA", logo: "images/clients/erha.png" },
   { name: "First Filled", logo: "images/clients/first-filled.png" },
   { name: "FTL", logo: "images/clients/ftl.png" },
-  { name: "Gitalaras", logo: "images/clients/gitalaras.png" },
+  // Light wordmark on white cards — invert like the website Clients section
+  { name: "Gitalaras", logo: "images/clients/gitalaras.png", darken: true },
   { name: "Haidilao", logo: "images/clients/haidilao.png" },
   { name: "Hana Bank", logo: "images/clients/hana-bank.png" },
   { name: "Hokkaido Ya", logo: "images/clients/hokkaido-ya.png" },
@@ -180,8 +181,7 @@ const clientCards = clients
   .map(
     (c) => `
     <div class="client-card">
-      <img src="${assetUrl(c.logo)}" alt="${c.name}" />
-      <span>${c.name}</span>
+      <img src="${assetUrl(c.logo)}" alt="${c.name}"${c.darken ? ' class="logo-dark"' : ""} />
     </div>`
   )
   .join("");
@@ -547,7 +547,7 @@ const html = `<!DOCTYPE html>
       line-height: 1.5;
     }
 
-    /* Clients — white cards so logos stay readable on dark page */
+    /* Clients — logo-only white cards (match website Clients section) */
     .clients-intro { margin-bottom: 12px; }
     .client-grid {
       display: grid;
@@ -558,31 +558,27 @@ const html = `<!DOCTYPE html>
       border: 1px solid #e2e8f0;
       border-radius: 10px;
       background: #fff;
-      padding: 8px 6px 6px;
+      padding: 6px 4px;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
-      min-height: 72px;
+      min-height: 78px;
     }
     .page-dark .client-card {
       border-color: rgba(255,255,255,0.08);
       box-shadow: 0 1px 0 rgba(255,255,255,0.04);
     }
     .client-card img {
-      max-width: 90%;
-      max-height: 36px;
+      max-width: 92%;
+      max-height: 52px;
       width: auto;
       height: auto;
       object-fit: contain;
     }
-    .client-card span {
-      margin-top: 5px;
-      font-size: 7.5px;
-      font-weight: 700;
-      color: #64748b;
-      text-align: center;
-      line-height: 1.2;
+    /* Light logos (e.g. Gitalaras white-on-transparent) → solid black */
+    .client-card img.logo-dark {
+      filter: brightness(0);
+      max-height: 44px;
     }
     .clients-note {
       margin-top: 14px;
