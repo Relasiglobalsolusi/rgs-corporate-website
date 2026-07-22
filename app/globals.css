@@ -167,9 +167,12 @@ button {
   color: #5eead4;
 }
 
-/* Give slash stats (e.g. 24/7) room so / and 7 do not collide */
+/* Even gaps across slash stats (2 · 4 · / · 7) */
 .hero-stat-value--slash {
-  letter-spacing: 0.06em;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.12em;
+  letter-spacing: 0;
 }
 
 .hero-stat-label {

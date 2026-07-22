@@ -274,12 +274,14 @@ export default function Hero({ content }: Props) {
                     <div
                       className={`hero-stat-value text-3xl font-semibold sm:text-4xl md:text-5xl ${
                         stat.value.includes("/")
-                          ? "hero-stat-value--slash tracking-normal"
+                          ? "hero-stat-value--slash"
                           : "tracking-tight"
                       }`}
                     >
                       {stat.value.includes("/")
-                        ? stat.value.replace("/", "/\u2009")
+                        ? Array.from(stat.value).map((char, i) => (
+                            <span key={`${stat.label}-${i}`}>{char}</span>
+                          ))
                         : stat.value}
                     </div>
 
