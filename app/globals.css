@@ -60,7 +60,7 @@ button {
   --scroll-offset: calc(var(--nav-chrome-height) + 0.5rem);
   /* Always applied — centering must never pull content under the nav */
   --hero-pad-top: calc(var(--nav-chrome-height) + var(--hero-nav-gap));
-  /* Internal gap between the feature grid and the stats bar */
+  /* Internal gap between the feature grid, profile CTA, and the stats bar */
   --hero-group-gap: clamp(1.25rem, 3vh, 2rem);
 }
 
@@ -73,7 +73,7 @@ button {
 
 /*
  * Hero shell: nav clearance → flex-1 stage that centers one composition.
- * Composition = (headline/CTAs | RGS ONE) + stats, with a fixed internal gap.
+ * Composition = (headline/CTAs | RGS ONE) + profile CTA + stats, with a fixed internal gap.
  * Grow past 100svh when the group is taller than the viewport so the card
  * never overlaps the stats. Do NOT overflow:hidden the full hero (scroll trap).
  */
@@ -103,7 +103,7 @@ button {
   overflow: visible;
 }
 
-/* Single composition: grid + stats — does not stretch to fill the stage */
+/* Single composition: grid + profile CTA + stats — does not stretch to fill the stage */
 .hero-group {
   display: flex;
   width: 100%;
@@ -112,11 +112,24 @@ button {
   gap: var(--hero-group-gap);
 }
 
+.hero-profile-cta-wrap {
+  flex: 0 0 auto;
+  position: relative;
+  /* Sit in the natural group gap; no extra card chrome */
+  margin-top: 0.15rem;
+  margin-bottom: 0.15rem;
+}
+
+.hero-profile-cta {
+  max-width: 42rem;
+  margin-inline: auto;
+}
+
 .hero-stats-wrap {
   flex: 0 0 auto;
   position: relative;
   /* Nudge stats bar down slightly; keep RGS ONE panel transform untouched */
-  margin-top: 1rem;
+  margin-top: 0.75rem;
 }
 
 .hero-stats {

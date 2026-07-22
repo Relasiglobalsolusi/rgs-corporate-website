@@ -9,9 +9,12 @@ import {
   BarChart3,
   CheckCircle2,
   ClipboardList,
+  Download,
   LogIn,
   TrendingUp,
 } from "lucide-react";
+
+const COMPANY_PROFILE_PDF = "/RGS-Company-Profile.pdf";
 
 type Props = {
   content: CmsContent["hero"];
@@ -243,6 +246,38 @@ export default function Hero({ content }: Props) {
                 <RgsOnePanel />
               </FadeIn>
             </div>
+
+            {/*
+              Bridges headline/RGS ONE and the stats bar — same composition,
+              not a separate card. Direct PDF for clients.
+            */}
+            <FadeIn delay={0.18} className="hero-profile-cta-wrap w-full shrink-0">
+              <div className="hero-profile-cta flex w-full items-center justify-center gap-3 sm:gap-5">
+                <span
+                  className="hidden h-px min-w-8 flex-1 bg-gradient-to-r from-transparent via-teal-400/40 to-teal-400/70 sm:block"
+                  aria-hidden
+                />
+                <a
+                  href={COMPANY_PROFILE_PDF}
+                  download="RGS-Company-Profile.pdf"
+                  className="group inline-flex shrink-0 items-center justify-center gap-2.5 rounded-full border border-white/15 bg-white/[0.08] px-5 py-3 text-sm font-semibold tracking-tight text-white shadow-lg shadow-black/15 backdrop-blur-xl transition-all duration-300 hover:-translate-y-0.5 hover:border-teal-300/40 hover:bg-white/[0.12] hover:text-teal-100 sm:px-6 sm:py-3.5 sm:text-[0.9375rem]"
+                >
+                  <Download
+                    size={17}
+                    className="shrink-0 text-teal-300 transition duration-300 group-hover:text-teal-200"
+                    aria-hidden
+                  />
+                  <span>Download Company Profile</span>
+                  <span className="rounded-md border border-white/10 bg-white/[0.06] px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.14em] text-slate-300 transition group-hover:border-teal-400/30 group-hover:text-teal-200 sm:text-[11px]">
+                    PDF
+                  </span>
+                </a>
+                <span
+                  className="hidden h-px min-w-8 flex-1 bg-gradient-to-l from-transparent via-teal-400/40 to-teal-400/70 sm:block"
+                  aria-hidden
+                />
+              </div>
+            </FadeIn>
 
             <FadeIn delay={0.25} className="hero-stats-wrap w-full shrink-0">
               <div className="hero-stats grid max-w-full overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/[0.07] shadow-2xl shadow-black/20 backdrop-blur-2xl sm:grid-cols-3 sm:rounded-[2rem]">
