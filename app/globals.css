@@ -103,26 +103,13 @@ button {
   overflow: visible;
 }
 
-/* Single composition: grid + profile CTA + stats — does not stretch to fill the stage */
+/* Single composition: grid + stats — does not stretch to fill the stage */
 .hero-group {
   display: flex;
   width: 100%;
   flex: 0 0 auto;
   flex-direction: column;
   gap: var(--hero-group-gap);
-}
-
-.hero-profile-cta-wrap {
-  flex: 0 0 auto;
-  position: relative;
-  /* Sit in the natural group gap; no extra card chrome */
-  margin-top: 0.15rem;
-  margin-bottom: 0.15rem;
-}
-
-.hero-profile-cta {
-  max-width: 42rem;
-  margin-inline: auto;
 }
 
 .hero-stats-wrap {

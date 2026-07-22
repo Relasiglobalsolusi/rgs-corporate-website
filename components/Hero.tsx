@@ -220,23 +220,38 @@ export default function Hero({ content }: Props) {
                     ))}
                   </div>
 
-                  <div className="mt-6 grid gap-2.5 sm:flex sm:flex-row">
-                    <a
-                      href="#contact"
-                      className="hero-cta-label group inline-flex items-center justify-center gap-2.5 rounded-full bg-white px-6 py-3.5 text-slate-950 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:bg-slate-100 hover:shadow-md sm:px-7 sm:py-4"
-                    >
-                      {content.ctaPrimary}
-                      <ArrowRight
-                        size={17}
-                        className="transition duration-300 group-hover:translate-x-1"
-                      />
-                    </a>
+                  {/*
+                    CTA stack: primary + secondary side-by-side, then download
+                    spans the full width of that two-button row (incl. gap).
+                  */}
+                  <div className="mt-6 inline-flex w-full max-w-full flex-col gap-2.5 sm:w-auto">
+                    <div className="grid gap-2.5 sm:flex sm:flex-row">
+                      <a
+                        href="#contact"
+                        className="hero-cta-label group inline-flex items-center justify-center gap-2.5 rounded-full bg-white px-6 py-3.5 text-slate-950 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:bg-slate-100 hover:shadow-md sm:px-7 sm:py-4"
+                      >
+                        {content.ctaPrimary}
+                        <ArrowRight
+                          size={17}
+                          className="transition duration-300 group-hover:translate-x-1"
+                        />
+                      </a>
+
+                      <a
+                        href="#services"
+                        className="hero-cta-label inline-flex items-center justify-center gap-2.5 rounded-full border border-white/15 bg-white/[0.07] px-6 py-3.5 text-white shadow-xl shadow-black/10 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:bg-white/12 hover:text-teal-200 sm:px-7 sm:py-4"
+                      >
+                        {content.ctaSecondary}
+                      </a>
+                    </div>
 
                     <a
-                      href="#services"
-                      className="hero-cta-label inline-flex items-center justify-center gap-2.5 rounded-full border border-white/15 bg-white/[0.07] px-6 py-3.5 text-white shadow-xl shadow-black/10 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:bg-white/12 hover:text-teal-200 sm:px-7 sm:py-4"
+                      href={COMPANY_PROFILE_PDF}
+                      download="RGS-Company-Profile.pdf"
+                      className="hero-cta-label group inline-flex w-full items-center justify-center gap-2.5 rounded-full bg-white px-6 py-3.5 text-slate-950 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:bg-slate-100 hover:shadow-md sm:px-7 sm:py-4"
                     >
-                      {content.ctaSecondary}
+                      <Download size={17} className="shrink-0" aria-hidden />
+                      Download Company Profile
                     </a>
                   </div>
                 </div>
@@ -246,23 +261,6 @@ export default function Hero({ content }: Props) {
                 <RgsOnePanel />
               </FadeIn>
             </div>
-
-            {/*
-              Bridges headline/RGS ONE and the stats bar — same composition,
-              not a separate card. Direct PDF for clients.
-            */}
-            <FadeIn delay={0.18} className="hero-profile-cta-wrap w-full shrink-0">
-              <div className="hero-profile-cta flex w-full items-center justify-center">
-                <a
-                  href={COMPANY_PROFILE_PDF}
-                  download="RGS-Company-Profile.pdf"
-                  className="hero-cta-label group inline-flex items-center justify-center gap-2.5 rounded-full bg-white px-6 py-3.5 text-slate-950 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:bg-slate-100 hover:shadow-md sm:px-7 sm:py-4"
-                >
-                  <Download size={17} className="shrink-0" aria-hidden />
-                  Download Company Profile
-                </a>
-              </div>
-            </FadeIn>
 
             <FadeIn delay={0.25} className="hero-stats-wrap w-full shrink-0">
               <div className="hero-stats grid max-w-full overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/[0.07] shadow-2xl shadow-black/20 backdrop-blur-2xl sm:grid-cols-3 sm:rounded-[2rem]">
