@@ -10,6 +10,7 @@ const quickLinks = [
   { label: "Industries", href: "#industries" },
   { label: "Clients", href: "#clients" },
   { label: "RGS ONE", href: "#rgs-one" },
+  { label: "Company Profile", href: "/company-profile" },
   { label: "Contact", href: "#contact" },
 ];
 
