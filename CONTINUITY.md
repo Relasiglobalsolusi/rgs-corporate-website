@@ -7,7 +7,7 @@
 
 ## One-sentence product
 
-Public marketing site for **PT Relasi Global Solusi** at **https://rgs.co.id**, with Login / CMS wired to the ERP at **https://one.rgs.co.id**.
+Public marketing site for **PT Relasi Global Solusi** at **https://www.rgs.co.id**, with Login / CMS wired to the ERP at **https://one.rgs.co.id**.
 
 ---
 
@@ -15,11 +15,11 @@ Public marketing site for **PT Relasi Global Solusi** at **https://rgs.co.id**, 
 
 | Item | Value |
 |------|--------|
-| URL | **https://rgs.co.id** (+ **www**) |
+| URL | **https://www.rgs.co.id** (apex `rgs.co.id` → 301 to www) |
 | Host | **Same RumahWeb VPS** as ERP (`103.253.213.233`) |
 | Path | `/var/www/rgs-corporate-website` |
 | PM2 | **`rgs-website`**, `PORT=3001` |
-| Nginx | proxies `rgs.co.id` / `www` → `127.0.0.1:3001` |
+| Nginx | `www.rgs.co.id` → `127.0.0.1:3001`; apex redirects to www |
 | Code | `https://github.com/Relasiglobalsolusi/rgs-corporate-website.git` (`main`) |
 
 ### Not used in production anymore

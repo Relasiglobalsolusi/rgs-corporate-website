@@ -1,6 +1,6 @@
 # RGS Corporate Website — PT Relasi Global Solusi
 
-Next.js site for **https://rgs.co.id** (RumahWeb VPS, PM2 on port 3001).
+Next.js site for **https://www.rgs.co.id** (RumahWeb VPS, PM2 on port 3001). Apex `rgs.co.id` redirects to www.
 
 RGS ONE ERP lives separately at **https://one.rgs.co.id** (same VPS, port 3000).
 
@@ -30,7 +30,7 @@ See `.env.example`:
 ## Production
 
 - Host: **RumahWeb VPS** (`/var/www/rgs-corporate-website`, PM2 `rgs-website`, Nginx → `127.0.0.1:3001`)
-- Domain: `rgs.co.id` (+ `www`)
+- Canonical domain: `www.rgs.co.id` (apex `rgs.co.id` → 301 to www)
 - Login / CMS: `one.rgs.co.id` (ERP on same VPS)
 
 Do **not** point portal/CMS URLs at `app.rgs.co.id`.
