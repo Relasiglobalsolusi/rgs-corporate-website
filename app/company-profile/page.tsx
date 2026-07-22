@@ -6,13 +6,12 @@ const PDF_HREF = "/RGS-Company-Profile.pdf";
 
 const sections = [
   "Cover",
-  "About Us",
+  "About Us · RGS ONE",
   "Our Services",
   "Industries Served",
   "Why Choose Us",
   "At a Glance",
   "Featured Clients",
-  "RGS ONE Platform",
   "Contact",
 ] as const;
 

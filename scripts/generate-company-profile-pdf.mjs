@@ -370,13 +370,13 @@ const html = `<!DOCTYPE html>
     .about-grid {
       display: grid;
       grid-template-columns: 1.2fr 0.8fr;
-      gap: 16px;
-      margin-top: 8px;
+      gap: 14px;
+      margin-top: 6px;
     }
     .panel {
       border: 1px solid #e2e8f0;
       border-radius: 16px;
-      padding: 16px;
+      padding: 14px 16px;
       background: #f8fafc;
     }
     .panel.dark {
@@ -390,7 +390,13 @@ const html = `<!DOCTYPE html>
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
-      margin-top: 14px;
+      margin-top: 12px;
+    }
+    .about-rgsone {
+      margin-top: 18px;
+    }
+    .about-rgsone h2 {
+      font-size: 22px;
     }
     .chip {
       padding: 7px 11px;
@@ -533,27 +539,31 @@ const html = `<!DOCTYPE html>
       text-align: center;
     }
 
-    /* RGS ONE */
+    /* RGS ONE (folded into About) */
     .rgsone-wrap {
       display: grid;
-      grid-template-columns: 0.9fr 1.1fr;
-      gap: 16px;
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 12px;
       margin-top: 8px;
-      align-items: center;
+      align-items: stretch;
     }
     .rgsone-panel {
-      border-radius: 18px;
+      border-radius: 16px;
       background: #020617;
       border: 1px solid #1e293b;
-      padding: 22px 18px;
+      padding: 18px 14px;
       text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
     .rgsone-panel img {
-      width: 160px;
+      width: 140px;
       height: auto;
+      margin: 0 auto;
     }
     .rgsone-tag {
-      margin-top: 14px;
+      margin-top: 12px;
       font-size: 9px;
       font-weight: 700;
       letter-spacing: 0.16em;
@@ -564,8 +574,8 @@ const html = `<!DOCTYPE html>
       margin: 0;
       padding: 0 0 0 18px;
       color: #334155;
-      font-size: 12px;
-      line-height: 1.8;
+      font-size: 11.5px;
+      line-height: 1.7;
     }
 
     /* Contact */
@@ -630,7 +640,7 @@ const html = `<!DOCTYPE html>
     </div>
   </section>
 
-  <!-- 2. About -->
+  <!-- 2. About (+ RGS ONE) -->
   <section class="page">
     <div class="page-inner">
       <p class="eyebrow">About Us</p>
@@ -642,7 +652,7 @@ const html = `<!DOCTYPE html>
             Relasi Global Solusi delivers professional cleaning, security, parking management,
             and integrated facility support for businesses that require dependable daily operations.
           </p>
-          <p class="lede" style="margin-top:14px">
+          <p class="lede" style="margin-top:12px">
             RGS provides essential facility services that help businesses maintain cleaner, safer,
             and more efficient environments every day.
           </p>
@@ -662,6 +672,29 @@ const html = `<!DOCTYPE html>
           </p>
         </div>
       </div>
+
+      <div class="about-rgsone">
+        <p class="eyebrow">RGS ONE Platform</p>
+        <h2>One Platform. Complete Visibility.</h2>
+        <hr class="divider" />
+        <div class="rgsone-wrap">
+          <div class="rgsone-panel">
+            <img src="${rgsOneUrl}" alt="RGS ONE" />
+            <p class="rgsone-tag">Track · Report · Monitor</p>
+          </div>
+          <div>
+            <p class="lede" style="margin-top:0">
+              Real-time project visibility, client portal access, and transparent reporting in one portal.
+            </p>
+            <ul class="rgsone-list" style="margin-top:10px">${erpItems}</ul>
+            <p class="lede" style="margin-top:12px">
+              Clients can access operational insight through the RGS ONE Client Portal at
+              <strong>one.rgs.co.id</strong>.
+            </p>
+          </div>
+        </div>
+      </div>
+
       <div class="footer-meta">
         <span>PT Relasi Global Solusi</span>
         <span>Company Profile · ${year}</span>
@@ -760,36 +793,7 @@ const html = `<!DOCTYPE html>
     </div>
   </section>
 
-  <!-- 7. RGS ONE -->
-  <section class="page">
-    <div class="page-inner">
-      <p class="eyebrow">RGS ONE Platform</p>
-      <h2>One Platform. Complete Visibility.</h2>
-      <hr class="divider" />
-      <div class="rgsone-wrap">
-        <div class="rgsone-panel">
-          <img src="${rgsOneUrl}" alt="RGS ONE" />
-          <p class="rgsone-tag">Track · Report · Monitor</p>
-        </div>
-        <div>
-          <p class="lede" style="margin-top:0">
-            Real-time project visibility, client portal access, and transparent reporting in one portal.
-          </p>
-          <ul class="rgsone-list" style="margin-top:14px">${erpItems}</ul>
-          <p class="lede" style="margin-top:16px">
-            Clients can access operational insight through the RGS ONE Client Portal at
-            <strong>one.rgs.co.id</strong>.
-          </p>
-        </div>
-      </div>
-      <div class="footer-meta">
-        <span>PT Relasi Global Solusi</span>
-        <span>Company Profile · ${year}</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- 8. Contact -->
+  <!-- 7. Contact -->
   <section class="page">
     <div class="page-inner">
       <p class="eyebrow">Contact</p>
