@@ -7,7 +7,7 @@
  *
  * Page color zigzag (website-style):
  * 1 Cover dark → 2 About white → 3 Services dark →
- * 4 Industries/Why white → 5 Clients dark → 6 Contact white
+ * 4 Industries/Why white → 5 Clients dark → 6 Contact white + navy closing footer
  */
 
 import fs from "node:fs";
@@ -669,12 +669,19 @@ const html = `<!DOCTYPE html>
       text-transform: uppercase;
     }
 
-    /* Contact — end-of-document closing footer */
+    /* Contact — white body + full-bleed navy closing footer (cover brand dark) */
+    .page-contact {
+      padding-bottom: 0;
+    }
     .closing-footer {
       flex-shrink: 0;
       margin-top: 18px;
-      padding-top: 16px;
-      border-top: 1px solid #e2e8f0;
+      margin-left: -16mm;
+      margin-right: -16mm;
+      padding: 22px 16mm 20px;
+      border-top: 1px solid rgba(148, 163, 184, 0.35);
+      background: #020617;
+      color: #fff;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -700,14 +707,14 @@ const html = `<!DOCTYPE html>
       font-size: 11px;
       font-weight: 800;
       letter-spacing: 0.04em;
-      color: #0f172a;
+      color: #fff;
     }
     .closing-web {
       margin: 2px 0 0;
       font-size: 10px;
       font-weight: 600;
       letter-spacing: 0.08em;
-      color: #14b8a6;
+      color: #5eead4;
     }
     .closing-copy {
       margin: 4px 0 0;
@@ -889,8 +896,8 @@ const html = `<!DOCTYPE html>
     </div>
   </section>
 
-  <!-- 6. Contact — white -->
-  <section class="page">
+  <!-- 6. Contact — white body + navy closing footer -->
+  <section class="page page-contact">
     <div class="page-inner">
       <div class="page-body">
         <p class="eyebrow">Contact</p>
@@ -994,7 +1001,7 @@ async function main() {
     console.log(`Clients embedded: ${clients.length}`);
     console.log(`Images verified: ${imageCheck.total}/${imageCheck.total}`);
     console.log(
-      "Page colors: 1 Cover dark · 2 About white · 3 Services dark · 4 Industries/Why white · 5 Clients dark · 6 Contact white"
+      "Page colors: 1 Cover dark · 2 About white · 3 Services dark · 4 Industries/Why white · 5 Clients dark · 6 Contact white + navy footer"
     );
   } finally {
     await browser.close();
