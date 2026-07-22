@@ -21,6 +21,8 @@ Public marketing site for **PT Relasi Global Solusi** at **https://www.rgs.co.id
 | PM2 | **`rgs-website`**, `PORT=3001` |
 | Nginx | `www.rgs.co.id` → `127.0.0.1:3001`; apex redirects to www |
 | Code | `https://github.com/Relasiglobalsolusi/rgs-corporate-website.git` (`main`) |
+| Company profile PDF | **https://www.rgs.co.id/RGS-Company-Profile.pdf** (also `/company-profile` page) |
+| Regenerate PDF | `npm run generate:company-profile-pdf` → `scripts/generate-company-profile-pdf.mjs` → `public/RGS-Company-Profile.pdf` |
 
 ### Not used in production anymore
 
