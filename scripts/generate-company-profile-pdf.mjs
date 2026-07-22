@@ -627,80 +627,154 @@ const html = `<!DOCTYPE html>
       line-height: 1.55;
     }
 
-    /* Contact */
-    .contact-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      margin-top: 14px;
-    }
-    .contact-card h3 { margin-bottom: 10px; }
-    .contact-card p, .contact-card a {
-      display: block;
-      color: #334155;
-      font-size: 12px;
-      line-height: 1.7;
-      text-decoration: none;
-      font-weight: 600;
-    }
-    .cta-box {
-      margin-top: 18px;
-      border-radius: 16px;
-      padding: 20px;
-      background: linear-gradient(135deg, #020617, #0f172a);
-      color: #fff;
-    }
-    .cta-box h3 { color: #fff; font-size: 18px; margin-bottom: 8px; }
-    .cta-box p { color: #cbd5e1; }
-    .cta-actions {
-      margin-top: 14px;
+    /* Contact — open typography (no bordered twin cards) */
+    .contact-flow {
+      margin-top: 22px;
       display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
+      flex-direction: column;
+      gap: 22px;
     }
-    .cta-chip {
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: #fff;
-      color: #020617;
-      font-size: 10px;
+    .contact-details {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 28px 36px;
+      align-items: start;
+    }
+    .contact-block {
+      position: relative;
+      padding-left: 14px;
+    }
+    .contact-block::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 2px;
+      bottom: 2px;
+      width: 2px;
+      border-radius: 1px;
+      background: linear-gradient(180deg, #14b8a6, #0ea5e9);
+      opacity: 0.85;
+    }
+    .contact-label {
+      margin: 0 0 8px;
+      font-size: 9px;
       font-weight: 800;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.22em;
       text-transform: uppercase;
+      color: #0d9488;
+    }
+    .contact-line {
+      display: block;
+      color: #0f172a;
+      font-size: 13px;
+      line-height: 1.65;
+      text-decoration: none;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+    .contact-line + .contact-line { margin-top: 4px; }
+    .contact-address {
+      margin-top: 10px;
+      color: #475569;
+      font-size: 11.5px;
+      line-height: 1.65;
+      font-weight: 500;
+    }
+    .contact-note {
+      margin-top: 10px;
+      color: #64748b;
+      font-size: 11px;
+      line-height: 1.55;
+      font-weight: 500;
+    }
+    .contact-cta {
+      margin-top: 4px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(148, 163, 184, 0.28);
+    }
+    .contact-cta h3 {
+      font-size: 17px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: #020617;
+      margin-bottom: 6px;
+    }
+    .contact-cta p {
+      max-width: 140mm;
+      color: #64748b;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+    .contact-cta-links {
+      margin-top: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 18px;
+      align-items: center;
+    }
+    .contact-cta-links a {
+      color: #0f766e;
+      font-size: 12px;
+      font-weight: 800;
+      text-decoration: none;
+      letter-spacing: 0.01em;
+      border-bottom: 1.5px solid rgba(20, 184, 166, 0.45);
+      padding-bottom: 1px;
     }
 
     /* Contact — white body + full-bleed navy closing footer (cover brand dark) */
     .page-contact {
       padding-bottom: 0;
     }
+    .page-contact .page-body {
+      justify-content: flex-start;
+      padding-top: 6px;
+    }
     .closing-footer {
+      position: relative;
       flex-shrink: 0;
-      margin-top: 18px;
+      margin-top: auto;
       margin-left: -16mm;
       margin-right: -16mm;
-      padding: 22px 16mm 20px;
-      border-top: 1px solid rgba(148, 163, 184, 0.35);
-      background: #020617;
+      padding: 28px 16mm 22px;
+      overflow: hidden;
       color: #fff;
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
       gap: 10px;
+      /* Soft white→navy transition + brand glow spots behind logo */
+      background:
+        radial-gradient(ellipse 70% 55% at 50% 42%, rgba(20, 184, 166, 0.22), transparent 58%),
+        radial-gradient(circle at 18% 28%, rgba(20, 184, 166, 0.16), transparent 36%),
+        radial-gradient(circle at 84% 72%, rgba(14, 165, 233, 0.12), transparent 38%),
+        radial-gradient(circle at 50% 100%, rgba(45, 212, 191, 0.08), transparent 42%),
+        linear-gradient(180deg, #0b1224 0%, #020617 28%, #020617 100%);
+      border-top: none;
+      box-shadow: inset 0 1px 0 rgba(94, 234, 212, 0.22);
     }
     .closing-footer::before {
       content: "";
-      display: block;
-      width: 42px;
+      position: absolute;
+      left: 50%;
+      top: 0;
+      transform: translateX(-50%);
+      width: 56px;
       height: 2px;
-      margin-bottom: 2px;
       background: linear-gradient(90deg, #14b8a6, #0ea5e9);
       border-radius: 1px;
+      opacity: 0.9;
+    }
+    .closing-footer > * {
+      position: relative;
+      z-index: 1;
     }
     .closing-logo {
-      width: 128px;
+      width: 132px;
       height: auto;
       display: block;
+      margin-top: 4px;
     }
     .closing-name {
       margin: 0;
@@ -907,31 +981,33 @@ const html = `<!DOCTYPE html>
           Whether you need cleaning, security, parking management, or a fully integrated facility
           solution, RGS is ready to support your daily operations with dependable service teams.
         </p>
-        <div class="contact-grid">
-          <div class="panel contact-card">
-            <h3>Get In Touch</h3>
-            <a href="tel:+622122952228">${contact.phone}</a>
-            <a href="mailto:${contact.email}">${contact.email}</a>
-            <p style="margin-top:10px">${contact.addressLines.join("<br />")}</p>
+        <div class="contact-flow">
+          <div class="contact-details">
+            <div class="contact-block">
+              <p class="contact-label">Get In Touch</p>
+              <a class="contact-line" href="tel:+622122952228">${contact.phone}</a>
+              <a class="contact-line" href="mailto:${contact.email}">${contact.email}</a>
+              <p class="contact-address">${contact.addressLines.join("<br />")}</p>
+            </div>
+            <div class="contact-block">
+              <p class="contact-label">Online</p>
+              <a class="contact-line" href="https://www.rgs.co.id">www.rgs.co.id</a>
+              <a class="contact-line" href="https://one.rgs.co.id/login">RGS ONE Client Portal</a>
+              <p class="contact-note">
+                Integrated Services · Responsive Support · Reliable Execution
+              </p>
+            </div>
           </div>
-          <div class="panel contact-card">
-            <h3>Online</h3>
-            <a href="https://www.rgs.co.id">www.rgs.co.id</a>
-            <a href="https://one.rgs.co.id/login">RGS ONE Client Portal</a>
-            <p style="margin-top:10px">
-              Integrated Services · Responsive Support · Reliable Execution
+          <div class="contact-cta">
+            <h3>Ready to strengthen your facility operations?</h3>
+            <p>
+              Offices, hospitals, hotels, retail destinations, residences, logistics facilities,
+              and industrial sites — RGS is ready when you are.
             </p>
-          </div>
-        </div>
-        <div class="cta-box">
-          <h3>Ready to strengthen your facility operations?</h3>
-          <p>
-            Offices, hospitals, hotels, retail destinations, residences, logistics facilities,
-            and industrial sites.
-          </p>
-          <div class="cta-actions">
-            <span class="cta-chip">${contact.email}</span>
-            <span class="cta-chip">${contact.phone}</span>
+            <div class="contact-cta-links">
+              <a href="mailto:${contact.email}">${contact.email}</a>
+              <a href="tel:+622122952228">${contact.phone}</a>
+            </div>
           </div>
         </div>
       </div>
