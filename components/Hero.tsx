@@ -168,10 +168,11 @@ export default function Hero({ content }: Props) {
 
       {/*
         Hero shell layout (globals.css):
-        nav pad → flex-1 main (centers headline + RGS ONE) → stats pinned bottom.
+        nav pad → flex-1 main (safe-center headline + RGS ONE) → stats shrink-0.
+        Shell grows past 100svh when the card is taller than the viewport band.
       */}
       <div className="hero-shell relative z-10 site-gutter-x mx-auto max-w-7xl">
-        <div className="hero-main w-full">
+        <div className="hero-main w-full min-h-0">
           {/*
             Desktop gap/columns live in globals.css (.hero-grid / .hero-copy /
             .hero-panel). Tailwind gap-* alone was masked by overflowing type.
@@ -240,7 +241,7 @@ export default function Hero({ content }: Props) {
           </div>
         </div>
 
-        <FadeIn delay={0.25} className="hero-stats-wrap w-full">
+        <FadeIn delay={0.25} className="hero-stats-wrap w-full shrink-0">
           <div className="hero-stats grid max-w-full overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/[0.07] shadow-2xl shadow-black/20 backdrop-blur-2xl sm:grid-cols-3 sm:rounded-[2rem]">
             {stats.map((stat, index) => (
               <div

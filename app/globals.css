@@ -70,10 +70,11 @@ button {
 }
 
 /*
- * Hero shell: column = nav pad | flex-1 centered main | stats at bottom.
+ * Hero shell: column = nav pad | flex-1 main | stats (shrink-0) at bottom.
  * Mobile: natural height (stacked card + stats must not clip).
- * lg+: exactly one viewport tall (border-box) — never grow past 100svh
- * (min-height + pad was the unwanted landing scroll).
+ * Desktop: fill the viewport when content fits; grow past 100svh when the
+ * RGS ONE card + headline are taller so stats never sit under the card.
+ * Do NOT use overflow:hidden on the full hero — that traps wheel/touch.
  */
 .hero-shell {
   box-sizing: border-box;
@@ -81,46 +82,54 @@ button {
   flex-direction: column;
   justify-content: flex-start;
   min-height: 100svh;
+  height: auto;
+  max-height: none;
   padding-top: var(--hero-pad-top);
   padding-bottom: clamp(1.5rem, 3vh, 3.5rem);
+  gap: clamp(1rem, 2.5vh, 1.75rem);
 }
 
-/* Middle band: centers headline + RGS ONE between nav clearance and stats */
+/*
+ * Middle band: centers headline + RGS ONE when there is free space.
+ * `safe center` falls back to start when content would overflow the band,
+ * so the tall RGS ONE panel cannot paint over the stats row.
+ */
 .hero-main {
   display: flex;
   min-height: 0;
   flex: 1 1 auto;
   flex-direction: column;
-  justify-content: center;
+  justify-content: safe center;
+  overflow: visible;
 }
 
 .hero-stats-wrap {
   flex: 0 0 auto;
+  position: relative;
 }
 
-/* Stats sit on the shell floor; vertical gap is from .hero-main centering */
+/* Stats sit in normal flow under hero-main — no negative pull-up */
 .hero-stats {
   margin-top: 0;
 }
 
 /*
- * Desktop: lock shell to 100svh; column gap owned here (not Tailwind gap-*).
+ * Desktop: column gap owned here (not Tailwind gap-*).
  * Huge headline type was overflowing the left track across the grid gap,
  * so gap-x-40 / 15rem had no visible effect. Constrain the copy column,
  * pin the card column width, and pad the card away from the headline.
  */
 @media (min-width: 1024px) {
   /*
-   * Fit hero to one viewport (no extra hero overscroll), but do NOT set
-   * overflow:hidden on .hero-section / .hero-shell — that creates a
-   * full-viewport scroll container and traps wheel/touch so the rest of
-   * the page (Services, Industries, …) cannot scroll.
+   * Prefer one-viewport hero via min-height, but allow growth when the
+   * card does not fit. Never lock max-height / overflow:hidden here —
+   * that either clips the card over the stats or traps document scroll.
    */
   .hero-section,
   .hero-shell {
-    height: 100svh;
-    max-height: 100svh;
-    min-height: 0;
+    min-height: 100svh;
+    height: auto;
+    max-height: none;
   }
 
   .hero-shell {
@@ -132,7 +141,7 @@ button {
     grid-template-columns: minmax(0, 1fr) minmax(22rem, 27rem);
     column-gap: clamp(5rem, 9vw, 9rem);
     row-gap: 2rem;
-    align-items: center;
+    align-items: start;
   }
 
   .hero-shell .hero-copy {
@@ -166,14 +175,15 @@ button {
   }
 }
 
-/* Short desktop windows: compress — pack to top of middle band, avoid nav overlap */
-@media (max-height: 820px) {
+/* Short windows: pack main to the top; shell still grows so stats stay below */
+@media (max-height: 900px) {
   :root {
     --hero-nav-gap: 0.5rem;
   }
 
   .hero-shell {
     padding-bottom: 0.75rem;
+    gap: 0.875rem;
   }
 
   .hero-main {
