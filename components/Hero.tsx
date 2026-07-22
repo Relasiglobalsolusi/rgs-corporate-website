@@ -167,102 +167,103 @@ export default function Hero({ content }: Props) {
       </div>
 
       {/*
-        Hero shell layout (globals.css):
-        nav pad → flex-1 main (safe-center headline + RGS ONE) → stats shrink-0.
-        Shell grows past 100svh when the card is taller than the viewport band.
+        Hero shell (globals.css): nav clearance → flex-1 stage that
+        vertically centers one composition (copy | RGS ONE + stats).
       */}
       <div className="hero-shell relative z-10 site-gutter-x mx-auto max-w-7xl">
-        <div className="hero-main w-full min-h-0">
-          {/*
-            Desktop gap/columns live in globals.css (.hero-grid / .hero-copy /
-            .hero-panel). Tailwind gap-* alone was masked by overflowing type.
-          */}
-          <div className="hero-grid grid items-start gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(22rem,27rem)]">
-            <FadeIn className="hero-copy min-w-0">
-              <div className="max-w-xl">
-                <h1 className="max-w-full break-words leading-[0.98] tracking-[-0.03em]">
-                  <span className="block text-[1.875rem] font-medium text-white min-[400px]:text-[2.25rem] sm:text-5xl md:text-6xl lg:text-[3.25rem] xl:text-[3.75rem] 2xl:text-[4.25rem]">
-                    {content.titleLine1}
-                  </span>
+        <div className="hero-stage w-full min-h-0">
+          <div className="hero-group w-full">
+            {/*
+              Desktop gap/columns live in globals.css (.hero-grid / .hero-copy /
+              .hero-panel). Tailwind gap-* alone was masked by overflowing type.
+            */}
+            <div className="hero-grid grid items-start gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(22rem,27rem)]">
+              <FadeIn className="hero-copy min-w-0">
+                <div className="max-w-xl">
+                  <h1 className="max-w-full break-words leading-[0.98] tracking-[-0.03em]">
+                    <span className="block text-[1.875rem] font-medium text-white min-[400px]:text-[2.25rem] sm:text-5xl md:text-6xl lg:text-[3.25rem] xl:text-[3.75rem] 2xl:text-[4.25rem]">
+                      {content.titleLine1}
+                    </span>
 
-                  <span className="mt-1.5 block text-[1.95rem] font-semibold text-teal-300 min-[400px]:text-[2.5rem] sm:text-6xl md:text-7xl lg:text-[3.75rem] xl:text-[4.5rem] 2xl:text-[4.75rem]">
-                    {content.titleLine2}
-                  </span>
+                    <span className="mt-1.5 block text-[1.95rem] font-semibold text-teal-300 min-[400px]:text-[2.5rem] sm:text-6xl md:text-7xl lg:text-[3.75rem] xl:text-[4.5rem] 2xl:text-[4.75rem]">
+                      {content.titleLine2}
+                    </span>
 
-                  <span className="block text-[1.95rem] font-semibold text-teal-300 min-[400px]:text-[2.5rem] sm:text-6xl md:text-7xl lg:text-[3.75rem] xl:text-[4.5rem] 2xl:text-[4.75rem]">
-                    {content.titleLine3}
-                  </span>
-                </h1>
+                    <span className="block text-[1.95rem] font-semibold text-teal-300 min-[400px]:text-[2.5rem] sm:text-6xl md:text-7xl lg:text-[3.75rem] xl:text-[4.5rem] 2xl:text-[4.75rem]">
+                      {content.titleLine3}
+                    </span>
+                  </h1>
 
-                <p className="mt-5 max-w-lg text-sm leading-7 text-slate-200 md:text-base md:leading-8 lg:max-w-xl lg:text-lg lg:leading-8">
-                  {content.subtitle}
-                </p>
+                  <p className="mt-5 max-w-lg text-sm leading-7 text-slate-200 md:text-base md:leading-8 lg:max-w-xl lg:text-lg lg:leading-8">
+                    {content.subtitle}
+                  </p>
 
-                <div className="mt-5 flex max-w-full flex-wrap gap-2">
-                  {highlights.map((item) => (
-                    <div
-                      key={item}
-                      className="flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.07] px-3 py-1.5 text-[11px] font-semibold text-slate-100 shadow-sm backdrop-blur-xl sm:px-3.5 sm:py-2 sm:text-xs"
+                  <div className="mt-5 flex max-w-full flex-wrap gap-2">
+                    {highlights.map((item) => (
+                      <div
+                        key={item}
+                        className="flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.07] px-3 py-1.5 text-[11px] font-semibold text-slate-100 shadow-sm backdrop-blur-xl sm:px-3.5 sm:py-2 sm:text-xs"
+                      >
+                        <CheckCircle2
+                          size={13}
+                          className="shrink-0 text-teal-300"
+                        />
+                        {item}
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="mt-6 grid gap-2.5 sm:flex sm:flex-row">
+                    <a
+                      href="#contact"
+                      className="hero-cta-label group inline-flex items-center justify-center gap-2.5 rounded-full bg-white px-6 py-3.5 text-slate-950 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:bg-slate-100 hover:shadow-md sm:px-7 sm:py-4"
                     >
-                      <CheckCircle2
-                        size={13}
-                        className="shrink-0 text-teal-300"
+                      {content.ctaPrimary}
+                      <ArrowRight
+                        size={17}
+                        className="transition duration-300 group-hover:translate-x-1"
                       />
-                      {item}
+                    </a>
+
+                    <a
+                      href="#services"
+                      className="hero-cta-label inline-flex items-center justify-center gap-2.5 rounded-full border border-white/15 bg-white/[0.07] px-6 py-3.5 text-white shadow-xl shadow-black/10 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:bg-white/12 hover:text-teal-200 sm:px-7 sm:py-4"
+                    >
+                      {content.ctaSecondary}
+                    </a>
+                  </div>
+                </div>
+              </FadeIn>
+
+              <FadeIn delay={0.15} className="hero-panel min-w-0">
+                <RgsOnePanel />
+              </FadeIn>
+            </div>
+
+            <FadeIn delay={0.25} className="hero-stats-wrap w-full shrink-0">
+              <div className="hero-stats grid max-w-full overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/[0.07] shadow-2xl shadow-black/20 backdrop-blur-2xl sm:grid-cols-3 sm:rounded-[2rem]">
+                {stats.map((stat, index) => (
+                  <div
+                    key={stat.label}
+                    className={`px-5 py-4 text-center sm:px-6 sm:py-5 lg:px-8 lg:py-6 ${
+                      index !== stats.length - 1
+                        ? "border-b border-white/10 sm:border-b-0 sm:border-r"
+                        : ""
+                    }`}
+                  >
+                    <div className="text-3xl font-semibold tracking-tight text-teal-300 sm:text-4xl md:text-5xl">
+                      {stat.value}
                     </div>
-                  ))}
-                </div>
 
-                <div className="mt-6 grid gap-2.5 sm:flex sm:flex-row">
-                  <a
-                    href="#contact"
-                    className="hero-cta-label group inline-flex items-center justify-center gap-2.5 rounded-full bg-white px-6 py-3.5 text-slate-950 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:bg-slate-100 hover:shadow-md sm:px-7 sm:py-4"
-                  >
-                    {content.ctaPrimary}
-                    <ArrowRight
-                      size={17}
-                      className="transition duration-300 group-hover:translate-x-1"
-                    />
-                  </a>
-
-                  <a
-                    href="#services"
-                    className="hero-cta-label inline-flex items-center justify-center gap-2.5 rounded-full border border-white/15 bg-white/[0.07] px-6 py-3.5 text-white shadow-xl shadow-black/10 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:bg-white/12 hover:text-teal-200 sm:px-7 sm:py-4"
-                  >
-                    {content.ctaSecondary}
-                  </a>
-                </div>
+                    <div className="mt-2 text-[0.65rem] font-bold uppercase tracking-[0.22em] text-slate-200 sm:text-xs sm:tracking-[0.28em]">
+                      {stat.label}
+                    </div>
+                  </div>
+                ))}
               </div>
-            </FadeIn>
-
-            <FadeIn delay={0.15} className="hero-panel min-w-0">
-              <RgsOnePanel />
             </FadeIn>
           </div>
         </div>
-
-        <FadeIn delay={0.25} className="hero-stats-wrap w-full shrink-0">
-          <div className="hero-stats grid max-w-full overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/[0.07] shadow-2xl shadow-black/20 backdrop-blur-2xl sm:grid-cols-3 sm:rounded-[2rem]">
-            {stats.map((stat, index) => (
-              <div
-                key={stat.label}
-                className={`px-5 py-4 text-center sm:px-6 sm:py-5 lg:px-8 lg:py-6 ${
-                  index !== stats.length - 1
-                    ? "border-b border-white/10 sm:border-b-0 sm:border-r"
-                    : ""
-                }`}
-              >
-                <div className="text-3xl font-semibold tracking-tight text-teal-300 sm:text-4xl md:text-5xl">
-                  {stat.value}
-                </div>
-
-                <div className="mt-2 text-[0.65rem] font-bold uppercase tracking-[0.22em] text-slate-200 sm:text-xs sm:tracking-[0.28em]">
-                  {stat.label}
-                </div>
-              </div>
-            ))}
-          </div>
-        </FadeIn>
       </div>
     </section>
   );

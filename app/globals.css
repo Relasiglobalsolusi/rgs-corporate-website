@@ -51,15 +51,17 @@ button {
    */
   --nav-chrome-height: clamp(7.5rem, 11vw + 5rem, 12rem);
   /*
-   * Minimal safety gap under the fixed nav. Equal breathing room above/below
-   * the headline + RGS ONE card comes from .hero-main flex centering — not
-   * from a large top pad (which previously pinned content near the stats).
+   * Minimal safety gap under the fixed nav. Vertical balance for the hero
+   * composition (copy + RGS ONE + stats) comes from .hero-stage centering —
+   * not from pinning stats to the viewport floor.
    */
   --hero-nav-gap: 0.75rem;
   /* Fixed navbar clearance for hero + anchor scroll */
   --scroll-offset: calc(var(--nav-chrome-height) + 0.5rem);
   /* Always applied — centering must never pull content under the nav */
   --hero-pad-top: calc(var(--nav-chrome-height) + var(--hero-nav-gap));
+  /* Internal gap between the feature grid and the stats bar */
+  --hero-group-gap: clamp(1.25rem, 3vh, 2rem);
 }
 
 @media (min-width: 1280px) {
@@ -70,11 +72,10 @@ button {
 }
 
 /*
- * Hero shell: column = nav pad | flex-1 main | stats (shrink-0) at bottom.
- * Mobile: natural height (stacked card + stats must not clip).
- * Desktop: fill the viewport when content fits; grow past 100svh when the
- * RGS ONE card + headline are taller so stats never sit under the card.
- * Do NOT use overflow:hidden on the full hero — that traps wheel/touch.
+ * Hero shell: nav clearance → flex-1 stage that centers one composition.
+ * Composition = (headline/CTAs | RGS ONE) + stats, with a fixed internal gap.
+ * Grow past 100svh when the group is taller than the viewport so the card
+ * never overlaps the stats. Do NOT overflow:hidden the full hero (scroll trap).
  */
 .hero-shell {
   box-sizing: border-box;
@@ -85,16 +86,15 @@ button {
   height: auto;
   max-height: none;
   padding-top: var(--hero-pad-top);
-  padding-bottom: clamp(1.5rem, 3vh, 3.5rem);
-  gap: clamp(1rem, 2.5vh, 1.75rem);
+  padding-bottom: clamp(1.25rem, 3vh, 2.5rem);
 }
 
 /*
- * Middle band: centers headline + RGS ONE when there is free space.
- * `safe center` falls back to start when content would overflow the band,
- * so the tall RGS ONE panel cannot paint over the stats row.
+ * Stage fills the space under the nav and vertically centers the group.
+ * `safe center` falls back to start when the group would overflow, so the
+ * tall RGS ONE panel cannot paint over the stats (stats stay in the group).
  */
-.hero-main {
+.hero-stage {
   display: flex;
   min-height: 0;
   flex: 1 1 auto;
@@ -103,12 +103,20 @@ button {
   overflow: visible;
 }
 
+/* Single composition: grid + stats — does not stretch to fill the stage */
+.hero-group {
+  display: flex;
+  width: 100%;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: var(--hero-group-gap);
+}
+
 .hero-stats-wrap {
   flex: 0 0 auto;
   position: relative;
 }
 
-/* Stats sit in normal flow under hero-main — no negative pull-up */
 .hero-stats {
   margin-top: 0;
 }
@@ -120,11 +128,6 @@ button {
  * pin the card column width, and pad the card away from the headline.
  */
 @media (min-width: 1024px) {
-  /*
-   * Prefer one-viewport hero via min-height, but allow growth when the
-   * card does not fit. Never lock max-height / overflow:hidden here —
-   * that either clips the card over the stats or traps document scroll.
-   */
   .hero-section,
   .hero-shell {
     min-height: 100svh;
@@ -133,7 +136,7 @@ button {
   }
 
   .hero-shell {
-    padding-bottom: clamp(0.75rem, 2vh, 2rem);
+    padding-bottom: clamp(1rem, 2.5vh, 2rem);
   }
 
   .hero-shell .hero-grid {
@@ -175,18 +178,18 @@ button {
   }
 }
 
-/* Short windows: pack main to the top; shell still grows so stats stay below */
+/* Short windows: pack the group to the top; shell still grows with content */
 @media (max-height: 900px) {
   :root {
     --hero-nav-gap: 0.5rem;
+    --hero-group-gap: 1rem;
   }
 
   .hero-shell {
     padding-bottom: 0.75rem;
-    gap: 0.875rem;
   }
 
-  .hero-main {
+  .hero-stage {
     justify-content: flex-start;
   }
 }
