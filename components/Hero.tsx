@@ -177,8 +177,12 @@ export default function Hero({ content }: Props) {
               Desktop gap/columns live in globals.css (.hero-grid / .hero-copy /
               .hero-panel). Tailwind gap-* alone was masked by overflowing type.
             */}
+            {/*
+              Top-align columns so the RGS ONE card sits with the headline,
+              not mid/low against the taller row (items-center / slide offset).
+            */}
             <div className="hero-grid grid items-start gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(22rem,27rem)]">
-              <FadeIn className="hero-copy min-w-0">
+              <FadeIn offsetY="0" className="hero-copy min-w-0 self-start">
                 <div className="max-w-xl">
                   <h1 className="max-w-full break-words leading-[0.98] tracking-[-0.03em]">
                     <span className="block text-[1.875rem] font-medium text-white min-[400px]:text-[2.25rem] sm:text-5xl md:text-6xl lg:text-[3.25rem] xl:text-[3.75rem] 2xl:text-[4.25rem]">
@@ -235,7 +239,7 @@ export default function Hero({ content }: Props) {
                 </div>
               </FadeIn>
 
-              <FadeIn delay={0.15} className="hero-panel min-w-0">
+              <FadeIn offsetY="0" className="hero-panel min-w-0 self-start">
                 <RgsOnePanel />
               </FadeIn>
             </div>

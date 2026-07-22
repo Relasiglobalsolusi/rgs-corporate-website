@@ -6,15 +6,19 @@ interface FadeInProps {
   children: ReactNode;
   delay?: number;
   className?: string;
+  /** Vertical slide distance before reveal. Use 0 to fade in place (e.g. hero columns). */
+  offsetY?: string;
 }
 
 export default function FadeIn({
   children,
   delay = 0,
   className = "",
+  offsetY = "2.5rem",
 }: FadeInProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
+  const slide = offsetY !== "0" && offsetY !== "0px" && offsetY !== "0rem";
 
   useEffect(() => {
     const el = ref.current;
@@ -40,9 +44,15 @@ export default function FadeIn({
       className={className}
       style={{
         opacity: visible ? 1 : 0,
-        transform: visible ? "translateY(0)" : "translateY(2.5rem)",
-        transition: `opacity 0.7s ease ${delay}s, transform 0.7s ease ${delay}s`,
-        willChange: visible ? undefined : "opacity, transform",
+        transform: slide
+          ? visible
+            ? "translateY(0)"
+            : `translateY(${offsetY})`
+          : undefined,
+        transition: slide
+          ? `opacity 0.7s ease ${delay}s, transform 0.7s ease ${delay}s`
+          : `opacity 0.7s ease ${delay}s`,
+        willChange: visible ? undefined : slide ? "opacity, transform" : "opacity",
       }}
     >
       {children}

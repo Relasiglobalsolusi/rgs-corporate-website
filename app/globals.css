@@ -144,6 +144,7 @@ button {
     grid-template-columns: minmax(0, 1fr) minmax(22rem, 27rem);
     column-gap: clamp(5rem, 9vw, 9rem);
     row-gap: 2rem;
+    /* Card top with headline — not vertically centered (that sat the card low) */
     align-items: start;
   }
 
@@ -151,11 +152,14 @@ button {
     min-width: 0;
     max-width: 30rem;
     overflow: hidden;
+    align-self: start;
   }
 
   .hero-shell .hero-panel {
     min-width: 0;
     justify-self: end;
+    align-self: start;
+    margin-top: 0;
     box-sizing: border-box;
     width: 100%;
     /* Space inside the card track — survives even if type overflows left col */
