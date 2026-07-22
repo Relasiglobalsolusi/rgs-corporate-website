@@ -4,6 +4,10 @@
  *
  * Usage: node scripts/generate-company-profile-pdf.mjs
  * Output: public/RGS-Company-Profile.pdf
+ *
+ * Page color zigzag (website-style):
+ * 1 Cover dark → 2 About white → 3 Services dark →
+ * 4 Industries/Why white → 5 Clients dark → 6 Contact white
  */
 
 import fs from "node:fs";
@@ -236,18 +240,33 @@ const html = `<!DOCTYPE html>
       -webkit-print-color-adjust: exact;
       print-color-adjust: exact;
     }
+
+    /* Shared page shell — balanced margins, vertically centered body */
     .page {
       width: 210mm;
       min-height: 297mm;
       height: 297mm;
-      padding: 18mm 16mm 16mm;
+      padding: 16mm 16mm 14mm;
       page-break-after: always;
       break-after: page;
       position: relative;
       overflow: hidden;
+      background: #fff;
+      color: #0f172a;
     }
     .page:last-child { page-break-after: auto; break-after: auto; }
-    .page-inner { height: 100%; display: flex; flex-direction: column; }
+    .page-inner {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    .page-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 0;
+    }
 
     .eyebrow {
       margin: 0 0 8px;
@@ -281,7 +300,8 @@ const html = `<!DOCTYPE html>
       border: 0;
     }
     .footer-meta {
-      margin-top: auto;
+      flex-shrink: 0;
+      margin-top: 14px;
       padding-top: 12px;
       border-top: 1px solid #e2e8f0;
       display: flex;
@@ -292,17 +312,37 @@ const html = `<!DOCTYPE html>
       letter-spacing: 0.04em;
     }
 
-    /* Cover */
-    .cover {
-      padding: 0;
+    /* Dark page theme (cover navy) */
+    .page-dark {
       background: #020617;
       color: #fff;
+      padding: 0;
     }
+    .page-dark .page-inner {
+      padding: 18mm 16mm 14mm;
+      background:
+        radial-gradient(circle at 14% 18%, rgba(20,184,166,0.18), transparent 32%),
+        radial-gradient(circle at 88% 82%, rgba(14,165,233,0.12), transparent 34%),
+        linear-gradient(160deg, #020617 0%, #0f172a 55%, #020617 100%);
+    }
+    .page-dark .eyebrow { color: #5eead4; }
+    .page-dark h2 { color: #f8fafc; }
+    .page-dark h3 { color: #f1f5f9; }
+    .page-dark p { color: #94a3b8; }
+    .page-dark .lede { color: #cbd5e1; }
+    .page-dark .footer-meta {
+      border-top-color: rgba(255,255,255,0.12);
+      color: #64748b;
+    }
+
+    /* Cover */
+    .cover { padding: 0; background: #020617; color: #fff; }
     .cover-inner {
       height: 100%;
       padding: 22mm 18mm 18mm;
       display: flex;
       flex-direction: column;
+      justify-content: center;
       background:
         radial-gradient(circle at 18% 22%, rgba(20,184,166,0.22), transparent 34%),
         radial-gradient(circle at 86% 78%, rgba(14,165,233,0.16), transparent 36%),
@@ -310,7 +350,7 @@ const html = `<!DOCTYPE html>
     }
     .cover-logo { width: 210px; height: auto; }
     .cover-kicker {
-      margin-top: 48px;
+      margin-top: 36px;
       font-size: 11px;
       font-weight: 800;
       letter-spacing: 0.35em;
@@ -339,7 +379,7 @@ const html = `<!DOCTYPE html>
       color: #94a3b8;
     }
     .cover-bottom {
-      margin-top: auto;
+      margin-top: 48px;
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
@@ -371,7 +411,7 @@ const html = `<!DOCTYPE html>
       display: grid;
       grid-template-columns: 1.2fr 0.8fr;
       gap: 14px;
-      margin-top: 6px;
+      margin-top: 4px;
     }
     .panel {
       border: 1px solid #e2e8f0;
@@ -392,16 +432,10 @@ const html = `<!DOCTYPE html>
       gap: 8px;
       margin-top: 12px;
     }
-    .about-rgsone {
-      margin-top: 14px;
-    }
+    .about-rgsone { margin-top: 16px; }
     .about-rgsone h2,
-    .about-glance h2 {
-      font-size: 20px;
-    }
-    .about-glance {
-      margin-top: 14px;
-    }
+    .about-glance h2 { font-size: 20px; }
+    .about-glance { margin-top: 16px; }
     .chip {
       padding: 7px 11px;
       border-radius: 999px;
@@ -413,26 +447,34 @@ const html = `<!DOCTYPE html>
       letter-spacing: 0.04em;
     }
 
-    /* Services */
+    /* Services (dark page) */
     .service-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 12px;
-      margin-top: 6px;
+      gap: 14px;
+      margin-top: 10px;
     }
     .service-card {
       border: 1px solid #e2e8f0;
       border-radius: 14px;
-      padding: 14px 16px;
+      padding: 16px 18px;
       background: #fff;
       border-left: 4px solid #14b8a6;
     }
     .service-card .eyebrow { color: #0d9488; margin-bottom: 4px; }
+    .page-dark .service-card {
+      background: rgba(255,255,255,0.04);
+      border-color: rgba(255,255,255,0.1);
+      border-left-color: #2dd4bf;
+    }
+    .page-dark .service-card .eyebrow { color: #5eead4; }
+    .page-dark .service-card h3 { color: #f8fafc; }
+    .page-dark .service-card p { color: #94a3b8; }
 
     /* Industries */
     .industry-grid {
       list-style: none;
-      margin: 8px 0 0;
+      margin: 10px 0 0;
       padding: 0;
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -453,7 +495,7 @@ const html = `<!DOCTYPE html>
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 10px;
-      margin-top: 6px;
+      margin-top: 8px;
     }
     .why-card {
       border: 1px solid #e2e8f0;
@@ -463,7 +505,7 @@ const html = `<!DOCTYPE html>
     }
     .why-card p { font-size: 11px; }
 
-    /* Stats (folded into About) */
+    /* Stats */
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -505,8 +547,8 @@ const html = `<!DOCTYPE html>
       line-height: 1.5;
     }
 
-    /* Clients — full logo grid */
-    .clients-intro { margin-bottom: 10px; }
+    /* Clients — white cards so logos stay readable on dark page */
+    .clients-intro { margin-bottom: 12px; }
     .client-grid {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
@@ -522,6 +564,10 @@ const html = `<!DOCTYPE html>
       align-items: center;
       justify-content: center;
       min-height: 72px;
+    }
+    .page-dark .client-card {
+      border-color: rgba(255,255,255,0.08);
+      box-shadow: 0 1px 0 rgba(255,255,255,0.04);
     }
     .client-card img {
       max-width: 90%;
@@ -539,13 +585,14 @@ const html = `<!DOCTYPE html>
       line-height: 1.2;
     }
     .clients-note {
-      margin-top: 12px;
+      margin-top: 14px;
       font-size: 10px;
       color: #64748b;
       text-align: center;
     }
+    .page-dark .clients-note { color: #64748b; }
 
-    /* RGS ONE (folded into About) */
+    /* RGS ONE */
     .rgsone-wrap {
       display: grid;
       grid-template-columns: 0.75fr 1.25fr;
@@ -589,7 +636,7 @@ const html = `<!DOCTYPE html>
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 14px;
-      margin-top: 10px;
+      margin-top: 14px;
     }
     .contact-card h3 { margin-bottom: 10px; }
     .contact-card p, .contact-card a {
@@ -601,9 +648,9 @@ const html = `<!DOCTYPE html>
       font-weight: 600;
     }
     .cta-box {
-      margin-top: 16px;
+      margin-top: 18px;
       border-radius: 16px;
-      padding: 18px;
+      padding: 20px;
       background: linear-gradient(135deg, #020617, #0f172a);
       color: #fff;
     }
@@ -629,14 +676,16 @@ const html = `<!DOCTYPE html>
 </head>
 <body>
 
-  <!-- 1. Cover -->
+  <!-- 1. Cover — dark -->
   <section class="page cover">
     <div class="cover-inner">
-      <img class="cover-logo" src="${logoUrl}" alt="RGS Relasi Global Solusi" />
-      <p class="cover-kicker">Company Profile</p>
-      <h1 class="cover-title">Creating<br /><span>Better</span><br /><span>Environments</span></h1>
-      <p class="cover-legal">PT Relasi Global Solusi</p>
-      <p class="cover-tagline">Built for cleaner, safer, better-managed environments.</p>
+      <div>
+        <img class="cover-logo" src="${logoUrl}" alt="RGS Relasi Global Solusi" />
+        <p class="cover-kicker">Company Profile</p>
+        <h1 class="cover-title">Creating<br /><span>Better</span><br /><span>Environments</span></h1>
+        <p class="cover-legal">PT Relasi Global Solusi</p>
+        <p class="cover-tagline">Built for cleaner, safer, better-managed environments.</p>
+      </div>
       <div class="cover-bottom">
         <div>
           <span class="cover-pill">Cleaning · Security · Parking · Facility Support</span>
@@ -646,68 +695,70 @@ const html = `<!DOCTYPE html>
     </div>
   </section>
 
-  <!-- 2. About (+ At a Glance + RGS ONE) -->
+  <!-- 2. About — white -->
   <section class="page">
     <div class="page-inner">
-      <p class="eyebrow">About Us</p>
-      <h2>Company Overview</h2>
-      <hr class="divider" />
-      <div class="about-grid">
-        <div>
-          <p class="lede" style="margin-top:0">
-            Relasi Global Solusi delivers professional cleaning, security, parking management,
-            and integrated facility support for businesses that require dependable daily operations.
-          </p>
-          <p class="lede" style="margin-top:8px">
-            RGS provides essential facility services that help businesses maintain cleaner, safer,
-            and more efficient environments every day.
-          </p>
-          <div class="highlights">
-            <span class="chip">Cleaning</span>
-            <span class="chip">Security</span>
-            <span class="chip">Parking</span>
-            <span class="chip">Facility Support</span>
-          </div>
-        </div>
-        <div class="panel dark" style="padding:12px 14px">
-          <p class="eyebrow">Trusted Operations</p>
-          <p style="margin-top:8px;font-size:11.5px">
-            RGS supports demanding facilities with trained personnel, responsive management,
-            and consistent daily execution across commercial offices, hospitals, hotels,
-            retail centres, residential developments, and industrial facilities.
-          </p>
-        </div>
-      </div>
-
-      <div class="about-glance">
-        <p class="eyebrow">At a Glance</p>
-        <h2>Scale, reliability, and operational discipline.</h2>
+      <div class="page-body">
+        <p class="eyebrow">About Us</p>
+        <h2>Company Overview</h2>
         <hr class="divider" />
-        <div class="stats-grid">${statItems}</div>
-        <div class="stats-note">
-          Highly trained personnel supporting cleaning, security, parking, and integrated facility
-          management throughout Indonesia — with responsive coordination every day.
-        </div>
-      </div>
-
-      <div class="about-rgsone">
-        <p class="eyebrow">RGS ONE Platform</p>
-        <h2>One Platform. Complete Visibility.</h2>
-        <hr class="divider" />
-        <div class="rgsone-wrap">
-          <div class="rgsone-panel">
-            <img src="${rgsOneUrl}" alt="RGS ONE" />
-            <p class="rgsone-tag">Track · Report · Monitor</p>
-          </div>
+        <div class="about-grid">
           <div>
-            <p class="lede" style="margin-top:0;font-size:12px">
-              Real-time project visibility, client portal access, and transparent reporting in one portal.
+            <p class="lede" style="margin-top:0">
+              Relasi Global Solusi delivers professional cleaning, security, parking management,
+              and integrated facility support for businesses that require dependable daily operations.
             </p>
-            <ul class="rgsone-list" style="margin-top:8px">${erpItems}</ul>
-            <p class="lede" style="margin-top:8px;font-size:12px">
-              Clients can access operational insight through the RGS ONE Client Portal at
-              <strong>one.rgs.co.id</strong>.
+            <p class="lede" style="margin-top:8px">
+              RGS provides essential facility services that help businesses maintain cleaner, safer,
+              and more efficient environments every day.
             </p>
+            <div class="highlights">
+              <span class="chip">Cleaning</span>
+              <span class="chip">Security</span>
+              <span class="chip">Parking</span>
+              <span class="chip">Facility Support</span>
+            </div>
+          </div>
+          <div class="panel dark" style="padding:12px 14px">
+            <p class="eyebrow">Trusted Operations</p>
+            <p style="margin-top:8px;font-size:11.5px">
+              RGS supports demanding facilities with trained personnel, responsive management,
+              and consistent daily execution across commercial offices, hospitals, hotels,
+              retail centres, residential developments, and industrial facilities.
+            </p>
+          </div>
+        </div>
+
+        <div class="about-glance">
+          <p class="eyebrow">At a Glance</p>
+          <h2>Scale, reliability, and operational discipline.</h2>
+          <hr class="divider" />
+          <div class="stats-grid">${statItems}</div>
+          <div class="stats-note">
+            Highly trained personnel supporting cleaning, security, parking, and integrated facility
+            management throughout Indonesia — with responsive coordination every day.
+          </div>
+        </div>
+
+        <div class="about-rgsone">
+          <p class="eyebrow">RGS ONE Platform</p>
+          <h2>One Platform. Complete Visibility.</h2>
+          <hr class="divider" />
+          <div class="rgsone-wrap">
+            <div class="rgsone-panel">
+              <img src="${rgsOneUrl}" alt="RGS ONE" />
+              <p class="rgsone-tag">Track · Report · Monitor</p>
+            </div>
+            <div>
+              <p class="lede" style="margin-top:0;font-size:12px">
+                Real-time project visibility, client portal access, and transparent reporting in one portal.
+              </p>
+              <ul class="rgsone-list" style="margin-top:8px">${erpItems}</ul>
+              <p class="lede" style="margin-top:8px;font-size:12px">
+                Clients can access operational insight through the RGS ONE Client Portal at
+                <strong>one.rgs.co.id</strong>.
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -719,49 +770,19 @@ const html = `<!DOCTYPE html>
     </div>
   </section>
 
-  <!-- 3. Services -->
-  <section class="page">
+  <!-- 3. Services — dark -->
+  <section class="page page-dark">
     <div class="page-inner">
-      <p class="eyebrow">Our Services</p>
-      <h2>Integrated services for better facility operations.</h2>
-      <hr class="divider" />
-      <p class="lede">
-        RGS provides essential facility services that help businesses maintain cleaner, safer,
-        and more efficient environments every day.
-      </p>
-      <div class="service-grid" style="margin-top:18px">
-        ${serviceCards}
-      </div>
-      <div class="footer-meta">
-        <span>PT Relasi Global Solusi</span>
-        <span>Company Profile · ${year}</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- 4. Industries + Why -->
-  <section class="page">
-    <div class="page-inner">
-      <p class="eyebrow">Industries We Serve</p>
-      <h2>Supporting every environment that matters.</h2>
-      <hr class="divider" />
-      <p class="lede">
-        From premium office towers to hospitals, hotels, logistics facilities, and educational
-        institutions, RGS provides dependable facility management solutions tailored to each industry.
-      </p>
-      <ul class="industry-grid">${industryItems}</ul>
-
-      <div style="margin-top:22px">
-        <p class="eyebrow">Why Choose RGS</p>
-        <h2 style="font-size:22px">A trusted partner for modern facility management.</h2>
+      <div class="page-body">
+        <p class="eyebrow">Our Services</p>
+        <h2>Integrated services for better facility operations.</h2>
         <hr class="divider" />
-        <p class="lede" style="margin-top:0">
-          We combine experienced professionals, standardized operating procedures, and integrated
-          service management to help clients maintain safe, clean, and efficient facilities.
+        <p class="lede">
+          RGS provides essential facility services that help businesses maintain cleaner, safer,
+          and more efficient environments every day.
         </p>
-        <div class="why-grid">${whyItems}</div>
+        <div class="service-grid">${serviceCards}</div>
       </div>
-
       <div class="footer-meta">
         <span>PT Relasi Global Solusi</span>
         <span>Company Profile · ${year}</span>
@@ -769,21 +790,54 @@ const html = `<!DOCTYPE html>
     </div>
   </section>
 
-  <!-- 5. Featured Clients (all logos from site) -->
+  <!-- 4. Industries + Why — white -->
   <section class="page">
     <div class="page-inner">
-      <p class="eyebrow">Client Experience</p>
-      <h2>Trusted by respected brands and destinations.</h2>
-      <hr class="divider" />
-      <p class="lede clients-intro">
-        RGS has supported organizations across commercial properties, banking, healthcare,
-        hospitality, retail, residential, and public facilities.
-      </p>
-      <div class="client-grid">${clientCards}</div>
-      <p class="clients-note">
-        Selected client experience across commercial, healthcare, hospitality, retail,
-        residential, industrial, and infrastructure sectors.
-      </p>
+      <div class="page-body">
+        <p class="eyebrow">Industries We Serve</p>
+        <h2>Supporting every environment that matters.</h2>
+        <hr class="divider" />
+        <p class="lede">
+          From premium office towers to hospitals, hotels, logistics facilities, and educational
+          institutions, RGS provides dependable facility management solutions tailored to each industry.
+        </p>
+        <ul class="industry-grid">${industryItems}</ul>
+
+        <div style="margin-top:20px">
+          <p class="eyebrow">Why Choose RGS</p>
+          <h2 style="font-size:22px">A trusted partner for modern facility management.</h2>
+          <hr class="divider" />
+          <p class="lede" style="margin-top:0">
+            We combine experienced professionals, standardized operating procedures, and integrated
+            service management to help clients maintain safe, clean, and efficient facilities.
+          </p>
+          <div class="why-grid">${whyItems}</div>
+        </div>
+      </div>
+      <div class="footer-meta">
+        <span>PT Relasi Global Solusi</span>
+        <span>Company Profile · ${year}</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Clients — dark (logos on white cards) -->
+  <section class="page page-dark">
+    <div class="page-inner">
+      <div class="page-body">
+        <p class="eyebrow">Client Experience</p>
+        <h2>Trusted by respected brands and destinations.</h2>
+        <hr class="divider" />
+        <p class="lede clients-intro">
+          RGS has supported organizations across commercial properties, banking, healthcare,
+          hospitality, retail, residential, and public facilities.
+        </p>
+        <div class="client-grid">${clientCards}</div>
+        <p class="clients-note">
+          Selected client experience across commercial, healthcare, hospitality, retail,
+          residential, industrial, and infrastructure sectors.
+        </p>
+      </div>
       <div class="footer-meta">
         <span>PT Relasi Global Solusi</span>
         <span>Company Profile · ${year} · ${clients.length} Featured Clients</span>
@@ -791,41 +845,43 @@ const html = `<!DOCTYPE html>
     </div>
   </section>
 
-  <!-- 6. Contact -->
+  <!-- 6. Contact — white -->
   <section class="page">
     <div class="page-inner">
-      <p class="eyebrow">Contact</p>
-      <h2>Request a proposal for your facility.</h2>
-      <hr class="divider" />
-      <p class="lede">
-        Whether you need cleaning, security, parking management, or a fully integrated facility
-        solution, RGS is ready to support your daily operations with dependable service teams.
-      </p>
-      <div class="contact-grid">
-        <div class="panel contact-card">
-          <h3>Get In Touch</h3>
-          <a href="tel:+622122952228">${contact.phone}</a>
-          <a href="mailto:${contact.email}">${contact.email}</a>
-          <p style="margin-top:10px">${contact.addressLines.join("<br />")}</p>
-        </div>
-        <div class="panel contact-card">
-          <h3>Online</h3>
-          <a href="https://www.rgs.co.id">www.rgs.co.id</a>
-          <a href="https://one.rgs.co.id/login">RGS ONE Client Portal</a>
-          <p style="margin-top:10px">
-            Integrated Services · Responsive Support · Reliable Execution
-          </p>
-        </div>
-      </div>
-      <div class="cta-box">
-        <h3>Ready to strengthen your facility operations?</h3>
-        <p>
-          Offices, hospitals, hotels, retail destinations, residences, logistics facilities,
-          and industrial sites.
+      <div class="page-body">
+        <p class="eyebrow">Contact</p>
+        <h2>Request a proposal for your facility.</h2>
+        <hr class="divider" />
+        <p class="lede">
+          Whether you need cleaning, security, parking management, or a fully integrated facility
+          solution, RGS is ready to support your daily operations with dependable service teams.
         </p>
-        <div class="cta-actions">
-          <span class="cta-chip">${contact.email}</span>
-          <span class="cta-chip">${contact.phone}</span>
+        <div class="contact-grid">
+          <div class="panel contact-card">
+            <h3>Get In Touch</h3>
+            <a href="tel:+622122952228">${contact.phone}</a>
+            <a href="mailto:${contact.email}">${contact.email}</a>
+            <p style="margin-top:10px">${contact.addressLines.join("<br />")}</p>
+          </div>
+          <div class="panel contact-card">
+            <h3>Online</h3>
+            <a href="https://www.rgs.co.id">www.rgs.co.id</a>
+            <a href="https://one.rgs.co.id/login">RGS ONE Client Portal</a>
+            <p style="margin-top:10px">
+              Integrated Services · Responsive Support · Reliable Execution
+            </p>
+          </div>
+        </div>
+        <div class="cta-box">
+          <h3>Ready to strengthen your facility operations?</h3>
+          <p>
+            Offices, hospitals, hotels, retail destinations, residences, logistics facilities,
+            and industrial sites.
+          </p>
+          <div class="cta-actions">
+            <span class="cta-chip">${contact.email}</span>
+            <span class="cta-chip">${contact.phone}</span>
+          </div>
         </div>
       </div>
       <div class="footer-meta">
@@ -889,6 +945,9 @@ async function main() {
     console.log(`Size: ${sizeKb} KB`);
     console.log(`Clients embedded: ${clients.length}`);
     console.log(`Images verified: ${imageCheck.total}/${imageCheck.total}`);
+    console.log(
+      "Page colors: 1 Cover dark · 2 About white · 3 Services dark · 4 Industries/Why white · 5 Clients dark · 6 Contact white"
+    );
   } finally {
     await browser.close();
   }
