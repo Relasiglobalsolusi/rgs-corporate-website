@@ -160,10 +160,12 @@ button {
     justify-self: end;
     align-self: start;
     /*
-     * Entire RGS ONE card sits above the left-copy top edge.
-     * Top-align alone still read low; nudge the whole panel, not inner padding.
+     * Nudge the RGS ONE card up visually without collapsing the grid row.
+     * Negative margin-top pulled .hero-stats-wrap up with the panel; transform
+     * leaves document flow intact so the stats bar keeps its gap below the
+     * tallest column (left copy vs card).
      */
-    margin-top: -2.25rem;
+    transform: translateY(-2.25rem);
     box-sizing: border-box;
     width: 100%;
     /* Space inside the card track — survives even if type overflows left col */
@@ -182,7 +184,7 @@ button {
   }
 
   .hero-shell .hero-panel {
-    margin-top: -2.75rem;
+    transform: translateY(-2.75rem);
     padding-left: clamp(2.5rem, 5vw, 5.5rem);
   }
 }
