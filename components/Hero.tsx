@@ -148,7 +148,7 @@ export default function Hero({ content }: Props) {
   return (
     <section
       id="home"
-      className="hero-section relative min-h-[100svh] bg-slate-950 text-white lg:h-[100svh] lg:max-h-[100svh]"
+      className="hero-section relative min-h-[100svh] bg-slate-950 text-white"
     >
       <div className="absolute inset-0">
         <Image

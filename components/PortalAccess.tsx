@@ -52,7 +52,7 @@ export default function PortalAccess({
             className={featuredLogoClass}
           />
 
-          <span className={featuredLoginLabelClass}>Login</span>
+          <span className={featuredLoginLabelClass}>RGS ONE Login</span>
 
           <ArrowUpRight
             size={20}

@@ -80,11 +80,7 @@ export const metadata: Metadata = {
     images: ["/images/og-image.png"],
   },
 
-  icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
-    apple: "/favicon.ico",
-  },
+  // Favicon is served from app/favicon.ico (Next metadata file convention).
 };
 
 export default function RootLayout({

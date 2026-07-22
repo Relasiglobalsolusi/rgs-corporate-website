@@ -14,10 +14,10 @@ const quickLinks = [
 ];
 
 const serviceLinks = [
-  "Cleaning Services",
-  "Security Services",
-  "Parking Management",
-  "Integrated Facility Management",
+  { label: "Cleaning Services", href: "#services" },
+  { label: "Security Services", href: "#services" },
+  { label: "Parking Management", href: "#services" },
+  { label: "Integrated Facility Management", href: "#services" },
 ];
 
 type Props = {
@@ -88,11 +88,13 @@ export default function Footer({ content, meta, social }: Props) {
 
             <ul className="space-y-4">
               {serviceLinks.map((service) => (
-                <li
-                  key={service}
-                  className="text-lg font-semibold text-slate-300"
-                >
-                  {service}
+                <li key={service.label}>
+                  <a
+                    href={service.href}
+                    className="inline-flex text-lg font-semibold text-slate-300 transition hover:translate-x-1 hover:text-white"
+                  >
+                    {service.label}
+                  </a>
                 </li>
               ))}
             </ul>
