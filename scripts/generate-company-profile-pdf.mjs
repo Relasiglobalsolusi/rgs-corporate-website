@@ -8,7 +8,7 @@
 
 import fs from "node:fs";
 import path from "node:path";
-import { fileURLToPath, pathToFileURL } from "node:url";
+import { fileURLToPath } from "node:url";
 import puppeteer from "puppeteer";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -17,12 +17,32 @@ const publicDir = path.join(root, "public");
 const outPdf = path.join(publicDir, "RGS-Company-Profile.pdf");
 const year = new Date().getFullYear();
 
+const MIME_BY_EXT = {
+  ".png": "image/png",
+  ".jpg": "image/jpeg",
+  ".jpeg": "image/jpeg",
+  ".webp": "image/webp",
+  ".gif": "image/gif",
+  ".svg": "image/svg+xml",
+};
+
+/**
+ * Embed public/ assets as data URIs. Puppeteer page.setContent() uses about:blank,
+ * which Chromium blocks from loading file:// images — so file URLs appear broken
+ * even when the files exist on disk.
+ */
 function assetUrl(rel) {
   const abs = path.join(publicDir, rel.replace(/^\//, ""));
   if (!fs.existsSync(abs)) {
     throw new Error(`Missing asset: ${abs}`);
   }
-  return pathToFileURL(abs).href;
+  const ext = path.extname(abs).toLowerCase();
+  const mime = MIME_BY_EXT[ext];
+  if (!mime) {
+    throw new Error(`Unsupported asset type for PDF embed: ${abs}`);
+  }
+  const base64 = fs.readFileSync(abs).toString("base64");
+  return `data:${mime};base64,${base64}`;
 }
 
 const clients = [
@@ -825,6 +845,33 @@ async function main() {
   try {
     const page = await browser.newPage();
     await page.setContent(html, { waitUntil: "networkidle0" });
+
+    // Confirm every <img> decoded (data URIs / network), not broken placeholders.
+    const imageCheck = await page.evaluate(async () => {
+      const imgs = [...document.querySelectorAll("img")];
+      await Promise.all(
+        imgs.map(
+          (img) =>
+            img.complete
+              ? Promise.resolve()
+              : new Promise((resolve) => {
+                  img.addEventListener("load", resolve, { once: true });
+                  img.addEventListener("error", resolve, { once: true });
+                })
+        )
+      );
+      const broken = imgs
+        .filter((img) => !(img.naturalWidth > 0 && img.naturalHeight > 0))
+        .map((img) => img.alt || img.src.slice(0, 64));
+      return { total: imgs.length, broken };
+    });
+
+    if (imageCheck.broken.length > 0) {
+      throw new Error(
+        `PDF images failed to load (${imageCheck.broken.length}/${imageCheck.total}): ${imageCheck.broken.join(", ")}`
+      );
+    }
+
     await page.pdf({
       path: outPdf,
       format: "A4",
@@ -839,6 +886,7 @@ async function main() {
     console.log(`Pages: ${pages}`);
     console.log(`Size: ${sizeKb} KB`);
     console.log(`Clients embedded: ${clients.length}`);
+    console.log(`Images verified: ${imageCheck.total}/${imageCheck.total}`);
   } finally {
     await browser.close();
   }
