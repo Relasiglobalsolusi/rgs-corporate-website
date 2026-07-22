@@ -9,7 +9,7 @@ const sans = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://rgs.co.id"),
+  metadataBase: new URL("https://www.rgs.co.id"),
 
   title: {
     default: "RGS | PT Relasi Global Solusi",
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
     title: "PT Relasi Global Solusi (RGS)",
     description:
       "Professional integrated facility management services across Indonesia.",
-    url: "https://rgs.co.id",
+    url: "https://www.rgs.co.id",
     siteName: "PT Relasi Global Solusi",
     locale: "en_US",
     type: "website",

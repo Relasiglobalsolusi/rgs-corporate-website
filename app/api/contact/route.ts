@@ -49,7 +49,7 @@ function allowRequest(ip: string): boolean {
   return true;
 }
 
-const logoUrl = "https://rgs.co.id/images/logo.png";
+const logoUrl = "https://www.rgs.co.id/images/logo.png";
 
 function getTransporter() {
   const host = process.env.SMTP_HOST;
@@ -251,8 +251,8 @@ ${message || "-"}
                           Duri Kosambi, Cengkareng<br>
                           West Jakarta 11750<br>
                           +62 21 2295 2228<br>
-                          <a href="https://rgs.co.id" style="color:#2563eb;text-decoration:none;font-weight:600;">
-                            https://rgs.co.id
+                          <a href="https://www.rgs.co.id" style="color:#2563eb;text-decoration:none;font-weight:600;">
+                            https://www.rgs.co.id
                           </a>
                         </p>
                       </td>
@@ -280,7 +280,7 @@ Jl. Daan Mogot KM 14.5, Ruko Point 8 Blok F6
 Duri Kosambi, Cengkareng
 West Jakarta 11750
 +62 21 2295 2228
-https://rgs.co.id
+https://www.rgs.co.id
 `,
       });
     } catch (confirmError) {

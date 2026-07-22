@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     title: "Company Profile | PT Relasi Global Solusi",
     description:
       "Download the RGS company profile PDF covering services, industries, clients, and RGS ONE.",
-    url: "https://rgs.co.id/company-profile",
+    url: "https://www.rgs.co.id/company-profile",
   },
 };
 

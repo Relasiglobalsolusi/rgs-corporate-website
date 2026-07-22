@@ -393,10 +393,14 @@ const html = `<!DOCTYPE html>
       margin-top: 12px;
     }
     .about-rgsone {
-      margin-top: 18px;
+      margin-top: 14px;
     }
-    .about-rgsone h2 {
-      font-size: 22px;
+    .about-rgsone h2,
+    .about-glance h2 {
+      font-size: 20px;
+    }
+    .about-glance {
+      margin-top: 14px;
     }
     .chip {
       padding: 7px 11px;
@@ -459,44 +463,46 @@ const html = `<!DOCTYPE html>
     }
     .why-card p { font-size: 11px; }
 
-    /* Stats */
+    /* Stats (folded into About) */
     .stats-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 8px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-top: 6px;
     }
     .stat-card {
-      border-radius: 16px;
-      padding: 22px 18px;
+      border-radius: 12px;
+      padding: 12px 8px;
       background: #020617;
       color: #fff;
       border: 1px solid #1e293b;
       text-align: center;
     }
     .stat-value {
-      font-size: 36px;
+      font-size: 24px;
       font-weight: 800;
       color: #5eead4;
       letter-spacing: -0.03em;
+      line-height: 1.1;
     }
     .stat-label {
-      margin-top: 8px;
-      font-size: 10px;
+      margin-top: 6px;
+      font-size: 8px;
       font-weight: 800;
-      letter-spacing: 0.18em;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
       color: #cbd5e1;
+      line-height: 1.3;
     }
     .stats-note {
-      margin-top: 16px;
-      padding: 14px 16px;
-      border-radius: 12px;
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 10px;
       background: #f0fdfa;
       border: 1px solid #99f6e4;
       color: #134e4a;
-      font-size: 12px;
-      line-height: 1.6;
+      font-size: 11px;
+      line-height: 1.5;
     }
 
     /* Clients — full logo grid */
@@ -542,40 +548,40 @@ const html = `<!DOCTYPE html>
     /* RGS ONE (folded into About) */
     .rgsone-wrap {
       display: grid;
-      grid-template-columns: 0.85fr 1.15fr;
-      gap: 12px;
-      margin-top: 8px;
+      grid-template-columns: 0.75fr 1.25fr;
+      gap: 10px;
+      margin-top: 6px;
       align-items: stretch;
     }
     .rgsone-panel {
-      border-radius: 16px;
+      border-radius: 14px;
       background: #020617;
       border: 1px solid #1e293b;
-      padding: 18px 14px;
+      padding: 14px 12px;
       text-align: center;
       display: flex;
       flex-direction: column;
       justify-content: center;
     }
     .rgsone-panel img {
-      width: 140px;
+      width: 120px;
       height: auto;
       margin: 0 auto;
     }
     .rgsone-tag {
-      margin-top: 12px;
-      font-size: 9px;
+      margin-top: 10px;
+      font-size: 8px;
       font-weight: 700;
-      letter-spacing: 0.16em;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
       color: #94a3b8;
     }
     .rgsone-list {
       margin: 0;
-      padding: 0 0 0 18px;
+      padding: 0 0 0 16px;
       color: #334155;
-      font-size: 11.5px;
-      line-height: 1.7;
+      font-size: 11px;
+      line-height: 1.55;
     }
 
     /* Contact */
@@ -640,7 +646,7 @@ const html = `<!DOCTYPE html>
     </div>
   </section>
 
-  <!-- 2. About (+ RGS ONE) -->
+  <!-- 2. About (+ At a Glance + RGS ONE) -->
   <section class="page">
     <div class="page-inner">
       <p class="eyebrow">About Us</p>
@@ -648,11 +654,11 @@ const html = `<!DOCTYPE html>
       <hr class="divider" />
       <div class="about-grid">
         <div>
-          <p class="lede">
+          <p class="lede" style="margin-top:0">
             Relasi Global Solusi delivers professional cleaning, security, parking management,
             and integrated facility support for businesses that require dependable daily operations.
           </p>
-          <p class="lede" style="margin-top:12px">
+          <p class="lede" style="margin-top:8px">
             RGS provides essential facility services that help businesses maintain cleaner, safer,
             and more efficient environments every day.
           </p>
@@ -663,13 +669,24 @@ const html = `<!DOCTYPE html>
             <span class="chip">Facility Support</span>
           </div>
         </div>
-        <div class="panel dark">
+        <div class="panel dark" style="padding:12px 14px">
           <p class="eyebrow">Trusted Operations</p>
-          <p style="margin-top:10px">
+          <p style="margin-top:8px;font-size:11.5px">
             RGS supports demanding facilities with trained personnel, responsive management,
             and consistent daily execution across commercial offices, hospitals, hotels,
             retail centres, residential developments, and industrial facilities.
           </p>
+        </div>
+      </div>
+
+      <div class="about-glance">
+        <p class="eyebrow">At a Glance</p>
+        <h2>Scale, reliability, and operational discipline.</h2>
+        <hr class="divider" />
+        <div class="stats-grid">${statItems}</div>
+        <div class="stats-note">
+          Highly trained personnel supporting cleaning, security, parking, and integrated facility
+          management throughout Indonesia — with responsive coordination every day.
         </div>
       </div>
 
@@ -683,11 +700,11 @@ const html = `<!DOCTYPE html>
             <p class="rgsone-tag">Track · Report · Monitor</p>
           </div>
           <div>
-            <p class="lede" style="margin-top:0">
+            <p class="lede" style="margin-top:0;font-size:12px">
               Real-time project visibility, client portal access, and transparent reporting in one portal.
             </p>
-            <ul class="rgsone-list" style="margin-top:10px">${erpItems}</ul>
-            <p class="lede" style="margin-top:12px">
+            <ul class="rgsone-list" style="margin-top:8px">${erpItems}</ul>
+            <p class="lede" style="margin-top:8px;font-size:12px">
               Clients can access operational insight through the RGS ONE Client Portal at
               <strong>one.rgs.co.id</strong>.
             </p>
@@ -752,26 +769,7 @@ const html = `<!DOCTYPE html>
     </div>
   </section>
 
-  <!-- 5. At a Glance -->
-  <section class="page">
-    <div class="page-inner">
-      <p class="eyebrow">At a Glance</p>
-      <h2>Scale, reliability, and operational discipline.</h2>
-      <hr class="divider" />
-      <div class="stats-grid">${statItems}</div>
-      <div class="stats-note">
-        Highly trained personnel supporting cleaning, security, parking, and integrated facility
-        management operations throughout Indonesia — with responsive coordination to keep facilities
-        running smoothly every day.
-      </div>
-      <div class="footer-meta">
-        <span>PT Relasi Global Solusi</span>
-        <span>Company Profile · ${year}</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- 6. Featured Clients (all logos from site) -->
+  <!-- 5. Featured Clients (all logos from site) -->
   <section class="page">
     <div class="page-inner">
       <p class="eyebrow">Client Experience</p>
@@ -793,7 +791,7 @@ const html = `<!DOCTYPE html>
     </div>
   </section>
 
-  <!-- 7. Contact -->
+  <!-- 6. Contact -->
   <section class="page">
     <div class="page-inner">
       <p class="eyebrow">Contact</p>
@@ -812,7 +810,7 @@ const html = `<!DOCTYPE html>
         </div>
         <div class="panel contact-card">
           <h3>Online</h3>
-          <a href="https://rgs.co.id">rgs.co.id</a>
+          <a href="https://www.rgs.co.id">www.rgs.co.id</a>
           <a href="https://one.rgs.co.id/login">RGS ONE Client Portal</a>
           <p style="margin-top:10px">
             Integrated Services · Responsive Support · Reliable Execution
@@ -832,7 +830,7 @@ const html = `<!DOCTYPE html>
       </div>
       <div class="footer-meta">
         <span>© ${year} PT Relasi Global Solusi. All rights reserved.</span>
-        <span>rgs.co.id</span>
+        <span>www.rgs.co.id</span>
       </div>
     </div>
   </section>

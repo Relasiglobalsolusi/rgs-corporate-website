@@ -7,7 +7,7 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: ["/api/"],
     },
-    sitemap: "https://rgs.co.id/sitemap.xml",
-    host: "https://rgs.co.id",
+    sitemap: "https://www.rgs.co.id/sitemap.xml",
+    host: "https://www.rgs.co.id",
   };
 }

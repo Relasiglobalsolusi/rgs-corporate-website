@@ -5,19 +5,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return [
     {
-      url: "https://rgs.co.id",
+      url: "https://www.rgs.co.id",
       lastModified,
       changeFrequency: "weekly",
       priority: 1,
     },
     {
-      url: "https://rgs.co.id/company-profile",
+      url: "https://www.rgs.co.id/company-profile",
       lastModified,
       changeFrequency: "monthly",
       priority: 0.8,
     },
     {
-      url: "https://rgs.co.id/RGS-Company-Profile.pdf",
+      url: "https://www.rgs.co.id/RGS-Company-Profile.pdf",
       lastModified,
       changeFrequency: "monthly",
       priority: 0.7,

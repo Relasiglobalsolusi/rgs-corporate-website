@@ -6,11 +6,10 @@ const PDF_HREF = "/RGS-Company-Profile.pdf";
 
 const sections = [
   "Cover",
-  "About Us · RGS ONE",
+  "About Us · At a Glance · RGS ONE",
   "Our Services",
   "Industries Served",
   "Why Choose Us",
-  "At a Glance",
   "Featured Clients",
   "Contact",
 ] as const;
@@ -102,7 +101,7 @@ export default function CompanyProfilePage() {
             href={PDF_HREF}
             className="font-semibold text-teal-300/90 underline-offset-2 hover:underline"
           >
-            rgs.co.id/RGS-Company-Profile.pdf
+            www.rgs.co.id/RGS-Company-Profile.pdf
           </a>
         </p>
       </div>
