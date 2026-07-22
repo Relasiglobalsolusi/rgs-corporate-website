@@ -263,21 +263,19 @@ export default function Hero({ content }: Props) {
             </div>
 
             <FadeIn delay={0.25} className="hero-stats-wrap w-full shrink-0">
-              <div className="hero-stats grid max-w-full overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/[0.07] shadow-2xl shadow-black/20 backdrop-blur-2xl sm:grid-cols-3 sm:rounded-[2rem]">
+              <div className="hero-stats grid max-w-full overflow-hidden sm:grid-cols-3">
                 {stats.map((stat, index) => (
                   <div
                     key={stat.label}
-                    className={`px-5 py-4 text-center sm:px-6 sm:py-5 lg:px-8 lg:py-6 ${
-                      index !== stats.length - 1
-                        ? "border-b border-white/10 sm:border-b-0 sm:border-r"
-                        : ""
+                    className={`hero-stat px-5 py-4 text-center sm:px-6 sm:py-5 lg:px-8 lg:py-6 ${
+                      index !== stats.length - 1 ? "hero-stat-divider" : ""
                     }`}
                   >
-                    <div className="text-3xl font-semibold tracking-tight text-teal-300 sm:text-4xl md:text-5xl">
+                    <div className="hero-stat-value text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl">
                       {stat.value}
                     </div>
 
-                    <div className="mt-2 text-[0.65rem] font-bold uppercase tracking-[0.22em] text-slate-200 sm:text-xs sm:tracking-[0.28em]">
+                    <div className="hero-stat-label mt-2 text-[0.65rem] font-bold uppercase tracking-[0.22em] sm:text-xs sm:tracking-[0.28em]">
                       {stat.label}
                     </div>
                   </div>
