@@ -271,8 +271,16 @@ export default function Hero({ content }: Props) {
                       index !== stats.length - 1 ? "hero-stat-divider" : ""
                     }`}
                   >
-                    <div className="hero-stat-value text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl">
-                      {stat.value}
+                    <div
+                      className={`hero-stat-value text-3xl font-semibold sm:text-4xl md:text-5xl ${
+                        stat.value.includes("/")
+                          ? "hero-stat-value--slash tracking-normal"
+                          : "tracking-tight"
+                      }`}
+                    >
+                      {stat.value.includes("/")
+                        ? stat.value.replace("/", "/\u2009")
+                        : stat.value}
                     </div>
 
                     <div className="hero-stat-label mt-2 text-[0.65rem] font-bold uppercase tracking-[0.22em] sm:text-xs sm:tracking-[0.28em]">
