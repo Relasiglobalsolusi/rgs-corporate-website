@@ -115,6 +115,8 @@ button {
 .hero-stats-wrap {
   flex: 0 0 auto;
   position: relative;
+  /* Nudge stats bar down slightly; keep RGS ONE panel transform untouched */
+  margin-top: 1rem;
 }
 
 .hero-stats {
