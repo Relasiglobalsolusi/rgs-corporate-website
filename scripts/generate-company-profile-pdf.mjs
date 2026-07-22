@@ -348,9 +348,9 @@ const html = `<!DOCTYPE html>
         radial-gradient(circle at 86% 78%, rgba(14,165,233,0.16), transparent 36%),
         linear-gradient(160deg, #020617 0%, #0f172a 55%, #020617 100%);
     }
-    .cover-logo { width: 210px; height: auto; }
+    .cover-logo { width: 380px; height: auto; }
     .cover-kicker {
-      margin-top: 36px;
+      margin-top: 28px;
       font-size: 11px;
       font-weight: 800;
       letter-spacing: 0.35em;
@@ -668,6 +668,54 @@ const html = `<!DOCTYPE html>
       letter-spacing: 0.06em;
       text-transform: uppercase;
     }
+
+    /* Contact — end-of-document closing footer */
+    .closing-footer {
+      flex-shrink: 0;
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 10px;
+    }
+    .closing-footer::before {
+      content: "";
+      display: block;
+      width: 42px;
+      height: 2px;
+      margin-bottom: 2px;
+      background: linear-gradient(90deg, #14b8a6, #0ea5e9);
+      border-radius: 1px;
+    }
+    .closing-logo {
+      width: 128px;
+      height: auto;
+      display: block;
+    }
+    .closing-name {
+      margin: 0;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      color: #0f172a;
+    }
+    .closing-web {
+      margin: 2px 0 0;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: #14b8a6;
+    }
+    .closing-copy {
+      margin: 4px 0 0;
+      font-size: 8px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: #94a3b8;
+    }
   </style>
 </head>
 <body>
@@ -880,9 +928,13 @@ const html = `<!DOCTYPE html>
           </div>
         </div>
       </div>
-      <div class="footer-meta">
-        <span>© ${year} PT Relasi Global Solusi. All rights reserved.</span>
-        <span>www.rgs.co.id</span>
+      <div class="closing-footer">
+        <img class="closing-logo" src="${logoUrl}" alt="RGS Relasi Global Solusi" />
+        <div>
+          <p class="closing-name">PT Relasi Global Solusi</p>
+          <p class="closing-web">www.rgs.co.id</p>
+          <p class="closing-copy">© ${year} All rights reserved.</p>
+        </div>
       </div>
     </div>
   </section>
