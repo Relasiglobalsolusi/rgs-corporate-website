@@ -159,7 +159,11 @@ button {
     min-width: 0;
     justify-self: end;
     align-self: start;
-    margin-top: 0;
+    /*
+     * Entire RGS ONE card sits above the left-copy top edge.
+     * Top-align alone still read low; nudge the whole panel, not inner padding.
+     */
+    margin-top: -2.25rem;
     box-sizing: border-box;
     width: 100%;
     /* Space inside the card track — survives even if type overflows left col */
@@ -178,6 +182,7 @@ button {
   }
 
   .hero-shell .hero-panel {
+    margin-top: -2.75rem;
     padding-left: clamp(2.5rem, 5vw, 5.5rem);
   }
 }
