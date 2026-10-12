@@ -73,7 +73,10 @@ pm2 restart rgs-website --update-env
 | CMS fetch | `lib/cms.ts` |
 | CMS images | `lib/cms-images.ts` |
 | Contact form API | `app/api/contact/route.ts` |
-| Hero / portal CTA | `components/Hero.tsx`, `components/PortalAccess.tsx` |
+| Pages (EN / ID) | `components/site/HomePage.tsx`, `components/site/CareersPage.tsx`; routes `/`, `/careers`, `/id`, `/id/careers` |
+| Translations | `lib/i18n.ts` (site text; Indonesian for the Company Details text) |
+| WhatsApp numbers | `lib/whatsapp.ts` (from RGS ONE → Company Details; empty = hidden) |
+| Menu / language | `components/Navbar.tsx`, `components/LanguageSwitcher.tsx` |
 | robots.txt / sitemap | `app/robots.ts`, `app/sitemap.ts` |
 | Favicon | `app/favicon.ico` |
 
