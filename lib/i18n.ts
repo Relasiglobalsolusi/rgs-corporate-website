@@ -158,8 +158,8 @@ const en = {
     whyEyebrow: "Why Work With RGS",
     whyTitle: "A workplace that looks after its people.",
     benefits: [
-      { title: "BPJS from the start", text: "BPJS Ketenagakerjaan and BPJS Kesehatan, as the law requires." },
-      { title: "THR every year", text: "Your religious holiday allowance (THR), paid on time." },
+      { title: "Room to grow", text: "Reliable people can grow into team leader and supervisor roles." },
+      { title: "Work near home", text: "Where we can, we place you at a site close to where you live." },
       { title: "Training & supervision", text: "Training before you start, and a supervisor on your site." },
       { title: "Your pay in RGS ONE", text: "Check your attendance and payslips yourself, anytime." },
     ],
@@ -324,8 +324,8 @@ const id: Dictionary = {
     whyEyebrow: "Mengapa Bekerja di RGS",
     whyTitle: "Tempat kerja yang peduli pada karyawannya.",
     benefits: [
-      { title: "BPJS sejak awal", text: "BPJS Ketenagakerjaan dan BPJS Kesehatan, sesuai ketentuan hukum." },
-      { title: "THR setiap tahun", text: "Tunjangan Hari Raya (THR) Anda, dibayar tepat waktu." },
+      { title: "Kesempatan berkembang", text: "Karyawan yang andal dapat berkembang menjadi team leader dan supervisor." },
+      { title: "Bekerja dekat rumah", text: "Jika memungkinkan, kami menempatkan Anda di lokasi yang dekat dengan tempat tinggal Anda." },
       { title: "Pelatihan & pengawasan", text: "Pelatihan sebelum mulai bekerja, dan supervisor di lokasi Anda." },
       { title: "Gaji Anda di RGS ONE", text: "Cek absensi dan slip gaji Anda sendiri, kapan saja." },
     ],

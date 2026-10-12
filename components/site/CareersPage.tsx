@@ -5,15 +5,15 @@ import {
   Car,
   ClipboardCheck,
   GraduationCap,
-  HeartPulse,
+  MapPin,
   Leaf,
   Mail,
   ShieldAlert,
   ShieldCheck,
   Smartphone,
   Sparkles,
+  TrendingUp,
   Users,
-  Wallet,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -24,7 +24,7 @@ import { fetchWebsiteContent } from "@/lib/cms";
 import { RECRUITMENT_EMAIL, dictionaries, localize, type Lang } from "@/lib/i18n";
 import { whatsappHref, whatsappNumbers } from "@/lib/whatsapp";
 
-const benefitIcons = [HeartPulse, Wallet, GraduationCap, Smartphone];
+const benefitIcons = [TrendingUp, MapPin, GraduationCap, Smartphone];
 const roleIcons = [Sparkles, ShieldCheck, Car, Leaf, Users, Building2];
 
 /** The careers page in either language ("/careers" and "/id/careers"). */
