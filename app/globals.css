@@ -1,5 +1,60 @@
 @import "tailwindcss";
 
+/*
+ * RGS design tokens. Navy surfaces, one teal accent, the logo's blue as a
+ * second accent, and a cool off-white for light sections.
+ */
+@theme {
+  --color-ink-950: #040a17;
+  --color-ink-900: #081227;
+  --color-ink-800: #0d1b36;
+  --color-ink-700: #16264a;
+  --color-mist-50: #f5f8fb;
+  --color-mist-100: #eaf0f6;
+  --color-brand-300: #5eead4;
+  --color-brand-400: #2dd4bf;
+  --color-brand-500: #14b8a6;
+  --color-brand-600: #0d9488;
+  --color-brand-700: #0f766e;
+  --color-accent-400: #60a5fa;
+  --color-accent-500: #3b82f6;
+
+  --animate-marquee: marquee var(--marquee-duration, 60s) linear infinite;
+  --animate-marquee-reverse: marquee-reverse var(--marquee-duration, 60s) linear infinite;
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @keyframes marquee-reverse {
+    from {
+      transform: translateX(-50%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+}
+
+:root {
+  --site-gutter: clamp(1rem, 4vw, 3rem);
+  /* Fixed header height, used by anchor scrolling and the page tops */
+  --nav-height: 5.5rem;
+  --header-height: var(--nav-height);
+  --scroll-offset: calc(var(--nav-height) + 1rem);
+}
+
+@media (min-width: 1280px) {
+  :root {
+    --nav-height: 7rem;
+  }
+}
+
 html {
   scroll-behavior: smooth;
   scroll-padding-top: var(--scroll-offset);
@@ -7,30 +62,14 @@ html {
 
 body {
   overflow-x: hidden;
-  background: #020617;
+  background: var(--color-ink-950);
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  text-rendering: optimizeLegibility;
 }
 
 ::selection {
-  background: #5eead4;
-  color: #020617;
-}
-
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: #020617;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #334155;
-  border-radius: 999px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #14b8a6;
+  background: var(--color-brand-300);
+  color: var(--color-ink-950);
 }
 
 input,
@@ -40,250 +79,110 @@ button {
   font: inherit;
 }
 
-:root {
-  /* Space between browser edge and content card */
-  --site-gutter: clamp(0.75rem, 4vw, 3rem);
-  /* Space inside cards (logo/nav away from edges) */
-  --site-inner: clamp(0.875rem, 3vw, 4rem);
-  /*
-   * Fixed floating nav chrome height (gutter + bar padding + logo/CTA row).
-   * Sized to the tall unscrolled xl/2xl bar so short viewports keep clearance.
-   */
-  --nav-chrome-height: clamp(7.5rem, 11vw + 5rem, 12rem);
-  /*
-   * Minimal safety gap under the fixed nav. Vertical balance for the hero
-   * composition (copy + RGS ONE + stats) comes from .hero-stage centering —
-   * not from pinning stats to the viewport floor.
-   */
-  --hero-nav-gap: 0.75rem;
-  /* Fixed navbar clearance for hero + anchor scroll */
-  --scroll-offset: calc(var(--nav-chrome-height) + 0.5rem);
-  /* Always applied — centering must never pull content under the nav */
-  --hero-pad-top: calc(var(--nav-chrome-height) + var(--hero-nav-gap));
-  /* Internal gap between the feature grid, profile CTA, and the stats bar */
-  --hero-group-gap: clamp(1.25rem, 3vh, 2rem);
-}
-
-@media (min-width: 1280px) {
-  :root {
-    /* Desktop nav: larger logo + py-4/5 + Portal CTA */
-    --nav-chrome-height: 12rem;
-  }
-}
-
-/*
- * Hero shell: nav clearance → flex-1 stage that centers one composition.
- * Composition = (headline/CTAs | RGS ONE) + profile CTA + stats, with a fixed internal gap.
- * Grow past 100svh when the group is taller than the viewport so the card
- * never overlaps the stats. Do NOT overflow:hidden the full hero (scroll trap).
- */
-.hero-shell {
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  min-height: 100svh;
-  height: auto;
-  max-height: none;
-  padding-top: var(--hero-pad-top);
-  padding-bottom: clamp(1.25rem, 3vh, 2.5rem);
-}
-
-/*
- * Stage fills the space under the nav and vertically centers the group.
- * `safe center` falls back to start when the group would overflow, so the
- * tall RGS ONE panel cannot paint over the stats (stats stay in the group).
- */
-.hero-stage {
-  display: flex;
-  min-height: 0;
-  flex: 1 1 auto;
-  flex-direction: column;
-  justify-content: safe center;
-  overflow: visible;
-}
-
-/* Single composition: grid + stats — does not stretch to fill the stage */
-.hero-group {
-  display: flex;
-  width: 100%;
-  flex: 0 0 auto;
-  flex-direction: column;
-  gap: var(--hero-group-gap);
-}
-
-.hero-stats-wrap {
-  flex: 0 0 auto;
-  position: relative;
-  /* Nudge stats bar down slightly; keep RGS ONE panel transform untouched */
-  margin-top: 0.75rem;
-}
-
-.hero-stats {
-  margin-top: 0;
-  position: relative;
-  border-radius: 1.5rem;
-  border: 1px solid rgba(148, 163, 184, 0.18);
-  background:
-    linear-gradient(
-      165deg,
-      rgba(15, 23, 42, 0.42) 0%,
-      rgba(15, 23, 42, 0.28) 45%,
-      rgba(20, 184, 166, 0.06) 100%
-    ),
-    rgba(2, 6, 23, 0.28);
-  box-shadow:
-    0 0 0 1px rgba(148, 163, 184, 0.06) inset,
-    0 1px 0 rgba(255, 255, 255, 0.08) inset,
-    0 18px 40px rgba(2, 6, 23, 0.35);
-  backdrop-filter: blur(28px) saturate(1.25);
-  -webkit-backdrop-filter: blur(28px) saturate(1.25);
-}
-
-@media (min-width: 640px) {
-  .hero-stats {
-    border-radius: 2rem;
-  }
-}
-
-.hero-stat {
-  position: relative;
-}
-
-.hero-stat-divider {
-  border-bottom: 1px solid rgba(148, 163, 184, 0.14);
-}
-
-@media (min-width: 640px) {
-  .hero-stat-divider {
-    border-bottom: 0;
-    border-right: 1px solid rgba(148, 163, 184, 0.14);
-  }
-}
-
-.hero-stat-value {
-  position: relative;
-  display: inline-block;
-  color: #5eead4;
-}
-
-/* Even gaps across slash stats (2 · 4 · / · 7) */
-.hero-stat-value--slash {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 0.12em;
-  letter-spacing: 0;
-}
-
-.hero-stat-label {
-  color: rgba(226, 232, 240, 0.92);
-  text-shadow: 0 1px 12px rgba(2, 6, 23, 0.45);
-}
-
-/*
- * Desktop: column gap owned here (not Tailwind gap-*).
- * Huge headline type was overflowing the left track across the grid gap,
- * so gap-x-40 / 15rem had no visible effect. Constrain the copy column,
- * pin the card column width, and pad the card away from the headline.
- */
-@media (min-width: 1024px) {
-  .hero-section,
-  .hero-shell {
-    min-height: 100svh;
-    height: auto;
-    max-height: none;
-  }
-
-  .hero-shell {
-    padding-bottom: clamp(1rem, 2.5vh, 2rem);
-  }
-
-  .hero-shell .hero-grid {
-    /* Slightly wider card track so RGS ONE tagline/features fit after pad */
-    grid-template-columns: minmax(0, 1fr) minmax(22rem, 27rem);
-    column-gap: clamp(5rem, 9vw, 9rem);
-    row-gap: 2rem;
-    /* Card top with headline — not vertically centered (that sat the card low) */
-    align-items: start;
-  }
-
-  .hero-shell .hero-copy {
-    min-width: 0;
-    max-width: 30rem;
-    overflow: hidden;
-    align-self: start;
-  }
-
-  .hero-shell .hero-panel {
-    min-width: 0;
-    justify-self: end;
-    align-self: start;
-    /*
-     * Nudge the RGS ONE card up visually without collapsing the grid row.
-     * Negative margin-top pulled .hero-stats-wrap up with the panel; transform
-     * leaves document flow intact so the stats bar keeps its gap below the
-     * tallest column (left copy vs card).
-     */
-    transform: translateY(-2.25rem);
-    box-sizing: border-box;
-    width: 100%;
-    /* Space inside the card track — survives even if type overflows left col */
-    padding-left: clamp(2rem, 4vw, 4rem);
-  }
-}
-
-@media (min-width: 1280px) {
-  .hero-shell .hero-grid {
-    grid-template-columns: minmax(0, 1fr) minmax(24rem, 28rem);
-    column-gap: clamp(6rem, 11vw, 12rem);
-  }
-
-  .hero-shell .hero-copy {
-    max-width: 32rem;
-  }
-
-  .hero-shell .hero-panel {
-    transform: translateY(-2.75rem);
-    padding-left: clamp(2.5rem, 5vw, 5.5rem);
-  }
-}
-
-/* Short windows: pack the group to the top; shell still grows with content */
-@media (max-height: 900px) {
-  :root {
-    --hero-nav-gap: 0.5rem;
-    --hero-group-gap: 1rem;
-  }
-
-  .hero-shell {
-    padding-bottom: 0.75rem;
-  }
-
-  .hero-stage {
-    justify-content: flex-start;
-  }
-}
-
-section {
-  scroll-margin-top: var(--scroll-offset);
-}
-
-.scroll-anchor {
-  scroll-margin-top: var(--scroll-offset);
-}
-
 .site-gutter-x {
   padding-left: var(--site-gutter);
   padding-right: var(--site-gutter);
 }
 
-.site-inner-x {
-  padding-left: var(--site-inner);
-  padding-right: var(--site-inner);
+@layer components {
+  /* Small label above a section heading, with a short accent rule */
+  .eyebrow {
+    @apply inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.22em];
+  }
+
+  .eyebrow::before {
+    content: "";
+    @apply h-px w-8 bg-current opacity-70;
+  }
+
+  .section-title {
+    @apply text-[2rem] leading-[1.08] font-semibold tracking-[-0.025em] text-balance sm:text-5xl lg:text-[3.5rem];
+  }
+
+  .section-lead {
+    @apply text-base leading-7 text-pretty md:text-lg md:leading-8;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2.5 rounded-full border border-transparent px-6 py-3.5 text-sm font-semibold tracking-[0.01em] transition duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-400 sm:px-7;
+  }
+
+  .btn-primary {
+    @apply bg-brand-400 text-ink-950 shadow-[0_10px_30px_-10px_rgba(45,212,191,0.6)] hover:-translate-y-0.5 hover:bg-brand-300;
+  }
+
+  .btn-light {
+    @apply bg-white text-ink-950 hover:-translate-y-0.5 hover:bg-mist-100;
+  }
+
+  .btn-ghost {
+    @apply border border-white/20 bg-white/5 text-white backdrop-blur hover:-translate-y-0.5 hover:border-white/40 hover:bg-white/10;
+  }
+
+  .btn-outline {
+    @apply border-slate-300 text-ink-950 hover:-translate-y-0.5 hover:border-ink-950 hover:bg-white;
+  }
+
+  .btn-dark {
+    @apply bg-ink-950 text-white hover:-translate-y-0.5 hover:bg-ink-800;
+  }
+
+  .field {
+    @apply w-full rounded-xl border border-slate-200 bg-white px-4 py-3.5 text-[0.9375rem] text-ink-950 outline-none transition placeholder:text-slate-400 hover:border-slate-300 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/15;
+  }
+
+  .field-label {
+    @apply mb-1.5 block text-sm font-medium text-slate-700;
+  }
+
+  /* Faint grid used behind dark sections */
+  .grid-texture {
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+  }
 }
 
-@layer components {
-  .hero-cta-label {
-    @apply text-xs font-black uppercase tracking-wide sm:text-sm;
+/* Reveal-on-scroll (FadeIn): visible by default, hidden only once JS runs */
+.reveal {
+  transition:
+    opacity 0.8s cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.reveal[data-state="hidden"] {
+  opacity: 0;
+  transform: translateY(var(--reveal-offset, 1.5rem));
+}
+
+/* Logo marquee pauses on hover; edges fade out */
+.marquee {
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal,
+  .reveal[data-state="hidden"] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .marquee-track {
+    animation: none !important;
+  }
+
+  .marquee {
+    overflow-x: auto;
   }
 }

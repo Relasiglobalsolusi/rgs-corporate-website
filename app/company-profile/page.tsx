@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowLeft, Download, FileText } from "lucide-react";
 import { clients } from "@/components/company-profile/profile-data";
 
@@ -21,13 +22,13 @@ export default function CompanyProfilePage() {
       <div className="pointer-events-none absolute inset-0 opacity-[0.04] [background-image:linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] [background-size:64px_64px]" />
 
       <div className="relative z-10 mx-auto flex min-h-screen max-w-4xl flex-col px-5 py-10 sm:px-8 sm:py-14">
-        <a
+        <Link
           href="/"
           className="mb-10 inline-flex w-fit items-center gap-2 text-sm font-semibold text-slate-400 transition hover:text-teal-300"
         >
           <ArrowLeft size={16} aria-hidden />
           Back to Website
-        </a>
+        </Link>
 
         <div className="mb-10">
           <Image

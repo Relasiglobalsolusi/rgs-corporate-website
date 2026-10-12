@@ -62,6 +62,9 @@ export type CmsContent = {
     email: string;
     address: string;
     addressLines: string[];
+    /** WhatsApp numbers from RGS ONE → Company Details; absent = not shown. */
+    whatsappInquiries?: string;
+    whatsappRecruitment?: string;
   };
   social: {
     instagram: string;

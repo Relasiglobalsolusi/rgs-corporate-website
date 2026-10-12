@@ -1,242 +1,220 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ArrowRight, Menu, X } from "lucide-react";
 import Image from "next/image";
-import PortalAccess from "@/components/PortalAccess";
+import { ArrowRight, ArrowUpRight, Menu, X } from "lucide-react";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+import { dictionaries, pagePath, sectionHref, type Lang, type Page } from "@/lib/i18n";
+import { portalLoginUrl } from "@/lib/portal";
 
-type NavLink = {
-  name: string;
-  href: string;
-  shortName?: string;
-};
+// The home page's sections, in page order (components/site/HomePage.tsx).
+const sections = [
+  { id: "clients", key: "clients" },
+  { id: "services", key: "services" },
+  { id: "industries", key: "industries" },
+  { id: "rgs-one", key: "rgsOne" },
+  { id: "why-choose-us", key: "whyRgs" },
+  { id: "contact", key: "contact" },
+] as const;
 
-const links: NavLink[] = [
-  { name: "Home", href: "#home" },
-  { name: "Services", href: "#services" },
-  { name: "Industries", href: "#industries" },
-  { name: "Clients", href: "#clients" },
-  { name: "Stats", href: "#stats" },
-  { name: "Why Choose Us", shortName: "Why Us", href: "#why-choose-us" },
-  { name: "Contact", href: "#contact" },
-];
-
-/** Tailwind xl — horizontal nav needs this width for 7 pills + logo + CTAs */
+/** Tailwind xl: the full menu needs this width; below it the menu button shows. */
 const DESKTOP_NAV_MEDIA = "(min-width: 1280px)";
 
-function getScrollSpyOffset() {
-  const root = document.documentElement;
-  const fromPadding = parseFloat(getComputedStyle(root).scrollPaddingTop);
-  if (Number.isFinite(fromPadding) && fromPadding > 0) return fromPadding;
+type Props = {
+  lang: Lang;
+  page: Page;
+};
 
-  const section = document.querySelector("section");
-  if (!section) return 120;
-
-  const offset = parseFloat(getComputedStyle(section).scrollMarginTop);
-  return Number.isFinite(offset) && offset > 0 ? offset : 120;
-}
-
-export default function Navbar() {
+export default function Navbar({ lang, page }: Props) {
+  const t = dictionaries[lang].nav;
   const [scrolled, setScrolled] = useState(false);
-  const [active, setActive] = useState("Home");
+  const [active, setActive] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 40);
-
-      const scrollSpyOffset = getScrollSpyOffset();
-
-      let currentName = links[0]?.name;
-      for (const link of links) {
-        const section = document.querySelector(link.href);
-        if (!section) continue;
-        if (section.getBoundingClientRect().top <= scrollSpyOffset) {
-          currentName = link.name;
+    const onScroll = () => {
+      setScrolled(window.scrollY > 24);
+      if (page !== "home") return;
+      // A section is current once its top is in the upper third of the screen.
+      const line = Math.max(
+        (parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 96) + 8,
+        window.innerHeight / 3
+      );
+      let current: string | null = null;
+      let best = -Infinity;
+      for (const section of sections) {
+        const top = document.getElementById(section.id)?.getBoundingClientRect().top;
+        if (top !== undefined && top <= line && top > best) {
+          best = top;
+          current = section.id;
         }
       }
-
-      if (currentName) setActive(currentName);
+      // At the very bottom the last section may never reach the line.
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) {
+        current = sections[sections.length - 1].id;
+      }
+      setActive(current);
     };
-
-    handleScroll();
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    // At most once per frame while scrolling.
+    let frame = 0;
+    const schedule = () => {
+      if (!frame) frame = requestAnimationFrame(() => {
+        frame = 0;
+        onScroll();
+      });
+    };
+    onScroll();
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
+    };
+  }, [page]);
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
-
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [open]);
-
-  useEffect(() => {
-    const media = window.matchMedia(DESKTOP_NAV_MEDIA);
-
-    const handleChange = (event: MediaQueryListEvent) => {
-      if (event.matches) setOpen(false);
-    };
-
-    media.addEventListener("change", handleChange);
-    return () => media.removeEventListener("change", handleChange);
-  }, []);
-
-  useEffect(() => {
     if (!open) return;
-
-    const handleKeyDown = (event: KeyboardEvent) => {
+    const onKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") setOpen(false);
     };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    const media = window.matchMedia(DESKTOP_NAV_MEDIA);
+    const onMedia = (event: MediaQueryListEvent) => {
+      if (event.matches) setOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    media.addEventListener("change", onMedia);
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", onKey);
+      media.removeEventListener("change", onMedia);
+    };
   }, [open]);
 
-  const closeMenu = () => setOpen(false);
+  const links = [
+    ...sections.map((section) => ({
+      href: sectionHref(lang, section.id),
+      label: t[section.key],
+      active: page === "home" && active === section.id,
+    })),
+    { href: pagePath(lang, "careers"), label: t.careers, active: page === "careers" },
+  ];
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 w-full site-gutter-x pb-3 pt-[var(--site-gutter)] transition-all duration-500 ${
-        scrolled ? "pb-2" : "pb-3"
+      className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,box-shadow] duration-500 ${
+        scrolled || open
+          ? "border-b border-white/10 bg-ink-950/90 shadow-[0_10px_30px_-15px_rgba(0,0,0,0.6)] backdrop-blur-xl"
+          : "border-b border-transparent bg-gradient-to-b from-ink-950/80 to-transparent"
       }`}
     >
-      <div
-        className={`mx-auto flex w-full max-w-[1850px] flex-col overflow-hidden rounded-[1.5rem] border transition-all duration-500 2xl:rounded-[2rem] ${
-          scrolled
-            ? "border-white/10 bg-slate-950/90 shadow-2xl shadow-black/35 backdrop-blur-2xl"
-            : "border-white/10 bg-slate-950/70 shadow-xl shadow-black/10 backdrop-blur-xl"
-        } ${
-          open
-            ? "max-h-[calc(100dvh-1.25rem)] sm:max-h-[calc(100dvh-1.5rem)]"
-            : ""
-        }`}
-      >
-        <div className="site-inner-x flex min-w-0 shrink-0 items-center gap-2 py-3 transition-all duration-500 sm:gap-3 sm:py-4 xl:gap-4 2xl:py-5">
-          <a
-            href="#home"
-            onClick={closeMenu}
-            className="flex shrink-0 items-center transition hover:opacity-90"
-            aria-label="Go to home section"
-          >
-            <Image
-              src="/images/logo.png"
-              alt="RGS Relasi Global Solusi"
-              width={340}
-              height={100}
-              priority
-              className={`h-auto transition-all duration-500 ${
-                scrolled
-                  ? "w-[118px] sm:w-[145px] xl:w-[165px] 2xl:w-[200px]"
-                  : "w-[128px] sm:w-[160px] xl:w-[180px] 2xl:w-[215px]"
-              }`}
-            />
-          </a>
+      <div className="site-gutter-x mx-auto flex h-[var(--nav-height)] max-w-[90rem] items-center gap-6 xl:grid xl:grid-cols-[1fr_auto_1fr]">
+        <a href={pagePath(lang, "home")} onClick={() => setOpen(false)} aria-label={t.backToTop} className="flex shrink-0 items-center xl:justify-self-start">
+          <Image
+            src="/images/logo.png"
+            alt="RGS Relasi Global Solusi"
+            width={340}
+            height={100}
+            priority
+            className="h-auto w-[150px] xl:w-[190px]"
+          />
+        </a>
 
-          <nav
-            aria-label="Primary"
-            className="hidden min-w-0 flex-1 items-center justify-center gap-0.5 rounded-full border border-white/10 bg-white/[0.03] p-0.5 xl:flex xl:gap-1 xl:p-1"
-          >
-            {links.map((link) => {
-              const isActive = active === link.name;
-
-              return (
+        <nav aria-label="Primary" className="hidden h-full items-center justify-center xl:flex">
+          <ul className="flex items-center gap-1">
+            {links.map((link) => (
+              <li key={link.href}>
                 <a
-                  key={link.name}
                   href={link.href}
-                  className={`shrink-0 whitespace-nowrap rounded-full px-2.5 py-2 text-xs font-bold transition-all duration-300 xl:px-3 xl:py-2.5 xl:text-sm 2xl:px-5 2xl:py-3 2xl:text-base ${
-                    isActive
-                      ? "bg-white text-slate-950 shadow-sm"
-                      : "text-white/85 hover:bg-white/10 hover:text-teal-300"
+                  aria-current={link.active ? (page === "careers" ? "page" : "location") : undefined}
+                  className={`relative flex items-center whitespace-nowrap rounded-full px-3 py-2.5 text-[0.9375rem] font-medium transition 2xl:px-3.5 ${
+                    link.active ? "text-white" : "text-white/70 hover:text-white"
                   }`}
                 >
-                  {link.shortName ? (
-                    <>
-                      <span className="2xl:hidden">{link.shortName}</span>
-                      <span className="hidden 2xl:inline">{link.name}</span>
-                    </>
-                  ) : (
-                    link.name
-                  )}
+                  {link.label}
+                  <span
+                    className={`absolute inset-x-3 bottom-0 h-0.5 rounded-full bg-brand-400 transition-transform duration-300 2xl:inset-x-3.5 ${
+                      link.active ? "scale-x-100" : "scale-x-0"
+                    }`}
+                    aria-hidden
+                  />
                 </a>
-              );
-            })}
-          </nav>
+              </li>
+            ))}
+          </ul>
+        </nav>
 
-          <div className="ml-auto hidden shrink-0 items-center gap-2 xl:flex xl:gap-3">
-            <div className="hidden h-8 w-px shrink-0 bg-white/10 2xl:block" aria-hidden />
+        <div className="ml-auto hidden items-center gap-2 xl:flex xl:justify-self-end">
+          <LanguageSwitcher lang={lang} page={page} />
+          <a
+            href={portalLoginUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group hidden items-center gap-1.5 whitespace-nowrap rounded-full px-3 py-2.5 text-[0.9375rem] font-medium text-white/80 transition hover:text-white 2xl:inline-flex"
+          >
+            {t.clientLogin}
+            <ArrowUpRight size={15} className="transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden />
+          </a>
+          <a href={sectionHref(lang, "contact")} className="btn btn-primary whitespace-nowrap px-6 py-3 text-[0.9375rem] sm:px-6">
+            {t.requestProposal}
+          </a>
+        </div>
 
-            <PortalAccess />
+        <button
+          type="button"
+          onClick={() => setOpen((value) => !value)}
+          className="ml-auto flex h-12 w-12 items-center justify-center rounded-full border border-white/15 text-white transition hover:bg-white/10 xl:hidden"
+          aria-label={open ? t.closeMenu : t.openMenu}
+          aria-expanded={open}
+          aria-controls="mobile-nav"
+        >
+          {open ? <X size={22} /> : <Menu size={22} />}
+        </button>
+      </div>
 
+      {/* Menu below xl */}
+      <div
+        id="mobile-nav"
+        hidden={!open}
+        className="h-[calc(100dvh-var(--nav-height))] overflow-y-auto border-t border-white/10 bg-ink-950 xl:hidden"
+      >
+        <nav aria-label="Mobile" className="site-gutter-x mx-auto flex min-h-full max-w-3xl flex-col pb-8 pt-5">
+          <div className="flex items-center justify-between pb-4">
+            <span className="text-sm text-white/50">{t.language}</span>
+            <LanguageSwitcher lang={lang} page={page} variant="segmented" />
+          </div>
+          <ul className="divide-y divide-white/10 border-t border-white/10">
+            {links.map((link) => (
+              <li key={link.href}>
+                <a
+                  href={link.href}
+                  onClick={() => setOpen(false)}
+                  className={`flex items-center justify-between py-4 text-xl font-medium ${link.active ? "text-brand-300" : "text-white"}`}
+                >
+                  {link.label}
+                  <ArrowRight size={18} className="text-white/40" />
+                </a>
+              </li>
+            ))}
+          </ul>
+          <div className="mt-auto grid gap-3 pt-8">
+            <a href={sectionHref(lang, "contact")} onClick={() => setOpen(false)} className="btn btn-primary w-full">
+              {t.requestProposal}
+              <ArrowRight size={17} />
+            </a>
             <a
-              href="#contact"
-              className="hero-cta-label group inline-flex items-center gap-1.5 rounded-full bg-white px-4 py-2.5 text-slate-950 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md 2xl:gap-2 2xl:px-6 2xl:py-3"
+              href={portalLoginUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setOpen(false)}
+              className="btn btn-ghost w-full"
             >
-              <span className="hidden 2xl:inline">Request Proposal</span>
-              <span className="2xl:hidden">Proposal</span>
-              <ArrowRight
-                size={16}
-                className="shrink-0 transition duration-300 group-hover:translate-x-1 2xl:h-[18px] 2xl:w-[18px]"
-              />
+              {t.rgsOneClientLogin}
+              <ArrowUpRight size={17} />
             </a>
           </div>
-
-          <button
-            type="button"
-            onClick={() => setOpen((value) => !value)}
-            className="ml-auto flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white transition hover:bg-white/10 xl:hidden"
-            aria-label="Toggle navigation menu"
-            aria-expanded={open}
-            aria-controls="mobile-nav-drawer"
-          >
-            {open ? <X size={22} /> : <Menu size={22} />}
-          </button>
-        </div>
-
-        <div
-          id="mobile-nav-drawer"
-          className={`min-h-0 xl:hidden ${
-            open
-              ? "flex-1 overflow-y-auto overscroll-contain"
-              : "max-h-0 overflow-hidden"
-          }`}
-        >
-          <nav
-            aria-label="Mobile"
-            className="site-inner-x grid gap-2.5 border-t border-white/10 pb-5 pt-4 sm:gap-3 sm:pb-6 sm:pt-5"
-          >
-            {links.map((link) => {
-              const isActive = active === link.name;
-
-              return (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  onClick={closeMenu}
-                  className={`rounded-2xl px-5 py-3.5 text-base font-bold transition sm:py-4 ${
-                    isActive
-                      ? "bg-white text-slate-950"
-                      : "bg-white/5 text-white hover:bg-white/10"
-                  }`}
-                >
-                  {link.name}
-                </a>
-              );
-            })}
-
-            <PortalAccess variant="featured" onClick={closeMenu} />
-
-            <a
-              href="#contact"
-              onClick={closeMenu}
-              className="hero-cta-label mt-1 flex items-center justify-center gap-2 rounded-2xl bg-white px-5 py-4 text-slate-950 shadow-sm transition hover:shadow-md"
-            >
-              Request Proposal
-              <ArrowRight size={18} />
-            </a>
-          </nav>
-        </div>
+        </nav>
       </div>
     </header>
   );
