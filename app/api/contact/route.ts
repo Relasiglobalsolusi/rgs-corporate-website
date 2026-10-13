@@ -257,6 +257,12 @@ ${message || "-"}
                         </p>
                       </td>
                     </tr>
+
+                    <tr>
+                      <td style="background:#f8fafc;border-top:1px solid #e2e8f0;padding:20px 40px;font-size:13px;color:#64748b;">
+                        <strong style="color:#334155;">This is a no-reply email. Please do not reply to this email.</strong>
+                      </td>
+                    </tr>
                   </table>
                 </td>
               </tr>
@@ -281,6 +287,8 @@ Duri Kosambi, Cengkareng
 West Jakarta 11750
 +62 21 2295 2228
 https://www.rgs.co.id
+
+This is a no-reply email. Please do not reply to this email.
 `,
       });
     } catch (confirmError) {
